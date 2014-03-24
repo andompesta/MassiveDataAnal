@@ -107,16 +107,41 @@ RSS feeds. All the resulting data will be stored on a database on the server.
 
 \subsection{Phase 2}
 All the data collected in phase 1 will be download on faster machines to be
-analyzed. In this new phase we aim in finding some instant in which the common
-feeling toward a certain topic shifted from positive to negative.
+analyzed. This analysis can be further subdivided in two steps: in the first one
+we need to classify each tweet according to its topic; in the second one we aim
+in understanding whether people are feeling positive or negative toward that
+topic and in which instant in time they change their opinion.
 
-Researchers already tried and succeded in similar tasks
-\cite{Bifet}\cite{Go}\cite{Palpanas}, hence several
+Both the tasks are maden easier by the short length which characterize tweets
+and researchers already tried and succeded in similar tasks
+(see \cite{Wang},\cite{Sriram},\cite{Lee} for topic classification and
+ \cite{Bifet},\cite{Go},\cite{Palpanas} for feeling detection), hence several
 techniques will be investigated and analyzed in order to find the one which
 better suits what we are trying to accomplish.
 
 \subsection{Phase 3}
+Once we detect a change in how people are feeling toward a certain topic we want
+to find a correlation between this change and recent news. This is an unexplored
+field and there is no literature about it, hence it is the task on which we shall
+probably spend more time and energy.
 
+It is difficult to state now what will be the best approach in order to solve
+this problem, but some attempts could be done using some clustering techniques
+or analyzing links that might be present in tweets.
+
+In addition, we can expect that only important news cause important changes,
+hence we can delete from our dataset news that appear to be read by just a small
+amount of people and consider only news which are read by a majority of people.
+
+\section{Conclusion}
+In these few pages we proposed some new ideas to solve a problem which has not
+yet been addressed by the scientific community: correlate a change in the common
+feelings of twitter users toward a certain topic to news coming from newspapers.
+
+We propose an approach in three steps which consists in collecting data,
+classify tweets according to their topics and expressed feelings and finally in
+using some clustering techniques in order to discern which news caused a certain
+change in common feelings.
 
 
 \begin{thebibliography}{9}
@@ -145,6 +170,17 @@ Go A., Bhayani R., Huang, L., \emph{``Twitter sentiment classification using
 Tsytsarau M., Palpanas T., \emph{``Survey on mining subjective data on the
 	web''}, Data Mining and Knowledge Discovery, Vol. 24, N. 3, pg. 478-514,
 	Springer (2012)
+\bibitem{Wang}
+Wang X. et al., \emph{``Topic sentiment analysis in twitter: a graph-based
+hashtag sentiment classification approach''}, 20th ACM International
+Conference on Information and Knowledge Management (2011) 
+\bibitem{Sriram}
+Sriram B. et al., \emph{``Short Text Classification in Twitter to Improve
+	Information Filtering''}, Proceedings of the 33rd International ACM SIGIR
+	Conference on Research and Development in Information Retrieval, pg. 841-842 (2010)
+\bibitem{Lee}
+Lee K. et al., \emph{``Twitter Trending Topic Classification''}, IEEE 11th
+International COnference on Data Mining Workshops (2011)
 \end{thebibliography}
 
 
