@@ -1,4 +1,14 @@
 Sentiment Analysis on Twitter Data
 Bifet et al., Detecting Sentiment Change in Twitter Streaming Data
 Go Alec et al., Twitter Sentiment Classification using Distant Supervision
+Twitter Sentiment Analysis	|	http://www-nlp.stanford.edu/courses/cs224n/2009/fp/3.pdf
 Palpanas et al., Survey on mining subjective data on the web
+Enhanced Sentiment Learning Using Twitter Hashtags and Smileys	|	http://oldsite.aclweb.org/anthology-new/C/C10/C10-2028.pdf
+Can Twitter replace Newswire for breaking news?	|	http://homepages.inf.ed.ac.uk/miles/papers/short-breaking.pdf
+Earthquake Shakes Twitter Users:Real-time Event Detection by Social Sensors	|	http://csce.uark.edu/~tingxiny/courses/5013spring13/readingList/www2010.pdf
+
+
+
+Prendendo in considerazione il paper "Twitter mood predicts the stock market" (http://arxiv.org/pdf/1010.3003&) possiamo anche usare 2 tool per fare sentiment analysis sui dati. I 2 tool sono OpinionFinder e Google-Proﬁle of Mood States(GPOMS) io li citerei per mostrare che ci siamo sbattuti di cercarli. Altrimenti il metodo + usato sembra essere il SVM
+
+Come metodo di correlazione tra news e twett io poi proporrei di cercareinizialmente di correlare i twett alle notizie inizialmente utilizzando metodi di language processing e sperare che emerga un pattern da sfruttare tramite tecniche di clustering. Prevedendo che la sentiment dei twett passa da positiva a negativa a causa di un evento, questo evento presumibilmente è di larga scala: è quindi raginevole pensare ad un pattern tra notizie e twett. Ovviamente il tutto deve essere suddiviso per argonomento.
