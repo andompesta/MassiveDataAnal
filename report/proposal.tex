@@ -51,6 +51,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Massive Data Analytics'\\Project Proposal}
 \author{Sandro Cavallari, Marco Giglio, Paolo Morettin}
+\date{}
 \maketitle
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -88,28 +89,35 @@ to negative, as done in \cite{Bifet};
 The social network we will focus on is Twitter, an online social network that
 allows users to upload short text messages (\emph{tweets}) of up to 140 characters.
 
-\subsection{Work plan}
-In order to perform our analysis we need a big dataset containing tweets and
-another one containing the news published by popular newspapers and news
-agencies during the same temporal interval. Our team is planning in renting a
-server having low computational power but high bandwidth and availability. The
-server will be responsible for collecting both tweets and news 24 hours per day
-for some weeks. All the information collected by the server will be stored on a
-database.
+\section{Work plan}
+We can divide our work in 3 different phases: the first one to collect data; the
+second one to find sentiment change in tweets; the last one to correlate the
+results coming from phase 2 to news coming from other sources.
 
-In a second step, all the information will be downloaded on faster machines and
-analysed in order to discover trends and correlations. 
+\subsection{Phase 1}
+All the anaysis we want to perform are only possible on big datasets; otherwise,
+on small datasets, it becomes hard to correctly identify a sentiment shift. For
+this reason, we need to collect a big amount of data coming both from Twitter
+and from newspapers and news agencies.
 
-\subsection{Dataset}
+We are planning to collect these information for one month, exploiting a web
+server up 24 hours per day. In order to collect Twitter data, we will use a Java
+library called \emph{twitter4j} whereas the news will be extracted from several
+RSS feeds. All the resulting data will be stored on a database on the server.
 
-As over-mentioned the Dataset for this work will be composed by:
+\subsection{Phase 2}
+All the data collected in phase 1 will be download on faster machines to be
+analyzed. In this new phase we aim in finding some instant in which the common
+feeling toward a certain topic shifted from positive to negative.
 
-\begin{enumerate}
-	\item Twitt downloaded by a server using twitter4j and saved on a MongoDb
-	\item News collected by the Rss Feed of the most important newspaper websites
-\end{enumerate}
+Researchers already tried and succeded in similar tasks
+\cite{Bifet}\cite{Go}\cite{Palpanas}, hence several
+techniques will be investigated and analyzed in order to find the one which
+better suits what we are trying to accomplish.
 
-Our plan is to download at least 1 month of data and only after start to analyse the correlations.
+\subsection{Phase 3}
+
+
 
 \begin{thebibliography}{9}
 \bibitem{Debatin}
@@ -128,7 +136,15 @@ Lotan G. et al., \emph{``The Revolutions Were Tweeted: Information Flows During
 the 2011 Tunisian and Egyptian Revolutions''}, International Journal of
 Communication 5 (2011)
 \bibitem{Bifet}
-Albert B. et al., \emph{``Detecting Sentiment Change in Twitter Streaming Data''}, JMLR: Workshop and Conference Proceedings 17 (2011) 5-11
+Albert B. et al., \emph{``Detecting Sentiment Change in Twitter Streaming
+	Data''}, JMLR: Workshop and Conference Proceedings 17 (2011) 5-11
+\bibitem{Go}
+Go A., Bhayani R., Huang, L., \emph{``Twitter sentiment classification using
+	distant supervision''}, CS224N Project Report, Stanford, 1-12 (2009)
+\bibitem{Palpanas}
+Tsytsarau M., Palpanas T., \emph{``Survey on mining subjective data on the
+	web''}, Data Mining and Knowledge Discovery, Vol. 24, N. 3, pg. 478-514,
+	Springer (2012)
 \end{thebibliography}
 
 
