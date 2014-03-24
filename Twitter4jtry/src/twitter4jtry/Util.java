@@ -64,21 +64,21 @@ public class Util {
             DateTime now = DateTime.now(myZone);
             String date = now.format("YYYY-MM-DD hh:mm:ss");
             String name = status.getUser().getScreenName();
-            String twett = status.getText();
+            String tweet = status.getText();
 
             //Remove reTwett from data set
-            if(!twett.contains("RT") && !twett.isEmpty()){
+            if(!tweet.contains("RT") && !tweet.isEmpty()){
                 
                 try {
-                    twett = URLEncoder.encode(twett, "UTF-8");
+                    tweet = deleteDuplicate(tweet);
+                    tweet = URLEncoder.encode(tweet, "UTF-8");
                     System.out.println();
                     System.out.println("|------------------------------------------|");
                     System.out.println("name = "+name);
-                    System.out.println("twett = "+status.getText());
+                    System.out.println("tweet = "+status.getText());
                     System.out.println("date = "+date);
                     //System.out.println("{ \"name\" : \"" + name + "\" , \"twett\" : \"" + status.getText()+"\" , \"date\" : \"" + date+"\" }\n");
-                    MC.insertDocument(twettsCol, name, twett, date);
-                    
+                    MC.insertDocument(twettsCol, name, tweet, date);
                 } catch (UnsupportedEncodingException ex) {
                     Logger.getLogger(Twitter4jtry.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -138,6 +138,44 @@ public class Util {
         {
             System.err.println("IOException: " + ioe.getMessage());
         }
+    }
+    
+    
+    private String deleteDuplicate(String tweet){
+        String newStr = new String();
+        
+        for(String temp: tweet.split(" ")){
+            int lng = temp.length() - 1;
+            int i = 0;
+            int lngStr = 0;
+            String conStr = new String();
+            while( i < temp.length()-1 ){
+                if(i == temp.length() - 2){
+                    conStr += temp.substring(lngStr, i+2);
+                }
+                //else if(i == temp.length() - 1){conStr += temp.substring(i,i+1);}
+                else{
+                    if(temp.substring(i,i+1).equals(temp.substring(i+1,i+2)) && 
+                            temp.substring(i,i+1).equals(temp.substring(i+2,i+3))){
+                        int j = 2;
+                        if(i+1+j < lng){
+                            while(temp.charAt(i) == temp.charAt(i+1+j) ){
+                                j++;
+                            }
+                        }
+                        conStr = conStr+temp.substring(lngStr, i+2);
+                        lngStr = i+j+1;
+                        i = i+j;
+                    }
+                    
+                }
+                i++;
+            }
+            newStr = newStr+" "+conStr;
+        }
+        
+        newStr = newStr.substring(1);
+        return newStr;
     }
     
 }

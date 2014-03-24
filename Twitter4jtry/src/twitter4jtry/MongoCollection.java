@@ -60,7 +60,7 @@ public class MongoCollection {
 
         try{
             BasicDBObject doc = new BasicDBObject("Name", name).
-                              append("Twett", twett).
+                              append("Tweet", twett).
                             append("Date", date);
             coll.insert(doc);
         }catch(Exception e){
