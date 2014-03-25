@@ -95,10 +95,10 @@ second one to find sentiment change in tweets; the last one to correlate the
 results coming from phase 2 to news coming from other sources.
 
 \subsection{Phase 1}
-All the anaysis we want to perform are only possible on big datasets; otherwise,
-on small datasets, it becomes hard to correctly identify a sentiment shift. For
-this reason, we need to collect a big amount of data coming both from Twitter
-and from newspapers and news agencies.
+All the analysis we want to perform are only possible on big datasets; otherwise
+it becomes hard to correctly identify a sentiment shift. For this reason, we
+need to collect a big amount of data coming both from Twitter and from
+newspapers and news agencies. 
 
 We are planning to collect these information for one month, exploiting a web
 server up 24 hours per day. In order to collect Twitter data, we will use a Java
@@ -113,21 +113,21 @@ in understanding whether people are feeling positive or negative toward that
 topic and in which instant in time they change their opinion.
 
 Both the tasks are maden easier by the short length which characterize tweets
-and researchers already tried and succeded in similar tasks
-(see \cite{Wang},\cite{Sriram},\cite{Lee} for topic classification and
- \cite{Bifet},\cite{Go},\cite{Palpanas} for feeling detection), hence several
-techniques will be investigated and analyzed in order to find the one which
-better suits what we are trying to accomplish.
+and researchers already tried and succeded in similar tasks (see
+		\cite{Wang},\cite{Sriram},\cite{Lee} for topic classification and
+		\cite{Bifet},\cite{Go},\cite{Palpanas} for feeling detection), hence
+several techniques will be investigated and analyzed in order to find the one
+which better suits what we are trying to accomplish.
 
 \subsection{Phase 3}
 Once we detect a change in how people are feeling toward a certain topic we want
-to find a correlation between this change and recent news. This is an unexplored
-field and there is no literature about it, hence it is the task on which we shall
+to find a correlation between this change and recent news. There is not much
+literature about this task, hence this is the step on which we shall
 probably spend more time and energy.
 
 It is difficult to state now what will be the best approach in order to solve
-this problem, but some attempts could be done using some clustering techniques
-or analyzing links that might be present in tweets.
+this problem, but some attempts could be done using some machine learning and
+text analysis techniques or analyzing links that might be present in tweets.
 
 In addition, we can expect that only important news cause important changes,
 hence we can delete from our dataset news that appear to be read by just a small
@@ -140,8 +140,8 @@ feelings of twitter users toward a certain topic to news coming from newspapers.
 
 We propose an approach in three steps which consists in collecting data,
 classify tweets according to their topics and expressed feelings and finally in
-using some clustering techniques in order to discern which news caused a certain
-change in common feelings.
+using some machine learning and text analysis techniques in order to discern
+which news caused a certain change in common feelings.
 
 
 \begin{thebibliography}{9}
