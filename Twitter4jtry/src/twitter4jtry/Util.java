@@ -70,13 +70,15 @@ public class Util {
             if(!tweet.contains("RT") && !tweet.isEmpty()){
                 
                 try {
-                    tweet = deleteDuplicate(tweet);
-                    tweet = URLEncoder.encode(tweet, "UTF-8");
                     System.out.println();
                     System.out.println("|------------------------------------------|");
                     System.out.println("name = "+name);
                     System.out.println("tweet = "+status.getText());
                     System.out.println("date = "+date);
+                    
+                    //tweet = deleteDuplicate(tweet);
+                    tweet = URLEncoder.encode(tweet, "UTF-8");
+                    
                     //System.out.println("{ \"name\" : \"" + name + "\" , \"twett\" : \"" + status.getText()+"\" , \"date\" : \"" + date+"\" }\n");
                     MC.insertDocument(twettsCol, name, tweet, date);
                 } catch (UnsupportedEncodingException ex) {
@@ -111,17 +113,18 @@ public class Util {
         }
     };
 
-    TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
-    twitterStream.addListener(listener);
+        TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
+        twitterStream.addListener(listener);
 
-    FilterQuery qfilter = new FilterQuery();
-    double[][] location = { { 6.3061523, 36.2265501 },{ 18.3251953, 46.9502622 } };
-    String[] language = { "it" };
-    qfilter.language(language);
-    qfilter.locations(location);
+        FilterQuery qfilter = new FilterQuery();
+        double[][] bb = {{-6.252622, 50.488032}, {2.252622, 57.488032}};
 
-    // filter() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
-    twitterStream.filter(qfilter);
+        String[] language = { "en" };
+        qfilter.language(language);
+        qfilter.locations(bb);
+
+        // filter() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
+        twitterStream.filter(qfilter);
     }
     
     public void writeStringToFile(String filePathAndName, String stringToBeWritten) throws IOException{
@@ -153,7 +156,6 @@ public class Util {
                 if(i == temp.length() - 2){
                     conStr += temp.substring(lngStr, i+2);
                 }
-                //else if(i == temp.length() - 1){conStr += temp.substring(i,i+1);}
                 else{
                     if(temp.substring(i,i+1).equals(temp.substring(i+1,i+2)) && 
                             temp.substring(i,i+1).equals(temp.substring(i+2,i+3))){

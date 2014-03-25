@@ -16,7 +16,7 @@ public class Twitter4jtry {
         
     public static void main(String[] args) {
         Util ut = new Util();
-        //ut.captureTwettStream();
+        ut.captureTwettStream();
        
     }
      
