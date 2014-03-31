@@ -6,6 +6,9 @@
 
 package twitter4jtry;
 
+import java.io.UnsupportedEncodingException;
+import java.net.UnknownHostException;
+
 
 /*
  *
@@ -14,9 +17,10 @@ package twitter4jtry;
 public class Twitter4jtry {
     
         
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException, UnknownHostException {
         Util ut = new Util();
-        ut.captureTwettStream();
+        //ut.captureTwettStream();
+        ut.fixTweets();
        
     }
      

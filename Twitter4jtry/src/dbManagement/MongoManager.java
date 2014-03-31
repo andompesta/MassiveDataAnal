@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 
-package twitter4jtry;
+package dbManagement;
 
+import DAO.Tweet;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import java.net.UnknownHostException;
@@ -18,26 +20,33 @@ import java.net.UnknownHostException;
  *
  * @author andocavallari
  */
-public class MongoCollection {
+public class MongoManager {
+    private String host;
+    private String dbName;
+    private int port;
+    
     private MongoClient mClient;
     private DB db;
     
-    public MongoCollection(String hostIP, int port) throws UnknownHostException{
-        this.mClient = new MongoClient(hostIP, port);   
-        db = null;
+    public MongoManager(){
+        host = "localhost";
+        dbName = "BigData";
+        port = 27017;
     }
-   
-    public void dbConnection(String DbName){
+
+    
+    public void dbConnection(){
         try{
-            this.db = mClient.getDB(DbName);
+            this.mClient = new MongoClient(host, port);
+            this.db = mClient.getDB(dbName);
         }catch(Exception e){
             e.printStackTrace();
         }
     }
    
-    public DBCollection getCollection(String CollectionName){
+    public DBCollection getCollection(String collectionName){
         try{
-            DBCollection col = db.getCollection(CollectionName);
+            DBCollection col = db.getCollection(collectionName);
             return col;
         }catch(Exception e){
             e.printStackTrace();
@@ -56,8 +65,17 @@ public class MongoCollection {
         }
     }
     
-    public void insertDocument(DBCollection coll, String name, String twett, String date){
-
+    public void modifyDoc(DBCollection coll,BasicDBObject searchObj, BasicDBObject newObj ){
+        
+        try{
+            coll.update(searchObj, newObj);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    /*
+    public void insertTweet(DBCollection coll, String name, String twett, String date){
         try{
             BasicDBObject doc = new BasicDBObject("Name", name).
                               append("Tweet", twett).
@@ -66,5 +84,17 @@ public class MongoCollection {
         }catch(Exception e){
             e.printStackTrace();
         }
-    }    
+    }
+    */
+    /*
+    public DBCursor getDocuments(DBCollection coll){
+        DBCursor els = null;
+        try{
+            els = coll.find();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return els;
+    }
+    */
 }
