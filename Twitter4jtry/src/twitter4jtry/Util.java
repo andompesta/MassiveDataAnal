@@ -57,6 +57,7 @@ public class Util {
             public void onStatus(Status status) {
                 
                 DateTime now = DateTime.now(myZone);
+
                 
                 String name = status.getUser().getScreenName();
                 String message = status.getText();
