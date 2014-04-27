@@ -108,10 +108,13 @@ Of course some noise may be introduced in this phase due to uncorrelated news,
 ambiguity or people having the same name.
 
 In the next phase we'll try to detect which news caused the shift and to extract
-some words or entities which might help a human reader in understanding its
-cause. Both simple approaches such as the one depicted in \cite{Bifet} and more
-complex \emph{text analysis} and \emph{event extraction} techniques might be
-handy in order to accomplish this task.
+some word or event which might help a human reader in understanding its cause. In order to solve this problem, different type of approach are taken in consideration:
+\begin{itemize}
+\item a simple approaches such as the one depicted in \cite{Bifet} based on word frequency analysis allow to detect the difference in the most used word of the document
+\item a small variation of the similarity measurements of the N-gram graph proposed in \cite{Giannakopoulos} can find difference in documents and highlight interesting events
+\item a more complex approach based on \emph{event extraction} methodologists proposed in \cite{Tanev} and \cite{Naughton} can produce good performance, but require a high training time
+\end{itemize}
+
 
 One big difficulty we'll probably have to cope with in this final phase is to
 synchronize the shift of the tweets with the news: it is not possible to
@@ -128,24 +131,35 @@ published!
 Debatin B. et al., \emph{``Facebook and Online Privacy: Attitudes, Behaviors,
 and Unintended Consequences''}, Journal of Computer-Mediated Communication,
 15, pg. 83-108 (2009)
+
 \bibitem{Acar}
 Acar A., \emph{``Antecedents and Consequences of Online Social Networking
 Behavior: The Case of Facebook''}, Journal of Website Promotion Vol. 3, N.
 1-2, pg. 62-83 (2008)
+
 \bibitem{Howard}
 Howard P. et al., \emph{``Opening Closed Regimes: What Was the Role of Social Media
 During the Arab Spring?''}, ICT4D Bibliography (2011)
+
 \bibitem{Lotan}
 Lotan G. et al., \emph{``The Revolutions Were Tweeted: Information Flows During
 the 2011 Tunisian and Egyptian Revolutions''}, International Journal of
 Communication 5 (2011)
+
 \bibitem{Bifet}
 Albert B. et al., \emph{``Detecting Sentiment Change in Twitter Streaming
 	Data''}, JMLR: Workshop and Conference Proceedings 17 (2011) 5-11
-\bibitem{Bifet}
+	
+\bibitem{Giannakopoulos}
+G. Giannakopoulos, \emph{``Automatic Summarization from Multiple
+Documents''},Department of Information and Communication Systems Engineering, University of the Aegean 2009
+
+\bibitem{Tanev}
 Hristo Tanev, Jakub Piskorski and Martin Atkinson, \emph{``Real-time News Event Extraction for Global Monitoring Systems''}, Joint Research Center of the European Commission Web and Language Technology Group of IPSC 2008
-\bibitem{Bifet}
+
+\bibitem{Naughton}
 M. Naughton , N. Kushmerick and J. Carthy, \emph{``Event Extraction from Heterogeneous News Sources''}, School of Computer Science and Informatics, University College Dublin 2006
+
 %\bibitem{Go}
 %Go A., Bhayani R., Huang, L., \emph{``Twitter sentiment classification using
 %	distant supervision''}, CS224N Project Report, Stanford, 1-12 (2009)
