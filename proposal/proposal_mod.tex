@@ -85,7 +85,7 @@ developing a methodology in order to:
 to negative;
 \item correlate this shift to news coming from newspapers and news agencies;
 \item extract words or entities that may help a human reader in understanding
-why people change their feeling.
+why people changed their feeling.
 \end{enumerate}
 
 The social network we will focus on is Twitter, an online social network that
@@ -101,29 +101,32 @@ Then, we'll have to look in news papers and news agency for news about that
 topic and in that temporal period. We'll need to collect news which has been
 published both before and after the \emph{shift} in order to be able to detect
 what had changed. 
-Unfortunately, many news papers only provide old news for
-paying users, hence we might be forced in subscribing and paying small fees in
-order to retrieve all the information we need. 
 Of course some noise may be introduced in this phase due to uncorrelated news,
 ambiguity or people having the same name.
 
 In the next phase we'll try to detect which news caused the shift and to extract
 some word or event which might help a human reader in understanding its cause. In order to solve this problem, different type of approach are taken in consideration:
 \begin{itemize}
-\item a simple approaches such as the one depicted in \cite{Bifet} based on word frequency analysis allow to detect the difference in the most used word of the document
-\item a small variation of the similarity measurements of the N-gram graph proposed in \cite{Giannakopoulos} can find difference in documents and highlight interesting events
+\item a simple approach such as the one depicted in \cite{Bifet} based on word frequency analysis allows to detect the difference in the most used word of the document
+\item a small variation of the similarity measurements of the \emph{n-gram graph} proposed in \cite{Giannakopoulos} can find difference in documents and highlight interesting events
 \item a more complex approach based on \emph{event extraction} methodologists proposed in \cite{Tanev} and \cite{Naughton} can produce good performance, but require a high training time
 \end{itemize}
-
 
 One big difficulty we'll probably have to cope with in this final phase is to
 synchronize the shift of the tweets with the news: it is not possible to
 establish from a peek in the sentiments when the news which caused it had been
-published! Some news have a direct and fast impact, causing a fast
+published. Some news have a direct and fast impact, causing a fast
 response by the social media; others are characterized by a slower penetration
 and are commented on twitter only days after they have been published; some
 other events may be discussed on social networks even before they are
-published!
+published.
+
+Finally we have to find a way in order to validate our result, to determine
+whether what we achieved is good or bad. Unfortunately, given the absence of
+previous literature and the nature of the problem itself, it will not be
+possible to compare our methodology to any other or to have a direct feedback on
+our results. The only way to validate our results is a human, manual
+intervention.
 
 
 \begin{thebibliography}{9}
