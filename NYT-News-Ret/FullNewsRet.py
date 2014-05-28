@@ -29,45 +29,49 @@ opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 opener.open('https://myaccount.nytimes.com/auth/login', login_data)
 
 
-
 for metaNew in collection.find():
-    htmlUrl = metaNew["web_url"]
-    print(htmlUrl)
-    htmlPage = opener.open(htmlUrl)
-    soup = BeautifulSoup(htmlPage.read())
-    text = " "
+    try:
+        if('full_text' not in metaNew):
+            htmlUrl = metaNew["web_url"]
+
+            print(htmlUrl)
+            htmlPage = opener.open(htmlUrl)
+            soup = BeautifulSoup(htmlPage.read())
+            text = " "
 
 
-    #check numbero of page
-    if soup.find("a", class_ = "next") != None:
-        print("2 pagine nel documento")
-    else:
+            #check numbero of page
+            if soup.find("a", class_ = "next") != None:
+                print("2 pagine nel documento")
 
-        # for aBody in soup.find_all("div", class_ = "articleBody"):
-        #     for paragraf in aBody.find_all("p"):
-        #         for string in paragraf.stripped_strings:
-        #             text = text + string
-        for textPart in soup.find_all("p", class_ = "story-body-text"):
-            for string in textPart.stripped_strings:
-                text = text + string
+            else:
+                schema = True
+                for textPart in soup.find_all("p", class_ = "story-body-text"):
+                    schema = False
+                    for string in textPart.stripped_strings:
+                        text = text + string
+                if(schema):
+                    for aBody in soup.find_all("div", class_ = "articleBody"):
+                        for paragraf in aBody.find_all("p"):
+                            for string in paragraf.stripped_strings:
+                                text = text + string
 
-    if(text != " "):
-        metaNew['full_text'] = text
-        collection.update({'_id':metaNew['_id']},metaNew , upsert=False, multi=False)
+                if(text != " "):
+                    metaNew['full_text'] = text
+                    collection.update({'_id':metaNew['_id']},metaNew , upsert=False, multi=False)
+                else:
+                    with open('notProcessed_log.txt','a') as f:
+                        f.write(str(metaNew['_id']) + ' - ' + metaNew["web_url"]+ "\n")
+                    print('NotProcessed : ' + str(metaNew['_id']))
+        else:
+            print("Document already processed")
+
+    except Exception as i:
+        with open('error_log.txt','a') as f:
+            f.write(str(metaNew['_id']) + ' - ' + metaNew["web_url"] + "\n")
+        print(i.message)
+        pass
 db.close
 
-
-
-
-    #
-    # for aBody in soup.find_all("div", class_ = "articleBody"):
-    #     for paragraf in aBody.find_all("p"):
-    #         for string in paragraf.stripped_strings:
-    #             text = text + string
-
-
-    # for textPart in soup.find_all("p", itemprop = "articleBody"):
-    #     for string in textPart.stripped_strings:
-    #         text = text + string
 
 
