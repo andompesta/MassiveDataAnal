@@ -1,0 +1,11 @@
+{
+  "topicId":7,
+  "contradictions":[
+    {
+      "cValue": 0.00,
+      "cType":4,
+      "timeBegin":1245440187,
+      "timeEnd":1245785787
+    }
+  ]
+}

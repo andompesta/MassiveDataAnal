@@ -1,0 +1,35 @@
+{
+    "topicId": 3,
+    "contradictions": [
+        {
+            "cValue": 0,
+            "cType": 4,
+            "timeBegin": 1245376896,
+            "timeEnd": 1246240896
+        },
+        {
+            "cValue": 0,
+            "cType": 4,
+            "timeBegin": 1249968768,
+            "timeEnd": 1250832768
+        },
+        {
+            "cValue": 0,
+            "cType": 4,
+            "timeBegin": 1251061376,
+            "timeEnd": 1251925376
+        },
+        {
+            "cValue": 0,
+            "cType": 4,
+            "timeBegin": 1256802944,
+            "timeEnd": 1257666944
+        },
+        {
+            "cValue": 0,
+            "cType": 4,
+            "timeBegin": 1259017728,
+            "timeEnd": 1259881728
+        }
+    ]
+}
