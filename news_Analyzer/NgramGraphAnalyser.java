@@ -16,7 +16,7 @@ import java.io.IOException;
 
 
 public class NgramGraphAnalyser {
-    private List<DocumentNGramSymWinGraph> graphList;
+    private static List<DocumentNGramSymWinGraph> graphList;
     private static int Rank;
     private static int neighbourhoodDistance;
 	private static String newsFile;
@@ -157,12 +157,27 @@ public class NgramGraphAnalyser {
 		System.out.println();
 		if (error_num > 0)
 			System.err.println(error_num+" errors occurred. Read log file for more information\n");
-
 		log.close();
-		// Computing the overall intersection of all the graph
+
+		System.out.println("Computing the graphs intersection...");
+		DocumentNGramGraph intersection = analyzer.intersectGraphs();
 
 		// Now check how much each news differ from the global intersection
-//        analyzer.intersectGraphs();
-  //      analyzer.mergeGraphs();
+		Stats stat = new Stats();
+		for (int i = 0; i < graphList.size(); i++) {
+			DocumentNGramGraph diff = graphList.get(i).inverseIntersectGraph(intersection);
+			stat.notify(diff.length());
+			PrintWriter pw = new PrintWriter("graph/diff"+i+".gv", "UTF-8");
+			pw.print(utils.graphToDot(diff.getGraphLevel(0), false));
+			pw.close();
+		}
+		System.out.println("Statistics on differences:");
+		System.out.println("Max difference: "+stat.max());
+		System.out.println("Maximum point: "+stat.maxIndex());
+		System.out.println("Min difference: "+stat.min());
+		System.out.println("Minimum point: "+stat.minIndex());
+		System.out.println("Mean: "+stat.mean());
+		System.out.println("Variance: "+stat.variance());
+		System.out.println("Standard Devition: "+stat.stdDeviation());
     }
 }
