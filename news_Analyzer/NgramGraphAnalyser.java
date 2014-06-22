@@ -8,15 +8,16 @@ import java.io.UnsupportedEncodingException;
 import gr.demokritos.iit.jinsect.documentModel.representations.DocumentNGramSymWinGraph;
 import gr.demokritos.iit.jinsect.documentModel.representations.DocumentNGramGraph;
 import gr.demokritos.iit.jinsect.utils;
-import org.json.JSONObject;
-import org.json.JSONException;
 import java.io.IOException;
+import java.sql.Timestamp;
 
 
 public class NgramGraphAnalyser {
     private static int Rank;
     private static int neighbourhoodDistance;
 	private static String newsFile;
+	private static Timestamp init_time;
+	private static Timestamp end_time;
 	private DocumentNGramGraph GlobalIntersection;
 	private DocumentNGramGraph outlier;
 
@@ -52,27 +53,31 @@ public class NgramGraphAnalyser {
 		return outlier;
 	}
 
+	// TODO: si sta popolando con un po' troppi argomenti
+	// probabilmente e' meglio inserire un file di configurazione
 	private static int argument_parser(String[] args) {
 		// If something wrong print help message and exits
-		if (args.length < 3) {
-			System.out.println("Expected arguments: rank neighbourhood_dis newsfile");
+		if (args.length < 5) {
+			System.out.println("Expected arguments: rank neighbourhood_dis newsfile init_time end_time");
 			return -1;
 		}
 		Rank = Integer.parseInt(args[0]);
 		neighbourhoodDistance = Integer.parseInt(args[1]);
 		newsFile = args[2];
+		init_time = new Timestamp(Long.parseLong(args[3])*1000);
+		end_time = new Timestamp(Long.parseLong(args[4])*1000);
 		System.out.printf("INPUT: %s\nRANK: %d\nDISTANCE: %d\n", newsFile, Rank, neighbourhoodDistance);
+		System.out.println("INIT_TIME: " + init_time);
+		System.out.println("END_TIME: " + end_time);
 		return 0;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////
 	// Main
-    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException, IOException, JSONException{
+    public static void main(String[] args) throws IOException, FileNotFoundException {
 		if (argument_parser(args) == -1) 
 			return;
         NgramGraphAnalyser analyzer = new NgramGraphAnalyser();
-		PrintWriter log = new PrintWriter("errors.log", "UTF-8");
-		int error_num = 0;
 		
 		// Initializing the Progress Bar
 		LineNumberReader lnr = new LineNumberReader(new FileReader(newsFile));
@@ -82,38 +87,34 @@ public class NgramGraphAnalyser {
 
 		// Parsing each news and creating their graph
 		System.out.println("Reading file and creating graphs...");
-		log.println("Reading file");
 		String currLine;
 		BufferedReader br = new BufferedReader(new FileReader(newsFile));
 		int idx = 0;
+		int processed = 0;
 		while ((currLine = br.readLine()) != null) {
-			try {
-				JSONObject jobj = new JSONObject(currLine);
-				String content = jobj.optString("lead_paragraph", "");
-				content += " " + jobj.optString("full_text", "");
+			newsParser np = new newsParser(currLine);
+			Timestamp pub_date = np.getTimestamp();
+			if (pub_date.before(end_time) && pub_date.after(init_time)) {
 				DocumentNGramSymWinGraph g = new DocumentNGramSymWinGraph(Rank, Rank, neighbourhoodDistance);
-        		g.setDataString(content);
-				
+				g.setDataString(np.getContent());
 				analyzer.intersectGraph(g);
 				analyzer.computeOutlier(g);
-
-				idx++;
-				pb.printProg(idx);
+				processed++;
 			}
-			catch (JSONException exc) {
-				log.println("\n"+exc.getMessage());
-				log.println(currLine+"\n");
-				error_num++;
-			}
+			idx++;
+			pb.printProg(idx);
 		}
-		System.out.println();
-		if (error_num > 0)
-			System.err.println(error_num+" errors occurred. Read log file for more information");
-		log.close();
 
+		System.out.println();
 		DocumentNGramGraph inter, outl, diff;
 		inter = analyzer.getIntersection();
 		outl = analyzer.getOutlier();
+		if (processed == 0) {
+			System.out.println("We are sorry to inform you no news are available in the selected time period");
+			return;
+		}
+		else
+			System.out.println(processed + " news in the selected time period");
 		diff = outl.inverseIntersectGraph(inter);
 		System.out.println("Intersection size: " + inter.length());
 		System.out.println("Outlier size: " + outl.length());
