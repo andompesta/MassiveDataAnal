@@ -11,6 +11,11 @@ public class ProgBar {
 		old_p_ = 0;
 	}
 
+	public void reset(int total) {
+		old_p_ = 0;
+		total_ = total;
+	}
+
 	public void printProg(int p) {
 		float percentage = (float)p / total_;
 		if (percentage - old_p_ < 0.01)

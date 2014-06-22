@@ -5,8 +5,6 @@ import java.io.LineNumberReader;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 import gr.demokritos.iit.jinsect.documentModel.representations.DocumentNGramSymWinGraph;
 import gr.demokritos.iit.jinsect.documentModel.representations.DocumentNGramGraph;
 import gr.demokritos.iit.jinsect.utils;
@@ -16,93 +14,43 @@ import java.io.IOException;
 
 
 public class NgramGraphAnalyser {
-    private static List<DocumentNGramSymWinGraph> graphList;
     private static int Rank;
     private static int neighbourhoodDistance;
 	private static String newsFile;
+	private DocumentNGramGraph GlobalIntersection;
+	private DocumentNGramGraph outlier;
 
     public NgramGraphAnalyser(){
-        graphList = new ArrayList<DocumentNGramSymWinGraph>();
+		GlobalIntersection = null;
+		outlier = null;
     }
 
-    public NgramGraphAnalyser(ArrayList<DocumentNGramSymWinGraph> graphs){
-        graphList = graphs;
-    }
-
-	public void loadGraph(String article, String filename) throws FileNotFoundException, UnsupportedEncodingException {
-		DocumentNGramSymWinGraph tempGraph = new DocumentNGramSymWinGraph(Rank, Rank, neighbourhoodDistance);
-        tempGraph.setDataString(article);
-	   	graphList.add(tempGraph);
-		File graphFile = new File(filename);
-		PrintWriter writer = new PrintWriter(graphFile , "UTF-8");
-		writer.print(utils.graphToDot(tempGraph.getGraphLevel(0), false));
-		writer.close();
+	public void intersectGraph(DocumentNGramGraph g) {
+		if (GlobalIntersection == null)
+			GlobalIntersection = g;
+		else
+			GlobalIntersection = GlobalIntersection.intersectGraph(g);
 	}
 
-    public void loadGraphs(List<String> listNews) throws FileNotFoundException, UnsupportedEncodingException {
-        int i = 0;
-        for (String newsText : listNews){
-			loadGraph(newsText, "graph/graph-"+i+".gv");
-            i++;
-        }
-    }
+	public void computeOutlier(DocumentNGramGraph g) {
+		if (outlier == null)
+			outlier = g;
+		else {
+			DocumentNGramGraph diff1, diff2;
+			diff1 = GlobalIntersection.inverseIntersectGraph(outlier);
+			diff2 = GlobalIntersection.inverseIntersectGraph(g);
+			if (diff2.length() > diff1.length())
+				outlier = g;
+		}
+	}
 
-    public void mergeGraphs(){
-        DocumentNGramSymWinGraph finalGraph= null;
-        int iMergeCnt = 0;
-        try {
-            File graphFile = new File("graph/mergeGraph.gv");
-            PrintWriter writer = new PrintWriter(graphFile , "UTF-8");
-            for (int i = 0; i < graphList.size(); i++)
-            {
-                //Compute the merded graph
-                if(finalGraph == null){
-                    finalGraph = new DocumentNGramSymWinGraph(Rank, Rank, neighbourhoodDistance);
-                    finalGraph = graphList.get(i);
-                }else{
-                    finalGraph.merge(graphList.get(i), (1.0 / (1.0 + iMergeCnt)));
-                }
-                iMergeCnt++;
-            }
-            writer.print(utils.graphToDot(finalGraph.getGraphLevel(0), false));
-            writer.close();
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-    }
+	public DocumentNGramGraph getIntersection() {
+		return GlobalIntersection;
+	}
 
-    public DocumentNGramGraph intersectGraphs(){
-        DocumentNGramGraph itersectGraph = null;
-        DocumentNGramSymWinGraph temp = null;
-        try {
-            File graphFile = new File("graph/intersectGraph.gv");
-            PrintWriter writer = new PrintWriter(graphFile , "UTF-8");
-            for (DocumentNGramSymWinGraph currGraph : graphList)
-            {
-                //Compute the merded graph
-                if(temp == null){
-                    temp = currGraph;
-                }else{
-                    itersectGraph = temp.intersectGraph(currGraph);
-                }
-            }
-            writer.print(utils.graphToDot(itersectGraph.getGraphLevel(0), false));
-            writer.close();
-        }catch (Exception ex){
-            ex.printStackTrace();
-            return null;
-        }
-        return itersectGraph;
-    }
-
-    public List<DocumentNGramSymWinGraph> getGraphList() {
-        return graphList;
-    }
-
-    public void setGraphList(List<DocumentNGramSymWinGraph> graphList) {
-        this.graphList = graphList;
-    }
-
+	public DocumentNGramGraph getOutlier() {
+		return outlier;
+	}
 
 	private static int argument_parser(String[] args) {
 		// If something wrong print help message and exits
@@ -113,10 +61,10 @@ public class NgramGraphAnalyser {
 		Rank = Integer.parseInt(args[0]);
 		neighbourhoodDistance = Integer.parseInt(args[1]);
 		newsFile = args[2];
-		System.out.println("Performing analysis on "+newsFile);
-		System.out.printf("Rank: %d\nDistance: %d\n", Rank, neighbourhoodDistance);
+		System.out.printf("INPUT: %s\nRANK: %d\nDISTANCE: %d\n", newsFile, Rank, neighbourhoodDistance);
 		return 0;
 	}
+	
 	///////////////////////////////////////////////////////////////////////////
 	// Main
     public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException, IOException, JSONException{
@@ -136,15 +84,19 @@ public class NgramGraphAnalyser {
 		System.out.println("Reading file and creating graphs...");
 		log.println("Reading file");
 		String currLine;
-		int idx = 0;
 		BufferedReader br = new BufferedReader(new FileReader(newsFile));
+		int idx = 0;
 		while ((currLine = br.readLine()) != null) {
 			try {
-				String outf = "graph/news"+idx+".gv";
 				JSONObject jobj = new JSONObject(currLine);
 				String content = jobj.optString("lead_paragraph", "");
 				content += " " + jobj.optString("full_text", "");
-				analyzer.loadGraph(content, outf);
+				DocumentNGramSymWinGraph g = new DocumentNGramSymWinGraph(Rank, Rank, neighbourhoodDistance);
+        		g.setDataString(content);
+				
+				analyzer.intersectGraph(g);
+				analyzer.computeOutlier(g);
+
 				idx++;
 				pb.printProg(idx);
 			}
@@ -156,28 +108,23 @@ public class NgramGraphAnalyser {
 		}
 		System.out.println();
 		if (error_num > 0)
-			System.err.println(error_num+" errors occurred. Read log file for more information\n");
+			System.err.println(error_num+" errors occurred. Read log file for more information");
 		log.close();
 
-		System.out.println("Computing the graphs intersection...");
-		DocumentNGramGraph intersection = analyzer.intersectGraphs();
+		DocumentNGramGraph inter, outl, diff;
+		inter = analyzer.getIntersection();
+		outl = analyzer.getOutlier();
+		diff = outl.inverseIntersectGraph(inter);
+		System.out.println("Intersection size: " + inter.length());
+		System.out.println("Outlier size: " + outl.length());
+		System.out.println("Outlier differs of: "+ diff.length());
 
-		// Now check how much each news differ from the global intersection
-		Stats stat = new Stats();
-		for (int i = 0; i < graphList.size(); i++) {
-			DocumentNGramGraph diff = graphList.get(i).inverseIntersectGraph(intersection);
-			stat.notify(diff.length());
-			PrintWriter pw = new PrintWriter("graph/diff"+i+".gv", "UTF-8");
-			pw.print(utils.graphToDot(diff.getGraphLevel(0), false));
-			pw.close();
-		}
-		System.out.println("Statistics on differences:");
-		System.out.println("Max difference: "+stat.max());
-		System.out.println("Maximum point: "+stat.maxIndex());
-		System.out.println("Min difference: "+stat.min());
-		System.out.println("Minimum point: "+stat.minIndex());
-		System.out.println("Mean: "+stat.mean());
-		System.out.println("Variance: "+stat.variance());
-		System.out.println("Standard Devition: "+stat.stdDeviation());
+		System.out.println("Saving your intersection and outlier graph to files");
+		PrintWriter writer = new PrintWriter("intersection.gv", "UTF-8");
+        writer.print(utils.graphToDot(inter.getGraphLevel(0), false));
+        writer.close();
+		writer = new PrintWriter("outlier.gv", "UTF-8");
+		writer.print(utils.graphToDot(outl.getGraphLevel(0), false));
+		writer.close();
     }
 }
