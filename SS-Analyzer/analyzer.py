@@ -11,15 +11,24 @@ if __name__ == "__main__" :
 	args = parser.parse_args()
 
 	# Initializing the SpaceSaving classes
-	ss = SpaceSaving(k_=30, swf=args.sw_file)
+	ss = SpaceSaving(size=50, stopWordFile=args.sw_file)
 	
 	# Reading
 	with open(args.input_file, 'r') as fin :
 		for line in fin :
 			news = json.loads(line.rstrip())
-			[ss.notify(w) for w in news["headline"]["main"].split()]
-			[ss.notify(w) for w in news["lead_paragraph"].split()]
-
+			main = news["headline"]["main"]
+			lead = news["lead_paragraph"]
+			full = news["full_text"]
+			if isinstance(main, str) :
+				for w in news["headline"]["main"].split() :
+					ss.notify(w)
+			if isinstance(lead, str) :
+				for w in news["lead_paragraph"].split() :
+					ss.notify(w)
+			if isinstance(full, str) :
+				for w in news["full_text"].split() :
+					ss.notify(w)
 	# Output
 	ss.smart_print(3)
 
