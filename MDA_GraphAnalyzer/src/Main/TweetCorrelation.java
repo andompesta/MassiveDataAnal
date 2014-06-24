@@ -2,17 +2,14 @@ package Main;
 
 import DAO.Contradiction.Contradiction;
 import DAO.Contradiction.ContradictionParser;
-import DAO.Contradiction.ContradictionPoint;
 import DAO.News.MongoDB;
 import DAO.News.News;
 import DAO.Tweet.Tweet;
 import DAO.Tweet.TweetParser;
-import Utils.TweetManager;
+import Utils.TweetUtil;
 import com.mongodb.DBCollection;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -21,7 +18,7 @@ import java.util.Map;
  */
 public class TweetCorrelation {
 
-    private static String topicName = "Cern";
+    private static String topicName = "Nasa";
 
     public static void main(String[] args) throws IOException {
         //Mappa contenente topic e contraddizioni per qei topic
@@ -35,6 +32,9 @@ public class TweetCorrelation {
         ArrayList<News> topicNews = manager.getNews(newsCollection);
         //Lista di tutti i tweet letti da file .txt
         ArrayList<Tweet> topicTweet = TweetParser.parsTweet("topic_"+ contrad.get(topicName).getId() +"_spamfree.txt");
+
+        TweetUtil.contrTweet(topicName, contrad, topicTweet);
+
         //Lista di tutti i tweet dei periodi di sentiment shift letti da file .json
         ArrayList<ArrayList<Tweet>> contTweet = TweetParser.parsContrTweet(topicName);
 
