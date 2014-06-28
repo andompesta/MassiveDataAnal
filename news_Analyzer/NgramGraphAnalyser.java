@@ -133,9 +133,11 @@ public class NgramGraphAnalyser {
 			pb.printProg(idx);
 		}
 
-		System.out.println();
+		System.out.println("\n\nPrinting results...");
 		for (int i = 0; i < intervals; i++) {
+			System.out.printf("%d contradiction point: ", i+1);
 			analyzers[i].printOutlierContent();
+			System.out.println();
 		}
     }
 }
