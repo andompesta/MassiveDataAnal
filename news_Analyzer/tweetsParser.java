@@ -21,10 +21,16 @@ public class tweetsParser {
 
 	public tweetsParser(String infile, int rank, int distance) throws FileNotFoundException, IOException {
 		// Counting the number of rows in the file
-		LineNumberReader lnr = new LineNumberReader(new FileReader(infile));
-		lnr.skip(Long.MAX_VALUE);
-		contr = lnr.getLineNumber();
-		lnr.close();
+		try {
+			LineNumberReader lnr = new LineNumberReader(new FileReader(infile));
+			lnr.skip(Long.MAX_VALUE);
+			contr = lnr.getLineNumber();
+			lnr.close();
+		}
+		catch (Exception exc) {
+			System.err.println("I wasn't able to read the tweets file "+infile);
+			throw exc;
+		}
 		System.out.printf("Detected %d contradiction points\n", contr);
 		// Initialization
 		min_time = new long[contr];

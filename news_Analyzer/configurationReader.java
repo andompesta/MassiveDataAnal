@@ -10,13 +10,20 @@ class configurationReader {
 	private int distance;
 
 	public configurationReader(String topic) throws FileNotFoundException, IOException {
-		Ini conf = new Ini(new FileReader("config.ini"));
-		Ini.Section Graph = conf.get("Graph");
-		Ini.Section Paths = conf.get("Paths");
-		rank = Integer.parseInt(Graph.get("rank"));
-		distance = Integer.parseInt(Graph.get("distance"));
-		newsFile = Paths.get("news_path").replace("X", topic);
-		tweetsFile = Paths.get("tweets_path").replace("X", topic);
+		try {
+			Ini conf = new Ini(new FileReader("config.ini"));
+			Ini.Section Graph = conf.get("Graph");
+			Ini.Section Paths = conf.get("Paths");
+			rank = Integer.parseInt(Graph.get("rank"));
+			distance = Integer.parseInt(Graph.get("distance"));
+			newsFile = Paths.get("news_path").replace("X", topic);
+			tweetsFile = Paths.get("tweets_path").replace("X", topic);
+		}
+		catch (Exception exc) {
+			System.err.println("Uh, it seems you have some issues with your configuration file");
+			System.err.println("Please check that config.ini exists and is well formatted");
+			throw exc;
+		}
 	}
 
 	public String getNewsFile() {
