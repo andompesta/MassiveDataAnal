@@ -5,3 +5,5 @@ echo "Downloading json library"
 curl -L "http://central.maven.org/maven2/org/json/json/20140107/json-20140107.jar" > json.jar
 echo "Downloading OpenJGraph library"
 curl -L "http://manoet.altervista.org/stuff/OpenJGraph.jar" > OpenJGraph.jar
+echo "Downloading ini4j library"
+curl -L "http://manoet.altervista.org/stuff/ini4j.jar" > ini4j.jar
