@@ -1,5 +1,5 @@
 libs=./libs/*
 
 all:
-	javac -cp ${libs}:. NgramGraphAnalyser.java ProgBar.java newsParser.java
+	javac -cp ${libs}:. NgramGraphAnalyser.java ProgBar.java newsParser.java tweetsParser.java
 
