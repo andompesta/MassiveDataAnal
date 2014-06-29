@@ -4,21 +4,16 @@ import collections
 import hashlib
 
 class SpaceSaving :
-	def __init__ (self, size=10, stopWordFile="", HashSize=200) :
+	def __init__ (self, size=10, stopWordsList=[], HashSize=1000) :
 		self.k = size
 		self.vals = []
 		self.cnt = collections.Counter()
 		self.hash_dim = HashSize
-		try :
-			with open(stopWordFile, 'r') as fin :
-				self.stop_words = [line.strip('\n') for line in fin]
-		except IOError :
-			print("WARNING: no stop word file read (not needed, forgotten or wrong file name?)")
-			self.stop_words = []
+		self.stopWords = stopWordsList
 
 	# Check whether a word is a stop word and should be ignored
 	def StopWord(self, word) :
-		return word in self.stop_words
+		return word in self.stopWords
 
 	def notify (self, word) :
 		word = word.lower()
@@ -51,3 +46,10 @@ class SpaceSaving :
 			if v["occurrencies"] - v["error"] >= threshold :
 				print(v["word"])
 
+	def getSmartList(self, threshold=3) :
+		wlist = []
+		for v in self.vals :
+			value = v["occurrencies"] - v ["error"]
+			if value >= threshold :
+				wlist.append({"word":v["word"], "value":value})
+		return wlist
