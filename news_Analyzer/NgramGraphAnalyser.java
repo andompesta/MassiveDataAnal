@@ -24,6 +24,7 @@ public class NgramGraphAnalyser {
 	private NGramGraphComparator comp;
 	private DocumentNGramGraph tweetsGraph;
 	private int processed;
+	private Timestamp outlierPublished;
 
     public NgramGraphAnalyser(){
 		GlobalIntersection = null;
@@ -44,13 +45,17 @@ public class NgramGraphAnalyser {
 			GlobalIntersection = GlobalIntersection.intersectGraph(g);
 	}
 
-	public void computeOutlier(DocumentNGramGraph g, String c) throws InvalidClassException {
+	public void testSimilarity(newsParser n) throws InvalidClassException {
 		processed++;
+		String content = n.getContent();
+		DocumentNGramSymWinGraph g = new DocumentNGramSymWinGraph(conf.getRank(), conf.getRank(), conf.getDistance());
+		g.setDataString(content);
 		GraphSimilarity s = comp.getSimilarityBetween(tweetsGraph, g);
 		double gSimilarity = s.getOverallSimilarity();
 		if (gSimilarity > outlierSimilarity) {
 			outlier = g;
-			outlierContent = c;
+			outlierContent = n.getContent();
+			outlierPublished = n.getTimestamp();
 			outlierSimilarity = gSimilarity;
 		}
 	}
@@ -69,7 +74,7 @@ public class NgramGraphAnalyser {
 			return;
 		}
 		System.out.printf("%d news have been processed.\n", processed);
-		System.out.printf("More similar text:\n%s\n", outlierContent);
+		System.out.println("More similar news (Published by NYT on " + outlierPublished + ")\n" + outlierContent);
 	}
 
 	private static int argument_parser(String[] args)  throws FileNotFoundException, IOException {
@@ -123,10 +128,7 @@ public class NgramGraphAnalyser {
 			Timestamp pub_date = np.getTimestamp();
 			for (int i = 0; i < intervals; i++) {
 				if (pub_date.before(intervalEnd[i]) && pub_date.after(intervalBegin[i])) {
-					String content = np.getContent();
-					DocumentNGramSymWinGraph g = new DocumentNGramSymWinGraph(conf.getRank(), conf.getRank(), conf.getDistance());
-					g.setDataString(content);
-					analyzers[i].computeOutlier(g, content);
+					analyzers[i].testSimilarity(np);
 				}
 			}
 			idx++;

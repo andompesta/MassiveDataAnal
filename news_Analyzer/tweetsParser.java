@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import gr.demokritos.iit.jinsect.documentModel.representations.DocumentNGramSymWinGraph;
 import gr.demokritos.iit.jinsect.documentModel.representations.DocumentNGramGraph;
+import java.sql.Timestamp;
 
 public class tweetsParser {
 	private int contr;
@@ -44,7 +45,7 @@ public class tweetsParser {
 		// Populating
 		BufferedReader br = new BufferedReader(new FileReader(infile));
 		for (int i = 0; i < contr; i++) {
-			System.out.printf("Computing graph for contradiction point %d/%d\n", i+1, contr);
+			System.out.printf("Computing graph for contradiction point %d/%d. ", i+1, contr);
 			String line = br.readLine();
 			JSONArray arr = new JSONArray(line);
 			for (int j = 0; j < arr.length(); j++) {
@@ -60,6 +61,10 @@ public class tweetsParser {
 				else
 					inter[i].intersectGraph(g);
 			}
+			Timestamp t1, t2;
+			t1 = new Timestamp(min_time[i]*1000);
+			t2 = new Timestamp(max_time[i]*1000);
+			System.out.println("Ranges from " + t1 + " to " + t2);
 		}
 	}
 
