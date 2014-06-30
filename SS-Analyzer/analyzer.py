@@ -6,6 +6,7 @@ from classes.SpaceSaving import *
 from classes.TweetParser import *
 from classes.NewsParser import *
 from classes.TextComparator import *
+from classes.WikiParser import *
 
 if __name__ == "__main__" :
 	# Parsing arguments...
@@ -51,17 +52,23 @@ if __name__ == "__main__" :
 				for word in t.split() :
 					ss.notify(word)
 			commonWordsValues.append(ss.getSmartList())
-
-	# Comparing with news
-	np = NewsParser(config["Paths"]["NewsFile"].replace("X", args.topic))
-	news = np.getNewsText()
+	# Initializing the comparator class
 	comparator = []
 	for idx, i in enumerate(timeIntervals) :
 		comparator.append(TextComparator(i, commonWordsValues[idx]))
+	# Reading news from NYT and comparing
+	np = NewsParser(config["Paths"]["NewsFile"].replace("X", args.topic))
+	news = np.getNewsText()
 	for n in news :
-		for idx, i in enumerate(timeIntervals) :
+		for idx in range(len(timeIntervals)) :
 			comparator[idx].compare(n)
-
+	# Reading news from wikipedia and comparing
+	wp = WikiParser(config["Paths"]["WikiEvents"], config["Paths"]["WikiDeaths"])
+	wikis = wp.getNewsText()
+	for n in wikis :
+		for idx in range(len(timeIntervals)) :
+			comparator[idx].compare(n)
+	# Printing results
 	for c in comparator :
 		c.printinfo()
 
