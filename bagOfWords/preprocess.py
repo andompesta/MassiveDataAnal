@@ -1,21 +1,20 @@
 import pickle
 
-def defaultFilter(document,word) :
-	return True
-
 class Preprocessing :
 
-	def __init__(self,stopwords={},punctuation={},flter=defaultFilter) :
+	def __init__(self,stopwords={},punctuation={},dpattern={},threshold=0) :
 		'''
 		Constructor for the Preprocessing instance. Optional args:
 		- stopwords = a set of stopwords to be excluded by the filtering.
 		- punctuation = a set of characters to be replaced with a whitespace.
-		- flter = a filtering function f: [String] -> String -> Bool taking as arguments the document and the current word.
+		- dpattern = a set of string patterns. if a pattern is a substring of a token, the token is discarded.
+		- threshold = a positive integer threshold to discard the less frequent tokens in the document.
 
 		'''
 		self.stopwords = {sw.lower() for sw in stopwords}
 		self.punctuation = punctuation
-		self.filter = flter
+		self.dpattern = dpattern
+		self.threshold = threshold
 
 	def save(self,path) :
 		'''
@@ -49,7 +48,20 @@ class Preprocessing :
 
 		# transforms the document in a list of tokens satisfying the following rules:
 		# - len(t) > 0
-		# - t not in Stopwords
-		# - filter(t) = True
-		return [word for word in document if word != '' and word not in self.stopwords and self.filter(document,word)]
+		# - t not in Stopword
+		# - t doesn't contain any Discard Pattern
+		# - # occurrencies of t in document >= Threshold
+		for dp in self.dpattern :
+			for token in document :
+				if dp in token :
+					document = filter(lambda x : x != token,document)
 
+		return [token for token in document if token != '' and token not in self.stopwords and document.count(token)>= self.threshold]
+
+f = open('data/sw.txt')
+stopwords = f.read().replace('\n',' ').strip().split()
+f.close()
+f = open('data/punc.txt')
+punctuation = f.read().replace('\n',' ').strip().split()
+f.close()
+Preprocessing(stopwords=stopwords,punctuation=punctuation,threshold=1).save('newsFilter_2.0.pp')
