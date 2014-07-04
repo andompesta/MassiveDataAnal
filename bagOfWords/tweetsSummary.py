@@ -5,26 +5,32 @@ from gensim import corpora, models
 
 from preprocess import Preprocessing
 
-def readNewsFiles(folder) :
+def readTweetsFiles(folder) :
 	news = []
 	paths = map(lambda x: folder+x, os.listdir(folder))
 	i = 0
 	
 	for path in paths :
 		os.system('clear')
-		print "Parsing news: " + str(int((i/float(len(paths)))*100)) + '%'
+		print "Parsing tweets: " + str(int((i/float(len(paths)))*100)) + '%'
 		with open(path) as f :
-			topicJson = json.loads(f.read())
-			for article in topicJson['articles'] :
-				news.append((article['_id'],topicJson['topic'],article['pub_date'],article['full_text']))
+			topic = path.partition('/')[-1].partition('-')[0]
+			for contr in [json.loads(line.strip()) for line in f if line.strip() != ''] :
+				contrTweets = []
+				for t in contr :
+					contrTweets.append(t['text'])
+
+				text = ''.join(contrTweets)
+
+				news.append((j['_id'],j['topic'],j['pub_date'],j['full_text']))
 		i += 1
 	
 	os.system('clear')
-	print "Parsing news: " + str(int((i/float(len(paths)))*100)) + '%'
+	print "Parsing tweets: " + str(int((i/float(len(paths)))*100)) + '%'
 	return news
 
-def summarizeNews(newsFolder,pp,outputFilename,kTerms) :
-	news = readNewsFiles(newsFolder)
+def summarizeTweets(tweetsFolder,pp,outputFilename,kTerms) :
+	news = readTweetsFiles(tweetsFolder)
 	texts = map(lambda x: pp.processDoc(x[-1]),news)
 	dictionary = corpora.Dictionary(texts)
 	corpus = [dictionary.doc2bow(text) for text in texts]
@@ -46,10 +52,10 @@ def summarizeNews(newsFolder,pp,outputFilename,kTerms) :
 if __name__ == '__main__' :
 
 	if len(argv) - 1 != 4 :
-		print "USAGE: python newsSummary.py newsFolder preprocessor outputFilename kTerms"
+		print "USAGE: python tweetsSummary.py tweetsFolder preprocessor outputFilename kTerms"
 	else :
-		newsFolder = argv[1]
+		tweetsFolder = argv[1]
 		pp = Preprocessing.load(argv[2])
 		outputFilename = argv[3]
 		kTerms = int(argv[4])
-		summarizeNews(newsFolder,pp,outputFilename,kTerms)
+		summarizeTweets(tweetsFolder,pp,outputFilename,kTerms)

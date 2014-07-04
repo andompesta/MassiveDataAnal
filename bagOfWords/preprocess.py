@@ -58,10 +58,48 @@ class Preprocessing :
 
 		return [token for token in document if token != '' and token not in self.stopwords and document.count(token)>= self.threshold]
 
-f = open('data/sw.txt')
-stopwords = f.read().replace('\n',' ').strip().split()
-f.close()
-f = open('data/punc.txt')
-punctuation = f.read().replace('\n',' ').strip().split()
-f.close()
-Preprocessing(stopwords=stopwords,punctuation=punctuation,threshold=1).save('newsFilter_2.0.pp')
+if __name__ == '__main__' :
+	import getopt
+	import sys
+	
+	usage = '''PARAMS :
+	-o\tOutput file
+	-s\tPath of the stopwords file (OPTIONAL)
+	-p\tPath of the punctuation file (OPTIONAL)
+	-d\tPath of the discard-pattern file (OPTIONAL)
+	-t\tThreshold (OPTIONAL)
+	'''
+
+	try :
+		opts, args = getopt.getopt(sys.argv[1 :], "o:s:p:d:t")
+	except getopt.GetoptError as err :
+		sys.stderr.write(str(err) + '\n')
+		print usage
+		sys.exit(2)
+
+	outputFilename = None
+	stopwords = set()
+	punctuation = set()
+	dpattern = set()
+	threshold = 0
+
+	for o, v in opts :
+		if o == "-o" :
+			outputFilename = v
+		elif o == "-s" :
+			with open(v,'r') as f : stopwords = f.read().replace('\n',' ').strip().split()
+		elif o == "-p" :
+			with open(v,'r') as f : punctuation = f.read().replace('\n',' ').strip().split()
+		elif o == "-d" :
+			with open(v,'r') as f : dpattern = f.read().replace('\n',' ').strip().split()	
+		elif o == "-t" :
+			threshold = int(v)
+		else :
+			assert False, "Unhandled option"
+
+		if not outputFilename :
+			sys.stderr.write('[ERR] The option -o must be specified\n')
+			print usage
+			sys.exit(2)
+
+	Preprocessing(stopwords=stopwords,punctuation=punctuation,dpattern=dpattern,threshold=threshold).save(outputFilename)
