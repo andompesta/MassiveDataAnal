@@ -40,10 +40,12 @@ class Preprocessing :
 
 		'''
 		# removes punctuation
+		print 'removing punctuation'
 		for p in self.punctuation :
 			document = document.replace(p,' ')
 
 		# apply lowercase and split into words
+		print 'splitting'
 		document = document.strip().lower().split()
 
 		# transforms the document in a list of tokens satisfying the following rules:
@@ -51,12 +53,20 @@ class Preprocessing :
 		# - t not in Stopword
 		# - t doesn't contain any Discard Pattern
 		# - # occurrencies of t in document >= Threshold
+		print 'discard-pattern phase -- size: ' + str(len(document)) 
 		for dp in self.dpattern :
 			for token in document :
 				if dp in token :
 					document = filter(lambda x : x != token,document)
 
-		return [token for token in document if token != '' and token not in self.stopwords and document.count(token)>= self.threshold]
+		print 'stopwords and threshold phase -- size: ' + str(len(document))
+		counter = {}
+		for token in document :
+			if not token in counter : counter[token] = 1
+			else : counter[token] += 1
+		document = [t for t in document if counter[t] > self.threshold]
+
+		return [token for token in document if token != '' and token not in self.stopwords]
 
 if __name__ == '__main__' :
 	import getopt

@@ -5,57 +5,83 @@ from gensim import corpora, models
 
 from preprocess import Preprocessing
 
-def readTweetsFiles(folder) :
-	news = []
-	paths = map(lambda x: folder+x, os.listdir(folder))
-	i = 0
+def readTweetsFiles(tweetsFolder,infoFolder) :
 	
-	for path in paths :
+	# reads the contradiction info files
+	contradictionList = {}
+	infoPaths = map(lambda x: infoFolder+x, os.listdir(infoFolder))
+	for path in infoPaths :
+		topic = path.split('/')[-1].partition('.')[0]
+		contradictionList[topic] = {'topic' : topic}
+
+		with open(path,'r') as f :
+			infoJson = json.loads(f.read())
+			contradictionList[topic]['contradictions'] = infoJson['contradictions']
+
+	# reads the contradiction tweets files
+	tweetsPaths = map(lambda x: tweetsFolder+x, os.listdir(tweetsFolder))
+	i = 0
+	for path in tweetsPaths :
 		os.system('clear')
-		print "Parsing tweets: " + str(int((i/float(len(paths)))*100)) + '%'
+		print "Parsing tweets: " + str(int((i/float(len(tweetsPaths)))*100)) + '%'
 		with open(path) as f :
-			topic = path.partition('/')[-1].partition('-')[0]
-			for contr in [json.loads(line.strip()) for line in f if line.strip() != ''] :
-				contrTweets = []
-				for t in contr :
-					contrTweets.append(t['text'])
+			topic = path.split('/')[-1].partition('-')[0]
+			topicContr = [json.loads(line.strip()) for line in f if line.strip() != '']
+			
+			for j in xrange(len(topicContr)) :
+				contrText = []
 
-				text = ''.join(contrTweets)
+				for t in topicContr[j] :
+					contrText.append(' '+t['text'])
 
-				news.append((j['_id'],j['topic'],j['pub_date'],j['full_text']))
+				text = ''.join(contrText).strip()
+				contradictionList[topic]['contradictions'][j]['text'] = text
+
 		i += 1
 	
 	os.system('clear')
-	print "Parsing tweets: " + str(int((i/float(len(paths)))*100)) + '%'
-	return news
+	print 'Parsing tweets: ' + str(int((i/float(len(tweetsPaths)))*100)) + '%'
+	return contradictionList.values()
 
-def summarizeTweets(tweetsFolder,pp,outputFilename,kTerms) :
-	news = readTweetsFiles(tweetsFolder)
-	texts = map(lambda x: pp.processDoc(x[-1]),news)
+def summarizeTweets(tweetsFolder,infoFolder,pp,outputFilename,kTerms) :
+	contradictionList = readTweetsFiles(tweetsFolder,infoFolder)
+
+	print 'Generating the model'
+	texts = []
+	for topic in contradictionList :
+		print '\t' + str(topic['topic']) + ': ' + str(len(topic['contradictions'])) + ' contradictions'
+		for contr in topic['contradictions'] :
+			print 'preprocessing ' + str(len(contr['text'])) + ' characters..'
+			texts.append( pp.processDoc(contr['text']) )
+			print 'done!'
+
 	dictionary = corpora.Dictionary(texts)
 	corpus = [dictionary.doc2bow(text) for text in texts]
 	tfidf = models.TfidfModel(corpus)
-	output = []
 
-	for (i,t,d,text) in news :
-		tokens = pp.processDoc(text)
-		bow = dictionary.doc2bow(tokens)
-		summary = sorted(tfidf[bow],key=lambda x:x[1],reverse=True)[:kTerms]
-		summary = map(lambda x:dictionary[x[0]],summary)
+	print 'Computing the summaries'
+	for topic in contradictionList :
+		print '\t' + str(topic['topic']) + ': ' + str(len(topic['contradictions'])) + ' contradictions'
+		for contr in topic['contradictions'] :
 
-		output.append({'id':i,'topic':t,'pub_date':d,'summary':summary})
+			tokens = pp.processDoc(contr['text'])
+			bow = dictionary.doc2bow(tokens)
+			summary = sorted(tfidf[bow],key=lambda x:x[1],reverse=True)[:kTerms]
+			contr['summary'] = map(lambda x:dictionary[x[0]],summary)
+			contr.pop('text')
+
 
 	with open(outputFilename,'w') as f :
-		output = ''.join(map(lambda x: json.dumps(x)+'\n',output))
-		f.write(output)
+		f.write(json.dumps(contradictionList))
 
 if __name__ == '__main__' :
 
-	if len(argv) - 1 != 4 :
-		print "USAGE: python tweetsSummary.py tweetsFolder preprocessor outputFilename kTerms"
+	if len(argv) - 1 != 5 :
+		print "USAGE: python tweetsSummary.py tweetsFolder infoFolder preprocessor outputFilename kTerms"
 	else :
 		tweetsFolder = argv[1]
-		pp = Preprocessing.load(argv[2])
-		outputFilename = argv[3]
-		kTerms = int(argv[4])
-		summarizeTweets(tweetsFolder,pp,outputFilename,kTerms)
+		infoFolder = argv[2]
+		pp = Preprocessing.load(argv[3])
+		outputFilename = argv[4]
+		kTerms = int(argv[5])
+		summarizeTweets(tweetsFolder,infoFolder,pp,outputFilename,kTerms)
