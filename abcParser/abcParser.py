@@ -3,6 +3,20 @@
 import requests, argparse, sys, json
 from bs4 import BeautifulSoup
 
+months = { "January":1, \
+		"February":2, \
+		"March":3, \
+		"April":4, \
+		"May":5, \
+		"June":6, \
+		"July":7, \
+		"August":8, \
+		"September":9, \
+		"October":10, \
+		"November":11, \
+		"December":12, \
+		}
+
 def newsParser(outf, errf, url) :
 	try :
 		response = requests.get(url)
@@ -12,19 +26,20 @@ def newsParser(outf, errf, url) :
 			raise Exception("No article section")
 		h1 = article.find("h1")
 		title = h1.get_text()
-		pub_date = article.find("p", attrs={"class":"published"}).find("span", attrs={"class":"timestamp"}).string
+		pub_date = article.find("p", attrs={"class":"published"}).find("span", attrs={"class":"timestamp"}).get_text()
+		pub_date = pub_date.lstrip().rstrip()
+		dateToken = pub_date.split()
+		fpub_date = "{0}-{1}-{2}T{3}Z".format(dateToken[2], months[dateToken[0]], dateToken[1].rstrip(','), dateToken[3])
 		full_text = ""
-		for idx, p in enumerate(article.find_all("p")) :
-			if idx == 0 :
+		lead_paragraph = ""
+		for p in article.find_all("p") :
+			if p.has_attr("class") :
+				continue
+			elif lead_paragraph == "" :
 				lead_paragraph = p.get_text()
-		#	elif p["class"] == "topics" :
-		#		break
 			else :
-#				for attr,val in p.attrs :
-#					if val == "topics" :
-#						break
 				full_text += p.get_text()
-		newsJSON = json.dumps({"title":title, "lead_paragraph":lead_paragraph, "full_text":full_text, "pub_date":pub_date})
+		newsJSON = json.dumps({"title":title, "lead_paragraph":lead_paragraph, "full_text":full_text, "pub_date":fpub_date})
 		outf.write(newsJSON + '\n')
 	except Exception as exc :
 		print("ERROR: Unreadable schema detected. Details can be found on log file")
