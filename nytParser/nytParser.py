@@ -11,9 +11,9 @@ def parseNews(url,opener) :
 		for paragraph in soup.find('nyt_text').findAll('p') : fulltext = '\n' + paragraph.text.strip()
 	
 	elif soup.find('div',attrs={'class':'articleBody'}) != None :
-		for paragraph in soup.findAll('p',attrs={'itemprop':'articleBody'}) : fulltext = '\n' + paragraph.text.strip()
+		for paragraph in soup.findAll('p',attrs={'itemprop':'articleBody'}) : fulltext = fulltext + '\n' + paragraph.text.strip()
 	elif soup.find('p',attrs={'class':'story-body-text'}) != None :
-		for paragraph in soup.findAll('p',attrs={'class':'story-body-text'}) : fulltext = '\n' + paragraph.text.strip()
+		for paragraph in soup.findAll('p',attrs={'class':'story-body-text'}) : fulltext = fulltext + '\n' + paragraph.text.strip()
 	else :
 		raise Exception("nytParser: bad schema!")
 
