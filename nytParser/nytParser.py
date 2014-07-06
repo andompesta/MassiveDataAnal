@@ -8,7 +8,7 @@ def parseNews(url,opener) :
 
 	if soup.find('nyt_text') != None :
 		for div in soup.find('nyt_text').findAll('div') : div.extract()
-		for paragraph in soup.find('nyt_text').findAll('p') : fulltext = '\n' + paragraph.text.strip()
+		for paragraph in soup.find('nyt_text').findAll('p') : fulltext = fulltext = '\n' + paragraph.text.strip()
 	
 	elif soup.find('div',attrs={'class':'articleBody'}) != None :
 		for paragraph in soup.findAll('p',attrs={'itemprop':'articleBody'}) : fulltext = fulltext + '\n' + paragraph.text.strip()
