@@ -49,11 +49,8 @@ def summarizeTweets(tweetsFolder,infoFolder,pp,outputFilename,kTerms) :
 	print 'Generating the model'
 	texts = []
 	for topic in contradictionList :
-		print '\t' + str(topic['topic']) + ': ' + str(len(topic['contradictions'])) + ' contradictions'
 		for contr in topic['contradictions'] :
-			print 'preprocessing ' + str(len(contr['text'])) + ' characters..'
 			texts.append( pp.processDoc(contr['text']) )
-			print 'done!'
 
 	dictionary = corpora.Dictionary(texts)
 	corpus = [dictionary.doc2bow(text) for text in texts]
@@ -61,15 +58,12 @@ def summarizeTweets(tweetsFolder,infoFolder,pp,outputFilename,kTerms) :
 
 	print 'Computing the summaries'
 	for topic in contradictionList :
-		print '\t' + str(topic['topic']) + ': ' + str(len(topic['contradictions'])) + ' contradictions'
 		for contr in topic['contradictions'] :
 
 			tokens = pp.processDoc(contr['text'])
 			bow = dictionary.doc2bow(tokens)
-			summary = sorted(tfidf[bow],key=lambda x:x[1],reverse=True)[:kTerms]
-			contr['summary'] = map(lambda x:dictionary[x[0]],summary)
+			contr['summary'] = map(lambda x:(dictionary[x[0]],x[1]), sorted(tfidf[bow],key=lambda x:x[1],reverse=True)[:kTerms])
 			contr.pop('text')
-
 
 	with open(outputFilename,'w') as f :
 		f.write(json.dumps(contradictionList))

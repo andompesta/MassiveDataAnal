@@ -34,8 +34,7 @@ def summarizeNews(newsFolder,pp,outputFilename,kTerms) :
 	for (i,t,d,text) in news :
 		tokens = pp.processDoc(text)
 		bow = dictionary.doc2bow(tokens)
-		summary = sorted(tfidf[bow],key=lambda x:x[1],reverse=True)[:kTerms]
-		summary = map(lambda x:dictionary[x[0]],summary)
+		summary = map(lambda x:(dictionary[x[0]],x[1]), sorted(tfidf[bow],key=lambda x:x[1],reverse=True)[:kTerms])
 
 		output.append({'id':i,'topic':t,'pub_date':d,'summary':summary})
 

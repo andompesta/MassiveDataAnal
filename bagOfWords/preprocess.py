@@ -1,4 +1,5 @@
 import pickle
+import re 
 
 class Preprocessing :
 
@@ -34,39 +35,39 @@ class Preprocessing :
 		f = open(path,'r')
 		return pickle.load(f)
 
+	@staticmethod
+	def removeURL(document) :
+		return re.sub(r'https?:\/\/[A-Za-z0-9\.\/]*', '', document, flags=re.MULTILINE)
+
 	def processDoc(self,document):
 		'''
 		Given a document as a string, preprocesses it returning a list of tokens (strings).
 
 		'''
+		# removes URLs
+		document = Preprocessing.removeURL(document)
+
 		# removes punctuation
-		print 'removing punctuation'
 		for p in self.punctuation :
 			document = document.replace(p,' ')
 
-		# apply lowercase and split into words
-		print 'splitting'
+		# applies lowercase and split into words
 		document = document.strip().lower().split()
 
-		# transforms the document in a list of tokens satisfying the following rules:
-		# - len(t) > 0
-		# - t not in Stopword
-		# - t doesn't contain any Discard Pattern
-		# - # occurrencies of t in document >= Threshold
-		print 'discard-pattern phase -- size: ' + str(len(document)) 
+		# discard patterns filtering
 		for dp in self.dpattern :
-			for token in document :
-				if dp in token :
-					document = filter(lambda x : x != token,document)
+			document = filter(lambda token : not dp in token,document)
 
-		print 'stopwords and threshold phase -- size: ' + str(len(document))
+		# threshold filtering
 		counter = {}
 		for token in document :
 			if not token in counter : counter[token] = 1
 			else : counter[token] += 1
 		document = [t for t in document if counter[t] > self.threshold]
 
-		return [token for token in document if token != '' and token not in self.stopwords]
+		# stopwords filtering
+		return [token for token in document if token not in self.stopwords and token != '']
+
 
 if __name__ == '__main__' :
 	import getopt
@@ -81,7 +82,7 @@ if __name__ == '__main__' :
 	'''
 
 	try :
-		opts, args = getopt.getopt(sys.argv[1 :], "o:s:p:d:t")
+		opts, args = getopt.getopt(sys.argv[1 :], "o:s:p:d:t:")
 	except getopt.GetoptError as err :
 		sys.stderr.write(str(err) + '\n')
 		print usage
@@ -107,9 +108,9 @@ if __name__ == '__main__' :
 		else :
 			assert False, "Unhandled option"
 
-		if not outputFilename :
-			sys.stderr.write('[ERR] The option -o must be specified\n')
-			print usage
-			sys.exit(2)
+	if not outputFilename :
+		sys.stderr.write('[ERR] The option -o must be specified\n')
+		print usage
+		sys.exit(2)
 
 	Preprocessing(stopwords=stopwords,punctuation=punctuation,dpattern=dpattern,threshold=threshold).save(outputFilename)
