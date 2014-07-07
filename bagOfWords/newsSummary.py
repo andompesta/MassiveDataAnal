@@ -11,16 +11,14 @@ def readNewsFiles(folder) :
 	i = 0
 	
 	for path in paths :
-		os.system('clear')
-		print "Parsing news: " + str(int((i/float(len(paths)))*100)) + '%'
+		print "\rParsing news: " + str(int((i/float(len(paths)))*100)) + '%',
 		with open(path) as f :
 			topicJson = json.loads(f.read())
 			for article in topicJson['articles'] :
 				news.append((article['_id'],topicJson['topic'],article['pub_date'],article['full_text']))
 		i += 1
 	
-	os.system('clear')
-	print "Parsing news: " + str(int((i/float(len(paths)))*100)) + '%'
+	print "\rParsing news: " + str(int((i/float(len(paths)))*100)) + '%',
 	return news
 
 def summarizeNews(newsFolder,pp,outputFilename,kTerms) :

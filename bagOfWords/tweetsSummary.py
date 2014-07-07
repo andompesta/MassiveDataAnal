@@ -20,8 +20,7 @@ def readTweetsFiles(tweetsFolder,infoFolder) :
 
 	# reads the contradiction tweets files
 	tweetsPaths = map(lambda x: tweetsFolder+x, os.listdir(tweetsFolder))
-	i = 0
-	for path in tweetsPaths :
+	for i, path in enumerate(tweetsPaths) :
 		print "\rParsing tweets: " + str(int((i/float(len(tweetsPaths)))*100)) + '%',
 		with open(path) as f :
 			topic = path.split('/')[-1].partition('-')[0]
@@ -35,11 +34,8 @@ def readTweetsFiles(tweetsFolder,infoFolder) :
 
 				text = ''.join(contrText).strip()
 				contradictionList[topic]['contradictions'][j]['text'] = text
-
-		i += 1
 	
-	os.system('clear')
-	print 'Parsing tweets: ' + str(int((i/float(len(tweetsPaths)))*100)) + '%'
+	print '\rParsing tweets: ' + str(int((i/float(len(tweetsPaths)))*100)) + '%'
 	return contradictionList.values()
 
 def summarizeTweets(tweetsFolder,infoFolder,pp,outputFilename,kTerms) :
@@ -74,6 +70,10 @@ if __name__ == '__main__' :
 	else :
 		tweetsFolder = argv[1]
 		infoFolder = argv[2]
+		if not infoFolder.endswith("/") :
+			infoFolder += "/"
+		if not tweetsFolder.endswith("/") :
+			tweetsFolder += "/"
 		pp = Preprocessing.load(argv[3])
 		outputFilename = argv[4]
 		kTerms = int(argv[5])
