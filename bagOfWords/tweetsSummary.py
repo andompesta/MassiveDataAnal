@@ -22,8 +22,7 @@ def readTweetsFiles(tweetsFolder,infoFolder) :
 	tweetsPaths = map(lambda x: tweetsFolder+x, os.listdir(tweetsFolder))
 	i = 0
 	for path in tweetsPaths :
-		os.system('clear')
-		print "Parsing tweets: " + str(int((i/float(len(tweetsPaths)))*100)) + '%'
+		print "\rParsing tweets: " + str(int((i/float(len(tweetsPaths)))*100)) + '%',
 		with open(path) as f :
 			topic = path.split('/')[-1].partition('-')[0]
 			topicContr = [json.loads(line.strip()) for line in f if line.strip() != '']
