@@ -3,18 +3,18 @@ import re
 
 class Preprocessing :
 
-	def __init__(self,stopwords={},punctuation={},dpattern={},threshold=0) :
+	def __init__(self,stopwords={},punctuation={},dpatterns={},threshold=0) :
 		'''
 		Constructor for the Preprocessing instance. Optional args:
 		- stopwords = a set of stopwords to be excluded by the filtering.
 		- punctuation = a set of characters to be replaced with a whitespace.
-		- dpattern = a set of string patterns. if a pattern is a substring of a token, the token is discarded.
+		- dpatterns = a set of string patterns. if a pattern is a substring of a token, the token is discarded.
 		- threshold = a positive integer threshold to discard the less frequent tokens in the document.
 
 		'''
 		self.stopwords = {sw.lower() for sw in stopwords}
 		self.punctuation = punctuation
-		self.dpattern = dpattern
+		self.dpatterns = dpatterns
 		self.threshold = threshold
 
 	def save(self,path) :
@@ -55,7 +55,7 @@ class Preprocessing :
 		document = document.strip().lower().split()
 
 		# discard patterns filtering
-		for dp in self.dpattern :
+		for dp in self.dpatterns :
 			document = filter(lambda token : not dp in token,document)
 
 		# threshold filtering
@@ -91,7 +91,7 @@ if __name__ == '__main__' :
 	outputFilename = None
 	stopwords = set()
 	punctuation = set()
-	dpattern = set()
+	dpatterns = set()
 	threshold = 0
 
 	for o, v in opts :
@@ -102,7 +102,7 @@ if __name__ == '__main__' :
 		elif o == "-p" :
 			with open(v,'r') as f : punctuation = f.read().replace('\n',' ').strip().split()
 		elif o == "-d" :
-			with open(v,'r') as f : dpattern = f.read().replace('\n',' ').strip().split()	
+			with open(v,'r') as f : dpatterns = f.read().replace('\n',' ').strip().split()	
 		elif o == "-t" :
 			threshold = int(v)
 		else :
@@ -113,4 +113,4 @@ if __name__ == '__main__' :
 		print usage
 		sys.exit(2)
 
-	Preprocessing(stopwords=stopwords,punctuation=punctuation,dpattern=dpattern,threshold=threshold).save(outputFilename)
+	Preprocessing(stopwords=stopwords,punctuation=punctuation,dpatterns=dpatterns,threshold=threshold).save(outputFilename)
