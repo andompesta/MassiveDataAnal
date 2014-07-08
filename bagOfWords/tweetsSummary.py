@@ -19,9 +19,10 @@ def readTweetsFiles(tweetsFolder,infoFolder) :
 
 	# reads the contradiction tweets files
 	tweetsPaths = map(lambda x: tweetsFolder+x, os.listdir(tweetsFolder))
-	
+
 	for i, path in enumerate(tweetsPaths) :
-		print "\rParsing tweets: " + str(int((i/float(len(paths)))*100)) + '%',
+		print "\rParsing tweets: " + str(int((i/float(len(tweetsPaths)))*100)) + '%',
+
 		with open(path) as f :
 			topic = path.split('/')[-1].partition('-')[0]
 			topicContr = [json.loads(line.strip()) for line in f if line.strip() != '']
@@ -35,7 +36,7 @@ def readTweetsFiles(tweetsFolder,infoFolder) :
 				text = ''.join(contrText).strip()
 				contradictionList[topic]['contradictions'][j]['text'] = text
 	
-	print "\rParsing tweets: " + str(int((i/float(len(paths)))*100)) + '%',
+	print '\rParsing tweets: 100%'
 	return contradictionList.values()
 
 def summarizeTweets(tweetsFolder,infoFolder,pp,outputFilename,kTerms) :
@@ -127,7 +128,6 @@ if __name__ == '__main__' :
 		sys.exit(2)
 
 	params = readConfigFile(configurationPath)
-	print params
 	if 'contradictions_info_folder' not in params or 'contradictions_tweets_folder' not in params :
 		sys.stderr.write('[ERR] The configuration file must include the contradictions info and tweets folders path\nFORMAT:\ncontradictions_info_folder = ...\ncontradictions_tweets_folder = ...\n')
 		sys.exit(2)

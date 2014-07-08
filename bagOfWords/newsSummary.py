@@ -17,7 +17,7 @@ def readNewsFiles(folder) :
 				news.append((article['_id'],topicJson['topic'],article['pub_date'],article['full_text']))
 		i += 1
 
-	print "\rParsing news: " + str(int((i/float(len(paths)))*100)) + '%',
+	print '\rParsing news: 100%'
 	return news
 
 def summarizeNews(newsFolder,pp,outputFilename,kTerms) :
@@ -104,7 +104,6 @@ if __name__ == '__main__' :
 		sys.exit(2)
 
 	params = readConfigFile(configurationPath)
-	print params
 	if 'news_folder' not in params :
 		sys.stderr.write('[ERR] The configuration file must include the news folder path\nFORMAT:\nnews_folder = ...\n')
 		sys.exit(2)
