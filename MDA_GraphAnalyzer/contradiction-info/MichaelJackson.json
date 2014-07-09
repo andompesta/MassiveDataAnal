@@ -1,0 +1,17 @@
+{
+  "topicId":5,
+  "contradictions":[
+    {
+      "cValue": 0.00,
+      "cType":4,
+      "timeBegin":1245401216,
+      "timeEnd":1245919616
+    },
+    {
+      "cValue": 0.00,
+      "cType":4,
+      "timeBegin":1251056256,
+      "timeEnd":1251574656
+    }
+  ]
+}

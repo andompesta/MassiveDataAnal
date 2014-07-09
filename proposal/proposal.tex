@@ -1,0 +1,187 @@
+\documentclass[a4paper]{article}
+\usepackage[english]{babel}
+
+%selezioniamo un font che abbia gli accenti
+\usepackage[T1]{fontenc}
+%permette di scrivere le lettere accentate (aumenta il tempo di compilazione)
+%\usepackage[latin1]{inputenc}
+
+\usepackage{color}
+\usepackage{graphicx}
+
+%link riferimenti incrociati
+\usepackage[colorlinks=true,pdftex]{hyperref}
+
+%formule matematiche
+\usepackage{amsmath,amsthm,amsfonts,amssymb,mathtools}
+
+%\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{esempio}{Esempio}[section]
+%\newtheorem{prop}{Proposizione}[section]
+%\newtheorem{corollary}[theorem]{Corollary}
+
+%\newcommand{\abs}[1]{\left| #1 \right|} % per valore assoluto
+%\newcommand{\R}{\mathbb{R}} 			% per simbolo reali
+%\newcommand{\FT}{\xleftrightarrow{FT}} 	% per la TCF
+%\newcommand{\rect}[2]{\rectangular \left( \frac{#1}{#2} \right)}
+
+%\DeclareMathOperator*{\sgn}{sgn}
+%\DeclareMathOperator*{\sinc}{sinc}
+%\DeclareMathOperator*{\rectangular}{rect}
+%\DeclareMathOperator*{\grad}{u}
+      
+%eliminiamo la spaziatura extra alla fine dei periodi
+\frenchspacing
+%indentazione all'inizio dei capitoli
+\usepackage{indentfirst}
+
+%inseriamo 4 livelli di numerazioni (capitoli, sezioni, sottosezioni e sottosottosezioni)
+\setcounter{secnumdepth}{3}
+%diciamo che nell'indice la profondità deve essere 4 (vd. sopra)
+\setcounter{tocdepth}{3}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Title
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Massive Data Analytics'\\Project Proposal}
+\author{Sandro Cavallari, Marco Giglio, Paolo Morettin}
+\date{}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Chapters
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% - Problem description.
+% - Your idea and a sketch of your solution.
+% - Proposed plan of work.
+% - Datasets you will use for the experimental evaluation.
+% - The 3-4 most relevant references.
+\section{Introduction}
+Social networks experienced an exponential growth in the last five to ten years.
+In a few years they became one of the most used communication media:
+several people, nowadays, tend to spend many hours per day writing on their
+\emph{walls}, \emph{twitting} etc and basically every big company, important
+personality, or club, manages accounts on several social networks, using them as
+its most important communication media.
+
+Given the increasing role of social networks in everyday's lives, researches
+became interested to them, questioning how they affect our privacy and behavior
+\cite{Debatin}\cite{Acar} or examining the role they fulfilled during some
+important recent events, such as the Arab Spring \cite{Howard}\cite{Lotan}.
+
+\section{Project description}
+Our interest is to monitor trends on a social network, understand whether people
+are feeling positive or negative toward a certain topic and correlate this
+feeling with recent news coming from newspapers. In detail, our project aims in
+developing a methodology in order to:
+\begin{enumerate}
+\item understand when the common feeling about a certain topic shifts from positive
+to negative, as done in \cite{Bifet};
+\item correlate this shift to news coming from newspapers and news agencies.
+\end{enumerate}
+
+The social network we will focus on is Twitter, an online social network that
+allows users to upload short text messages (\emph{tweets}) of up to 140 characters.
+
+\section{Work plan}
+We can divide our work in 3 different phases: the first one to collect data; the
+second one to find sentiment change in tweets; the last one to correlate the
+results coming from phase 2 to news coming from other sources.
+
+\subsection{Phase 1}
+All the analysis we want to perform are only possible on big datasets; otherwise
+it becomes hard to correctly identify a sentiment shift. For this reason, we
+need to collect a big amount of data coming both from Twitter and from
+newspapers and news agencies. 
+
+We are planning to collect these information for one month, exploiting a web
+server up 24 hours per day. In order to collect Twitter data, we will use a Java
+library called \emph{twitter4j} whereas the news will be extracted from several
+RSS feeds. All the resulting data will be stored on a database on the server.
+
+\subsection{Phase 2}
+All the data collected in phase 1 will be download on faster machines to be
+analyzed. This analysis can be further subdivided in two steps: in the first one
+we need to classify each tweet according to its topic; in the second one we aim
+in understanding whether people are feeling positive or negative toward that
+topic and in which instant in time they change their opinion.
+
+Both the tasks are maden easier by the short length which characterize tweets
+and researchers already tried and succeded in similar tasks (see
+		\cite{Wang},\cite{Sriram},\cite{Lee} for topic classification and
+		\cite{Bifet},\cite{Go},\cite{Palpanas} for feeling detection), hence
+several techniques will be investigated and analyzed in order to find the one
+which better suits what we are trying to accomplish.
+
+\subsection{Phase 3}
+Once we detect a change in how people are feeling toward a certain topic we want
+to find a correlation between this change and recent news. There is not much
+literature about this task, hence this is the step on which we shall
+probably spend more time and energy.
+
+It is difficult to state now what will be the best approach in order to solve
+this problem, but some attempts could be done using some machine learning and
+text analysis techniques or analyzing links that might be present in tweets.
+
+In addition, we can expect that only important news cause important changes,
+hence we can delete from our dataset news that appear to be read by just a small
+amount of people and consider only news which are read by a majority of people.
+
+\section{Conclusion}
+In these few pages we proposed some new ideas to solve a problem which has not
+yet been addressed by the scientific community: correlate a change in the common
+feelings of twitter users toward a certain topic to news coming from newspapers.
+
+We propose an approach in three steps which consists in collecting data,
+classify tweets according to their topics and expressed feelings and finally in
+using some machine learning and text analysis techniques in order to discern
+which news caused a certain change in common feelings.
+
+
+\begin{thebibliography}{9}
+\bibitem{Debatin}
+Debatin B. et al., \emph{``Facebook and Online Privacy: Attitudes, Behaviors,
+and Unintended Consequences''}, Journal of Computer-Mediated Communication,
+15, pg. 83-108 (2009)
+\bibitem{Acar}
+Acar A., \emph{``Antecedents and Consequences of Online Social Networking
+Behavior: The Case of Facebook''}, Journal of Website Promotion Vol. 3, N.
+1-2, pg. 62-83 (2008)
+\bibitem{Howard}
+Howard P. et al., \emph{``Opening Closed Regimes: What Was the Role of Social Media
+During the Arab Spring?''}, ICT4D Bibliography (2011)
+\bibitem{Lotan}
+Lotan G. et al., \emph{``The Revolutions Were Tweeted: Information Flows During
+the 2011 Tunisian and Egyptian Revolutions''}, International Journal of
+Communication 5 (2011)
+\bibitem{Bifet}
+Albert B. et al., \emph{``Detecting Sentiment Change in Twitter Streaming
+	Data''}, JMLR: Workshop and Conference Proceedings 17 (2011) 5-11
+\bibitem{Go}
+Go A., Bhayani R., Huang, L., \emph{``Twitter sentiment classification using
+	distant supervision''}, CS224N Project Report, Stanford, 1-12 (2009)
+\bibitem{Palpanas}
+Tsytsarau M., Palpanas T., \emph{``Survey on mining subjective data on the
+	web''}, Data Mining and Knowledge Discovery, Vol. 24, N. 3, pg. 478-514,
+	Springer (2012)
+\bibitem{Wang}
+Wang X. et al., \emph{``Topic sentiment analysis in twitter: a graph-based
+hashtag sentiment classification approach''}, 20th ACM International
+Conference on Information and Knowledge Management (2011) 
+\bibitem{Sriram}
+Sriram B. et al., \emph{``Short Text Classification in Twitter to Improve
+	Information Filtering''}, Proceedings of the 33rd International ACM SIGIR
+	Conference on Research and Development in Information Retrieval, pg. 841-842 (2010)
+\bibitem{Lee}
+Lee K. et al., \emph{``Twitter Trending Topic Classification''}, IEEE 11th
+International COnference on Data Mining Workshops (2011)
+\end{thebibliography}
+
+
+\end{document}
