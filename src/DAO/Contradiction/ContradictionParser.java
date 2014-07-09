@@ -2,8 +2,9 @@ package DAO.Contradiction;
 
 import com.google.gson.Gson;
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import java.util.Map;
  * Created by ando on 19/06/14.
  */
 public class ContradictionParser {
-    private static String path = "/home/ando/MDA_GraphAnalyzer/contradiction-info";
+    private static String path = "/home/ando/MassiveDataAnal/MDA_GraphAnalyzer/contradiction-info";
     public static Map<String, Contradiction> parsContradictions(){
         Map<String, Contradiction> ret = new HashMap<String, Contradiction>();
         BufferedReader dataset;

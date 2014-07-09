@@ -1,9 +1,9 @@
 package DAO.Tweet;
 
 import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -12,7 +12,7 @@ import java.util.Arrays;
  */
 public class TweetParser {
     private static BufferedReader dataset;
-    private static String path = "/home/ando/MDA_GraphAnalyzer/";
+    private static String path = "/home/ando/MassiveDataAnal/MDA_GraphAnalyzer/";
 
     public static ArrayList<Tweet> parsTweet(String arg){
         ArrayList<Tweet> ret = new ArrayList<Tweet>();
