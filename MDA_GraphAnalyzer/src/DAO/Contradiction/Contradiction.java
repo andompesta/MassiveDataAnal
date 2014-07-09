@@ -1,8 +1,8 @@
 package DAO.Contradiction;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 /**
  * Created by ando on 19/06/14.

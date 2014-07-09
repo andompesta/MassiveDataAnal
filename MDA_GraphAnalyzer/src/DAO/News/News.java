@@ -11,7 +11,7 @@ public class News {
 
     public News(String text, long timestamp, String leadParagraph, String hdeadline) {
         this.text = text;
-        this.timestamp = timestamp;
+        this.timestamp = timestamp/1000;
         this.leadParagraph = leadParagraph;
         this.hdeadline = hdeadline;
     }

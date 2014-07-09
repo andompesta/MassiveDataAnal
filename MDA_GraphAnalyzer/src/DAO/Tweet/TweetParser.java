@@ -1,9 +1,9 @@
 package DAO.Tweet;
 
 import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 

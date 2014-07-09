@@ -5,6 +5,7 @@ import com.mongodb.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ando on 19/06/14.
@@ -42,16 +43,15 @@ public class MongoDB {
 
     public DBCollection getCollection(String collectionName){
         try{
-            DBCollection col = db.getCollection(collectionName);
-            return col;
+            return db.getCollection(collectionName);
         }catch(Exception e){
             e.printStackTrace();
             return null;
         }
     }
 
-    public ArrayList<News> getNews(DBCollection coll){
-        ArrayList<News> ret = null;
+    public List<News> getNews(DBCollection coll){
+        List<News> ret = null;
         try{
             ret = new ArrayList<News>();
             DBCursor newsIterator = coll.find();
@@ -74,8 +74,7 @@ public class MongoDB {
     public DBCollection createCollection(String CollectionName){
         try{
             DBObject options = BasicDBObjectBuilder.start().add("capped", true).get();
-            DBCollection col = db.createCollection(CollectionName,options);
-            return col;
+            return db.createCollection(CollectionName,options);
         }catch(Exception e){
             e.printStackTrace();
             return null;
