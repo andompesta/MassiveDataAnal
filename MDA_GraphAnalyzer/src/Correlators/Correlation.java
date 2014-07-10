@@ -1,9 +1,6 @@
-package DAO.News;
+package Correlators;
 import gr.demokritos.iit.jinsect.documentModel.representations.DocumentNGramGraph;
-import gr.demokritos.iit.jinsect.documentModel.representations.DocumentNGramSymWinGraph;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by ando on 05/07/14.
@@ -18,6 +15,30 @@ public class Correlation {
     public Correlation(int size, DocumentNGramGraph news) {
         this.scores = new Score[size];
         this.news = news;
+    }
+
+    public String toJson(){
+        String json = "{";
+        json += "\"scores\":[";
+        for(Score i : this.getScore()){
+            json += i.toString();
+            if (i.getIdContrPoin() < (scores.length-1) )
+                json += ",";
+        }
+        json += "],";
+        json += "\"text\" : \"" + textFormatter(this.getText()) + "\",";
+        json += "\"news\" : {} }";
+        return json;
+    }
+
+    private String textFormatter(String text) {
+        String ret = "";
+        for (String s : text.split("\\.\\n")) {
+            s = s.trim();
+            s = s.replaceAll("\\.","");
+            ret += s + "|.|";
+        }
+        return ret;
     }
 
     public Score[] getScore() {
@@ -43,4 +64,5 @@ public class Correlation {
     public void setText(String text) {
         this.text = text;
     }
+
 }

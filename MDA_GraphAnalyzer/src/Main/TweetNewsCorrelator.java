@@ -1,129 +1,37 @@
 package Main;
 
-import DAO.Contradiction.Contradiction;
-import DAO.Contradiction.ContradictionParser;
-import DAO.News.Correlation;
-import DAO.News.MongoDB;
-import DAO.News.News;
-import DAO.Tweet.Tweet;
-import DAO.Tweet.TweetParser;
-import Utils.NewsCorrelator;
-import com.google.gson.Gson;
-import com.google.gson.internal.Streams;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import gr.demokritos.iit.jinsect.documentModel.representations.DocumentNGramGraph;
-import gr.demokritos.iit.jinsect.documentModel.representations.DocumentNGramSymWinGraph;
-import gr.demokritos.iit.jinsect.utils;
+import Utils.TweetNewsCorrelationDoJob;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
+
+import org.apache.commons.lang3.time.StopWatch;
 
 /**
  * Created by andocavallari on 24/05/14.
  */
 public class TweetNewsCorrelator {
-    private static int minRank;
-    private static int maxRank;
-    private static int neighbourhoodDistance;
-    private static String topicName;
-    private static String dataPath;
-
-    private static void printToFile(String textToPrint, int index, int wSize) throws FileNotFoundException, UnsupportedEncodingException {
-        PrintWriter pf = new PrintWriter(dataPath +"/" + topicName + "/" + wSize + "/Score-"+index+".json","UTF-8");
-        pf.print(textToPrint);
-        pf.close();
-    }
-
-    private static String createJson(Gson builder, Correlation tc){
-        String json = "{";
-        json += "\"scores\" : " + builder.toJson(tc.getScore()) +",";
-        json += "\"text\" : \"" + tc.getText() + "\",";
-        json += "\"news\" : {} }";
-        return json;
-    }
 
 
 
     public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException{
+        String executionType = "truncate";
+        for (int i = 3; i < 8; i++){
+            TweetNewsCorrelationDoJob doCorrela = new TweetNewsCorrelationDoJob(i);
+            StopWatch timer = new StopWatch();
+            timer.start();
+            doCorrela.doJob(executionType);
+            timer.stop();
 
-        Properties prop = new Properties();
-        InputStream input = null;
-        MongoDB manager = new MongoDB();
-        try{
-            input = new FileInputStream("config/graph.properties");
-            prop.load(input);
-            minRank = Integer.parseInt(prop.getProperty("minRank"));
-            maxRank = Integer.parseInt(prop.getProperty("maxRank"));
-            neighbourhoodDistance = Integer.parseInt(prop.getProperty("neighbourhoodDistance"));
-            topicName = prop.getProperty("topicName");
-            dataPath = prop.getProperty("dataPath");
-
-            //Read contradiction-info
-            Map<String, Contradiction> contrad = ContradictionParser.parsContradictions();
-
-            manager.dbConnection();
-            DBCollection newsCollection = manager.getCollection("News-"+topicName);
-
-            //Lista di tutte le news lette dal Db
-            List<News> topicNews = manager.getNews(newsCollection);
-            System.out.println("Read all the news for the topic "+ topicName);
-
-            //Lista di tutti i tweet dei periodi di sentiment shift letti da file .json
-            List<ArrayList<Tweet>> contTweet = TweetParser.parsContrTweet(topicName);
-            System.out.println("Read all the contradiction tweet");
-/*
-            int[] numberOfTweet = new int[contTweet.size()];
-
-            for(int i = 0; i < contTweet.size() ; i++){
-                numberOfTweet[i] = contTweet.size();
+            try {
+                PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("data/performance/executiontime.txt", true)));
+                out.println(executionType +" execution time :	"+timer.toString()+ "\tneighbourhoodDistance : "+i+"\n");
+                out.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            int avr = calculateAverage(numberOfTweet);
-*/
-
-            List<Integer> wSizes = new ArrayList<Integer>();
-            wSizes.add( Integer.parseInt(prop.getProperty("5Size")) );
-            wSizes.add( Integer.parseInt(prop.getProperty("weekSize")) );
-            wSizes.add( Integer.parseInt(prop.getProperty("10Size")) );
-            wSizes.add( Integer.parseInt(prop.getProperty("monthSize")) );
-
-            NewsCorrelator nc = new NewsCorrelator(contTweet, contrad.get(topicName) , minRank, maxRank, neighbourhoodDistance, wSizes );
-
-            Gson builder = new Gson();
-            int i = 0;
-
-            //Start to compute correlation between news and contradiction tweet
-            for (News news : topicNews){
-                List<Correlation> experiments = nc.correlate(news);
-                i++;
-                System.out.println("Compute the correlation between news " + i + " and contradiction tweet");
-                int j = 0;
-                for (Correlation tc : experiments){
-                    //Save value on a json
-                    String json = createJson(builder, tc);
-                    printToFile( json, i, wSizes.get(j) );
-                    j++;
-                }
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally {
-            manager.dbConnectionClose();
         }
-    }
-
-
-    private static int calculateAverage(int[] numTweets) {
-        int sum = 0;
-        for (int num : numTweets) {
-                sum += num;
-            }
-        return sum / numTweets.length;
     }
 
     /*

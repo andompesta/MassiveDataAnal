@@ -1,5 +1,8 @@
 package DAO.Summary;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Comparator;
 
 /**
@@ -52,4 +55,5 @@ public class SentenceScore implements Comparator<SentenceScore>, Comparable<Sent
         ret = this.getSentence();
         return ret;
     }
+
 }

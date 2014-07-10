@@ -1,4 +1,4 @@
-package DAO.News;
+package Correlators;
 
 /**
  * Created by ando on 07/07/14.
@@ -15,6 +15,12 @@ public class Score {
     public Score(int idContrPoin, double score) {
         this.idContrPoin = idContrPoin;
         this.score = score;
+    }
+
+    @Override
+    public String toString(){
+        String ret = "{\"idContrPoin\":" + this.getIdContrPoin() + "," + "\"score\":"+this.getScore()+"}";
+        return  ret;
     }
 
     public int getIdContrPoin() {

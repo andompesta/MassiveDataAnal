@@ -16,7 +16,7 @@ collection = db[collectionName]
 for i in collection.find():
     text = i["full_text"]
     print(text)
-    text = text.replace(". ", ".\n")
+    text = text.replace("|.|", ".\n")
     print(text)
     i["full_text"] = text
     collection.save(i)

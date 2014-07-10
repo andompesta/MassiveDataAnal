@@ -1,10 +1,7 @@
-package Utils;
+package Correlators;
 
 import DAO.Contradiction.Contradiction;
-import DAO.Contradiction.ContradictionPoint;
-import DAO.News.Correlation;
 import DAO.News.News;
-import DAO.News.Score;
 import DAO.Tweet.Tweet;
 import gr.demokritos.iit.jinsect.documentModel.comparators.NGramCachedGraphComparator;
 import gr.demokritos.iit.jinsect.documentModel.representations.DocumentNGramGraph;
@@ -15,7 +12,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,40 +19,31 @@ import java.util.regex.Pattern;
 /**
  * Created by ando on 05/07/14.
  */
-public class NewsCorrelator {
-    private static int minRank;
-    private static int maxRank;
-    private static int neighbourhoodDistance;
-    private static List<Integer> windowSize;
+public class TruncateNewsCorrelator {
+    private int minRank;
+    private int maxRank;
+    private int neighbourhoodDistance;
+    private List<Integer> windowSize;
     private ContrGraph[] contradGraph;
 
-    public NewsCorrelator(List<ArrayList<Tweet>> contTweet, Contradiction contradiction, int minRank , int maxRank , int neighbourhoodDistance, List<Integer> wSize) {
+    public TruncateNewsCorrelator(List<ArrayList<Tweet>> contTweet, Contradiction contradiction, List<Integer> wSize, int neighbourhoodDistance) {
+        Properties prop = new Properties();
         try{
-            this.minRank = minRank;
-            this.maxRank = maxRank;
+            InputStream input = new FileInputStream("config/graph.properties");
+            prop.load(input);
+            this.minRank = Integer.parseInt(prop.getProperty("minRank"));
+            this.maxRank = Integer.parseInt(prop.getProperty("maxRank"));
             this.neighbourhoodDistance = neighbourhoodDistance;
             this.windowSize = wSize;
-
-            int size = (contTweet.size()//se vuoi eliminare elementi
-            );
-
+            int size = (contTweet.size());//se vuoi eliminare elementi
             this.contradGraph = new ContrGraph[size];
 
             //Calcolo il grafo del merge dei tweet di contraddizione
-            for(int i = 0; i < size ; i++){
-                String graphText = "";
-                int count = 0;
-                for(Tweet tweet : contTweet.get(i)){
-                    graphText += removeUrl(tweet.getText()) + " ";
-                    count ++;
-                    System.out.println(count);
-                }
-                //Set data to the contradicion graph
-                contradGraph[i] = new ContrGraph(i, contradiction.getContradictions()[i].getTimeBegin(), contradiction.getContradictions()[i].getTimeEnd());
-                contradGraph[i].setContGraph(graphText);
-            }
-
+            mergingGraph(size, contTweet, contradiction);
             System.out.println("Graph of the contradiction tweet compute correctly");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
             /*
             metodo corretto, ora provo a farlo + veloce
             DocumentNGramSymWinGraph temp;
@@ -69,6 +56,7 @@ public class NewsCorrelator {
             */
 
             /*
+            intersection
             for(int i = 0; i < size ; i++){
                 DocumentNGramGraph g = new DocumentNGramSymWinGraph(minRank, maxRank , neighbourhoodDistance);
                 for(Tweet tweet : contTweet.get(i)){
@@ -77,8 +65,27 @@ public class NewsCorrelator {
                 }
             }
             */
-        }catch(Exception e){
-            e.printStackTrace();
+    }
+
+    private void mergingGraph(int size, List<ArrayList<Tweet>> contTweet, Contradiction ct) throws Exception {
+        //Calcolo il grafo del merge dei tweet di contraddizione
+        for(int i = 0; i < size ; i++){
+            String graphText = "";
+            int count = 0;
+            for(Tweet tweet : contTweet.get(i)){
+                graphText += removeUrl(tweet.getText()) + " ";
+                count ++;
+                System.out.println(count);
+            }
+            //Set data to the contradicion graph
+            if (i < ct.getContradictions().length){
+                contradGraph[i] = new ContrGraph(i, ct.getContradictions()[i].getTimeBegin(), ct.getContradictions()[i].getTimeEnd());
+                contradGraph[i].setContGraph(graphText);
+            }
+            else {
+                throw new Exception("Error on the index of the merginGraph function");
+            }
+
         }
     }
 
@@ -159,14 +166,6 @@ public class NewsCorrelator {
         private long beginCon;
         private long endCon;
         private DocumentNGramGraph contGraph;
-
-        private ContrGraph(){}
-
-        private ContrGraph(long beginCon, long endCon) {
-            this.beginCon = beginCon;
-            this.endCon = endCon;
-            this.contGraph = new DocumentNGramSymWinGraph(minRank, maxRank, neighbourhoodDistance);
-        }
 
         private ContrGraph(DocumentNGramGraph contGraph) {
             this.beginCon = 0;

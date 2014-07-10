@@ -12,13 +12,12 @@ import java.util.Arrays;
  */
 public class TweetParser {
     private static BufferedReader dataset;
-    private static String path = "/home/ando/MassiveDataAnal/MDA_GraphAnalyzer/";
 
     public static ArrayList<Tweet> parsTweet(String arg){
         ArrayList<Tweet> ret = new ArrayList<Tweet>();
         BufferedReader dataset;
         try {
-            dataset = new BufferedReader(new FileReader(path+"data/twitter-selected/"+arg));
+            dataset = new BufferedReader(new FileReader("data/twitter-selected/"+arg));
             String line = new String();
             while ((line = dataset.readLine()) != null) {
                 String[] str = line.split("\t");
@@ -37,7 +36,7 @@ public class TweetParser {
         //Type arrTy = temp.getClass();
         BufferedReader dataset;
         try {
-            dataset = new BufferedReader(new FileReader(path+"contradiction-tweet/"+arg+"-contr-tweet.json"));
+            dataset = new BufferedReader(new FileReader("contradiction-tweet/"+arg+"-contr-tweet.json"));
             String line = new String();
             while ((line = dataset.readLine()) != null) {
                 Gson builder = new Gson();
