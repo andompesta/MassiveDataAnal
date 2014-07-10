@@ -3,6 +3,7 @@ import json
 from gensim import corpora, models
 
 from preprocess import Preprocessing
+from utilities import readConfigFile
 
 def readTweetsFiles(tweetsFolder,infoFolder) :
 	
@@ -35,6 +36,7 @@ def readTweetsFiles(tweetsFolder,infoFolder) :
 
 				text = ''.join(contrText).strip()
 				contradictionList[topic]['contradictions'][j]['text'] = text
+				contradictionList[topic]['contradictions'][j]['size'] = len(topicContr)
 	
 	print '\rParsing tweets: 100%'
 	return contradictionList.values()
@@ -61,13 +63,6 @@ def summarizeTweets(tweetsFolder,infoFolder,pp,outputFilename,kTerms) :
 
 	with open(outputFilename,'w') as f :
 		f.write(json.dumps(contradictionList))
-
-
-def readConfigFile(path) :
-	with open(path,'r') as f :
-		lines = [l for l in f if l != '' and l[0] != '#']
-		params = map(lambda t : (t[0].strip(),t[-1].strip()), map(lambda l : l.partition('='),lines))
-		return dict(params)
 
 if __name__ == '__main__' :
 	import getopt
