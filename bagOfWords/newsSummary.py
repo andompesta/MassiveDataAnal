@@ -3,9 +3,10 @@ import json
 from gensim import corpora, models
 
 from preprocess import Preprocessing
+from utilities import readConfigFile
 
 def readNewsFiles(folder) :
-	news = []
+	news = {}
 	paths = map(lambda x: folder+x, os.listdir(folder))
 	i = 0
 	
@@ -13,37 +14,41 @@ def readNewsFiles(folder) :
 		print "\rParsing news: " + str(int((i/float(len(paths)))*100)) + '%',
 		with open(path) as f :
 			topicJson = json.loads(f.read())
+			topic = topicJson['topic']
+			news[topic] = {'topic' : topic, 'articles' : []}
 			for article in topicJson['articles'] :
-				news.append((article['_id'],topicJson['topic'],article['pub_date'],article['full_text']))
+				newFormat = {'_id' : article['_id'], 'pub_date' : article['pub_date'], 'full_text' : article['full_text']}
+				news[topic]['articles'].append(newFormat)
 		i += 1
 
 	print '\rParsing news: 100%'
-	return news
+	return news.values()
 
 def summarizeNews(newsFolder,pp,outputFilename,kTerms) :
 	news = readNewsFiles(newsFolder)
-	texts = map(lambda x: pp.processDoc(x[-1]),news)
+	texts = []
+	
+	#texts = map(lambda x: pp.processDoc(x[-1]),news)
+	
+	for topic in news :
+		for article in topic['articles'] :
+			texts.append(pp.processDoc(article['full_text']))
+
 	dictionary = corpora.Dictionary(texts)
 	corpus = [dictionary.doc2bow(text) for text in texts]
 	tfidf = models.TfidfModel(corpus)
 	output = []
 
-	for (i,t,d,text) in news :
-		tokens = pp.processDoc(text)
-		bow = dictionary.doc2bow(tokens)
-		summary = map(lambda x:(dictionary[x[0]],x[1]), sorted(tfidf[bow],key=lambda x:x[1],reverse=True)[:kTerms])
-
-		output.append({'id':i,'topic':t,'pub_date':d,'summary':summary})
+	for topic in news :
+		for article in topic['articles'] :
+			tokens = pp.processDoc(article['full_text'])
+			bow = dictionary.doc2bow(tokens)
+			summary = map(lambda x:(dictionary[x[0]],x[1]), sorted(tfidf[bow],key=lambda x:x[1],reverse=True)[:kTerms])
+			article['summary'] = summary
+			article.pop('full_text')
 
 	with open(outputFilename,'w') as f :
-		output = ''.join(map(lambda x: json.dumps(x)+'\n',output))
-		f.write(output)
-
-def readConfigFile(path) :
-	with open(path,'r') as f :
-		lines = [l for l in f if l != '' and l[0] != '#']
-		params = map(lambda t : (t[0].strip(),t[-1].strip()), map(lambda l : l.partition('='),lines))
-		return dict(params)
+		f.write(json.dumps(news))
 
 if __name__ == '__main__' :
 	import getopt
