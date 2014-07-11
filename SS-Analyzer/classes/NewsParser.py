@@ -2,12 +2,15 @@ import json
 from datetime import date
 
 class NewsParser :
-	def __init__(self, newsFile) :
+	def __init__(self, publisher, newsFile, topic) :
 		self.contentList = []
 		try :
 			with open(newsFile, "r") as fin :
-				for line in fin :
-					news = json.loads(line.rstrip())
+				FileContent = json.loads(fin.readline().rstrip())
+				t = FileContent["topic"]
+				if t.lower() != topic.lower() :
+					print("WARNING: the {0} news file may contain news on a different topic {1}".format(publisher, t))
+				for news in FileContent["articles"] :
 					headline = news["headline"]["main"] or ""
 					lead_paragraph = news["lead_paragraph"] or ""
 					full_text = news["full_text"] or ""
