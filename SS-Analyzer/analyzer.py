@@ -65,12 +65,12 @@ if __name__ == "__main__" :
 		for idx in range(len(timeIntervals)) :
 			comparator[idx].compare(n, "NYT")
 	# Reading news from ABC Australia
-#	print("Reading news from ABC")
-#	np = NewsParser("ABC", config["Paths"]["ABCfile"].replace("X", args.topic), args.topic)
-#	news = np.getNewsText()
-#	for n in news :
-#		for idx in range(len(timeIntervals)) :
-#			comparator[idx].compare(n, "ABC Australia")
+	print("Reading news from ABC")
+	np = NewsParser("ABC", config["Paths"]["ABCfile"].replace("X", args.topic), args.topic)
+	news = np.getNewsText()
+	for n in news :
+		for idx in range(len(timeIntervals)) :
+			comparator[idx].compare(n, "ABC Australia")
 	# Reading news from wikipedia and comparing
 	print("Reading news from Wikipedia")
 	wp = WikiParser(config["Paths"]["WikiEvents"], config["Paths"]["WikiDeaths"])

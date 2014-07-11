@@ -11,7 +11,9 @@ class NewsParser :
 				if t.lower() != topic.lower() :
 					print("WARNING: the {0} news file may contain news on a different topic {1}".format(publisher, t))
 				for news in FileContent["articles"] :
-					headline = news["headline"]["main"] or ""
+					if publisher == "NYT" : headline = news["headline"]["main"] or ""
+					elif publisher == "ABC": headline = news["title"]
+					else : headline = ""
 					lead_paragraph = news["lead_paragraph"] or ""
 					full_text = news["full_text"] or ""
 					content = headline + lead_paragraph + full_text
