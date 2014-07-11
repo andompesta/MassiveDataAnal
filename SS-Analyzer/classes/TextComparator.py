@@ -25,7 +25,7 @@ class TextComparator :
 		self.scoreList.append(score)
 		if score > self.bestScore :
 			self.bestScore = score
-			self.bestText = text["content"]
+			self.bestText = text["content"][:150]
 			self.bestDate = text["pub_date"]
 			self.bestPublisher = publisher
 
@@ -44,4 +44,4 @@ class TextComparator :
 			print("WARNING: python 3.4 is required to compute the statistics")
 			mean = stdev = 0
 		print("Mean: {0}\nStdDev: {1}".format(mean, stdev))
-		print("Best news published on: {0} by {3}\tScore:{1}\n{2}".format(self.bestDate, self.bestScore, self.bestText, self.bestPublisher))
+		print("Best news published on: {0} by {3}\tScore:{1}\n{2}...".format(self.bestDate, self.bestScore, self.bestText, self.bestPublisher))
