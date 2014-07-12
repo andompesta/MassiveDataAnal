@@ -5,24 +5,22 @@ from gensim import corpora, models
 from preprocess import Preprocessing
 from utilities import readConfigFile
 
-def readTweetsFiles(tweetsFolder,infoFolder) :
+def readShiftFiles(shiftTweetsFolder,shiftInfoFolder) :
 	
 	# reads the contradiction info files
-	contradictionList = {}
-	infoPaths = map(lambda x: infoFolder+x, os.listdir(infoFolder))
-	for path in infoPaths :
+	shiftList = {}
+	shiftInfoPaths = map(lambda x: shiftInfoFolder+x, os.listdir(shiftInfoFolder))
+	for path in shiftInfoPaths :
 		topic = path.split('/')[-1].partition('.')[0]
-		contradictionList[topic] = {'topic' : topic}
-
+		
 		with open(path,'r') as f :
 			infoJson = json.loads(f.read())
-			contradictionList[topic]['contradictions'] = infoJson['contradictions']
+			shiftList[topic] = infoJson['contradictions']
 
 	# reads the contradiction tweets files
-	tweetsPaths = map(lambda x: tweetsFolder+x, os.listdir(tweetsFolder))
+	shiftTweetsPaths = map(lambda x: shiftTweetsFolder+x, os.listdir(shiftTweetsFolder))
 
-	for i, path in enumerate(tweetsPaths) :
-		print "\rParsing tweets: " + str(int((i/float(len(tweetsPaths)))*100)) + '%',
+	for i, path in enumerate(shiftTweetsPaths) :		
 
 		with open(path) as f :
 			topic = path.split('/')[-1].partition('-')[0]
@@ -35,34 +33,52 @@ def readTweetsFiles(tweetsFolder,infoFolder) :
 					contrText.append(' '+t['text'])
 
 				text = ''.join(contrText).strip()
-				contradictionList[topic]['contradictions'][j]['text'] = text
-				contradictionList[topic]['contradictions'][j]['size'] = len(topicContr)
-	
-	print '\rParsing tweets: 100%'
-	return contradictionList.values()
+				shiftList[topic][j]['text'] = text
+				shiftList[topic][j]['size'] = len(topicContr[j])
+		
+	return shiftList
 
-def summarizeTweets(tweetsFolder,infoFolder,pp,outputFilename,kTerms) :
-	contradictionList = readTweetsFiles(tweetsFolder,infoFolder)
-	texts = []
+def readTweetsFiles(tweetsFolder) :
+	tweets = {}
+	tweetsPaths = map(lambda x: tweetsFolder+x, os.listdir(tweetsFolder))
+	for path in tweetsPaths :
+		topic = path.split('/')[-1].partition('.')[0]
+		with open(path,'r') as f :
+			tweets[topic]= json.loads(f.read())
 
-	for topic in contradictionList :
-		for contr in topic['contradictions'] :
-			texts.append( pp.processDoc(contr['text']) )
+	return tweets
 
-	dictionary = corpora.Dictionary(texts)
-	corpus = [dictionary.doc2bow(text) for text in texts]
-	tfidf = models.TfidfModel(corpus)
 
-	for topic in contradictionList :
-		for contr in topic['contradictions'] :
+def summarizeTweets(tweetsFolder,shiftTweetsFolder,shiftInfoFolder,pp,outputFilename,kTerms) :
+	shiftList = readShiftFiles(shiftTweetsFolder,shiftInfoFolder)
+	tweets = readTweetsFiles(tweetsFolder)
+
+	baselines = {}
+	tfidfModels = {}
+	for topic in tweets :
+		baselines[topic] = []
+		for t in tweets[topic] :
+			baselines[topic].append( pp.processDoc(t['text']) )
+
+	dictionary = corpora.Dictionary([tweet for topic in baselines for tweet in baselines[topic]])
+
+	for topic in set(shiftList).intersection(set(tweets)) :
+		
+		corpus = [dictionary.doc2bow(text) for text in baselines[topic]]
+		tfidf = models.TfidfModel(corpus)
+		
+		for contr in shiftList[topic] :
 
 			tokens = pp.processDoc(contr['text'])
 			bow = dictionary.doc2bow(tokens)
 			contr['summary'] = map(lambda x:(dictionary[x[0]],x[1]), sorted(tfidf[bow],key=lambda x:x[1],reverse=True)[:kTerms])
 			contr.pop('text')
 
+	for topic in set(shiftList)-set(tweets) :
+		shiftList.pop(topic)
+
 	with open(outputFilename,'w') as f :
-		f.write(json.dumps(contradictionList))
+		f.write(json.dumps(shiftList))
 
 if __name__ == '__main__' :
 	import getopt
@@ -123,14 +139,21 @@ if __name__ == '__main__' :
 		sys.exit(2)
 
 	params = readConfigFile(configurationPath)
-	if 'contradictions_info_folder' not in params or 'contradictions_tweets_folder' not in params :
-		sys.stderr.write('[ERR] The configuration file must include the contradictions info and tweets folders path\nFORMAT:\ncontradictions_info_folder = ...\ncontradictions_tweets_folder = ...\n')
+	if 'shift_info_folder' not in params or 'shift_tweets_folder' not in params :
+		sys.stderr.write('[ERR] The configuration file must include the contradictions info/tweets folders path\nFORMAT:\ncontradictions_info_folder = ...\ncontradictions_tweets_folder = ...\n')
 		sys.exit(2)
 
-	infoFolder = params['contradictions_info_folder']
-	if not infoFolder.endswith('/') :
-		infoFolder += '/'
-	tweetsFolder = params['contradictions_tweets_folder']
+	if 'tweets_folder' not in params :
+		sys.stderr.write('[ERR] The configuration file must include the tweets folder path\nFORMAT:\ntweets_folder = ...\n')
+		sys.exit(2)
+
+	shiftInfoFolder = params['shift_info_folder']
+	if not shiftInfoFolder.endswith('/') :
+		shiftInfoFolder += '/'
+	shiftTweetsFolder = params['shift_tweets_folder']
+	if not shiftTweetsFolder.endswith('/') :
+		shiftTweetsFolder += '/'
+	tweetsFolder = params['tweets_folder']
 	if not tweetsFolder.endswith('/') :
 		tweetsFolder += '/'
 
@@ -144,4 +167,4 @@ if __name__ == '__main__' :
 	else : threshold = 0
 
 	preprocessor = Preprocessing(stopwords=stopwords, punctuation=punctuation, dpatterns=dpatterns, threshold=threshold)
-	summarizeTweets(tweetsFolder,infoFolder,preprocessor,outputFilename,summarySize)	
+	summarizeTweets(tweetsFolder,shiftTweetsFolder,shiftInfoFolder,preprocessor,outputFilename,summarySize)	

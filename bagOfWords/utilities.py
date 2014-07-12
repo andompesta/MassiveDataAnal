@@ -12,4 +12,7 @@ def unixTime(dt):
 	hh,mm,ss = map(int,dt[-1].split(':'))
 	epoch = datetime.datetime.utcfromtimestamp(0)
 	delta = datetime.datetime(YYYY,MM,DD,hh,mm,ss) - epoch
-	return delta.total_seconds()
+	return int(delta.total_seconds())
+
+def readableDatetime(timestamp):
+	return str(datetime.datetime.utcfromtimestamp(timestamp)).replace(' ','T') + 'Z'

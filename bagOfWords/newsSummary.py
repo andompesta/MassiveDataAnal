@@ -8,44 +8,39 @@ from utilities import readConfigFile
 def readNewsFiles(folder) :
 	news = {}
 	paths = map(lambda x: folder+x, os.listdir(folder))
-	i = 0
 	
 	for path in paths :
-		print "\rParsing news: " + str(int((i/float(len(paths)))*100)) + '%',
 		with open(path) as f :
 			topicJson = json.loads(f.read())
 			topic = topicJson['topic']
-			news[topic] = {'topic' : topic, 'articles' : []}
+			news[topic] = {}
 			for article in topicJson['articles'] :
-				newFormat = {'_id' : article['_id'], 'pub_date' : article['pub_date'], 'full_text' : article['full_text']}
-				news[topic]['articles'].append(newFormat)
-		i += 1
+				news[topic][article['_id']['$oid']] = {'pub_date' : article['pub_date'], 'full_text' : article['full_text']}
 
-	print '\rParsing news: 100%'
-	return news.values()
+	return news
 
 def summarizeNews(newsFolder,pp,outputFilename,kTerms) :
 	news = readNewsFiles(newsFolder)
-	texts = []
 	
-	#texts = map(lambda x: pp.processDoc(x[-1]),news)
-	
+	baselines = {}
 	for topic in news :
-		for article in topic['articles'] :
-			texts.append(pp.processDoc(article['full_text']))
+		baselines[topic] = []
+		for article in news[topic].values() :
+			baselines[topic].append(pp.processDoc(article['full_text']))
 
-	dictionary = corpora.Dictionary(texts)
-	corpus = [dictionary.doc2bow(text) for text in texts]
-	tfidf = models.TfidfModel(corpus)
-	output = []
+	dictionary = corpora.Dictionary([text for topic in baselines for text in baselines[topic]])
 
 	for topic in news :
-		for article in topic['articles'] :
-			tokens = pp.processDoc(article['full_text'])
+		
+		corpus = [dictionary.doc2bow(text) for text in baselines[topic]]
+		tfidf = models.TfidfModel(corpus)
+		
+		for artId in news[topic] :
+			tokens = pp.processDoc(news[topic][artId]['full_text'])
 			bow = dictionary.doc2bow(tokens)
 			summary = map(lambda x:(dictionary[x[0]],x[1]), sorted(tfidf[bow],key=lambda x:x[1],reverse=True)[:kTerms])
-			article['summary'] = summary
-			article.pop('full_text')
+			news[topic][artId]['summary'] = summary
+			news[topic][artId].pop('full_text')
 
 	with open(outputFilename,'w') as f :
 		f.write(json.dumps(news))

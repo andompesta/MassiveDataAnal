@@ -63,7 +63,7 @@ class Preprocessing :
 		for token in document :
 			if not token in counter : counter[token] = 1
 			else : counter[token] += 1
-		document = [t for t in document if counter[t] > self.threshold]
+		document = [t for t in document if counter[t] >= self.threshold]
 
 		# stopwords filtering
 		return [token for token in document if token not in self.stopwords and token != '']
