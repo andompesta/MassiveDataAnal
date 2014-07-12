@@ -47,7 +47,7 @@ if __name__ == "__main__" :
 	# Iterating and computing score
 	
 	commit = subprocess.check_output(["git", "show", "--oneline"])
-	print(str(commit))
+	print(str(commit).split()[0])
 	ss = 0
 	gram = 0
 	lsa = 0
@@ -76,5 +76,5 @@ if __name__ == "__main__" :
 		for news in newsSample : print(news["content"][0:100])
 		ss, gram, lsa = getScore(-1, ss, gram, lsa)
 	
-	print("\n" + str(commit))
+	print("\n" + str(commit).split()[0])
 	print("Scores: SS={0}\tngram={1}\tLSA={2}".format(ss, gram, lsa))
