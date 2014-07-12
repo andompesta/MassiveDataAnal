@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import json, configparser, argparse, random
+import json, configparser, argparse, random, sys
 
 if __name__ == "__main__" :
 	parser = argparse.ArgumentParser(description="Extract tweets of given topic and contradiction point")
@@ -13,6 +13,16 @@ if __name__ == "__main__" :
 
 	contrFile = config["Paths"]["ContrFile"].replace("XXX", args.topic)
 	tweetsFile = config["Paths"]["TweetFile"].replace("XXX", args.topic)
+	
+	# Check whether a label already exists
+	contrs = json.load(open(contrFile,'r'))
+	try :
+		prev_label = contrs["contradictions"][args.point - 1]["label"]
+		if prev_label != None :
+			ans = input("WARNING: this point has already been marked as {0}. Want to continue? (y/N) ".format(prev_label))
+			if ans != "y": sys.exit(0)
+	except KeyError:
+		pass
 
 	with open(tweetsFile, 'r') as fin :
 		tweets = json.loads(fin.readlines()[args.point - 1])
@@ -21,11 +31,9 @@ if __name__ == "__main__" :
 			for s in sample : print(s["text"])
 			label = input("Insert the label for this contradiction or an empty line: ")
 			print()
-			if label != "" : 
-                            break
+			if label != "" : break
 	
 	# Writing the label on the contradiction file
-	contrs = json.load(open(contrFile,'r'))
 	contrs["contradictions"][args.point - 1]["label"] = label
 	json.dump(contrs, open(contrFile, 'w'))
 
