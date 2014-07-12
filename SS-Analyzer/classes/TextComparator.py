@@ -5,8 +5,9 @@ except ImportError :
 	print("If you don't care about stats you can go ahead, everything will be fine")
 
 class TextComparator :
-	def __init__(self, timeInterval, wordsValues) :
+	def __init__(self, timeInterval, windowsize, wordsValues) :
 		self.timeInterval = timeInterval
+		self.windowsize = windowsize
 		self.wordsValues = wordsValues
 		self.scoreList = []
 		self.bestText = ""
@@ -15,7 +16,7 @@ class TextComparator :
 		self.bestPublisher = None
 
 	def compare(self, text, publisher) :
-		if text["pub_date"] < self.timeInterval["begin"] or text["pub_date"] > self.timeInterval["end"] :
+		if text["pub_date"] < (self.timeInterval["begin"] - windowsize) or text["pub_date"] > (self.timeInterval["end"] +windowsize) :
 			return
 		score = 0
 		for word in text["content"].lower().split() :

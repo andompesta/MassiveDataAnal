@@ -56,7 +56,8 @@ if __name__ == "__main__" :
 			commonWordsValues.append(ss.getSmartList())
 
 	# Initializing the comparator class
-	comparator = [TextComparator(i, commonWordsValues[idx]) for idx, i in enumerate(timeIntervals)]
+	wsize = date.timedelta(days=3)
+	comparator = [TextComparator(i, wsize, commonWordsValues[idx]) for idx, i in enumerate(timeIntervals)]
 	# Reading news from NYT and comparing
 	print("Reading news from NYT")
 	np = NewsParser("NYT", config["Paths"]["NYTFile"].replace("X", args.topic), args.topic)
