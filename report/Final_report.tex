@@ -1,0 +1,95 @@
+\documentclass{acm_proc_article-sp-sigmod07}
+
+\usepackage{times}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{color}
+\usepackage{url}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{newclude}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{caption}
+%\usepackage[toc,page]{appendix}
+
+%\usepackage{hyperref}
+% Pacchetti per poter scrivere con la tastiera italiana
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc} %Aumenta la resa dei caratteri quando si stampa
+
+% Pacchetto per scrivere in italiano
+\usepackage[english]{babel}
+
+% Pacchetti matematici vari
+% Pacchetti base
+
+\usepackage{makeidx} % Pacchetto per l'indice analitico
+\usepackage{mparhack} % Pacchetto che corregge alcuni errori nei magini della pagina 
+\usepackage{marginnote} % Pacchetto che permette di scrivere note a margine 
+\usepackage{listings} % Pacchetto necessario per scrivere codice sorgente 
+\usepackage{braket} % Pacchetto che permette di scrivere tutte le parentesi
+\usepackage{csquotes}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{changepage}
+\usepackage{cite}
+\usepackage[english]{varioref}
+
+\usepackage[letterpaper]{geometry}
+\geometry{top=1.0in, bottom=1.0in, left=1.0in, right=1.0in}
+
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{blue},
+  commentstyle=\itshape\color{green},
+  identifierstyle=\color{black},
+  stringstyle=\color{orange},
+}
+
+\lstdefinestyle{customasm}{
+  belowcaptionskip=1\baselineskip,
+  frame=L,
+  xleftmargin=\parindent,
+  language=[x86masm]Assembler,
+  basicstyle=\footnotesize\ttfamily,
+  commentstyle=\itshape\color{purple!40!black},
+}
+
+\lstset{escapechar=@,style=customc}
+
+
+\begin{document}
+\title{Event summarization from news and tweets correlation}
+\author{Cavallari Sandro\\Giglio Marco\\Morettin Paolo}
+
+%
+\maketitle
+\begin{abstract}
+\end{abstract}
+
+\section*{Introduction}
+
+\section*{Related Work}
+\include*{RelatedWork}
+
+\section*{Problem Definition}
+\include*{ProblemDefinition}
+
+\section*{Proposed Approach}
+\include*{ProposedApproach}
+
+\section*{Experimental Evaluation}
+\include*{ExperimentalEvaluation}
+
+\section*{Conclusions}
+
+\end{document}
