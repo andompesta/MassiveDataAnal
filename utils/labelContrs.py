@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import json, configparser, argparse, random, sys
+from datetime import date
 
 if __name__ == "__main__" :
 	parser = argparse.ArgumentParser(description="Extract tweets of given topic and contradiction point")
@@ -16,13 +17,15 @@ if __name__ == "__main__" :
 	
 	# Check whether a label already exists
 	contrs = json.load(open(contrFile,'r'))
+	point = contrs["contradictions"][args.point -1]
 	try :
-		prev_label = contrs["contradictions"][args.point - 1]["label"]
+		prev_label = point["label"]
 		if prev_label != None :
 			ans = input("WARNING: this point has already been marked as {0}. Want to continue? (y/N) ".format(prev_label))
 			if ans != "y": sys.exit(0)
 	except KeyError:
 		pass
+	print("Contradiction ranging in {0} - {1}".format(date.fromtimestamp(point["timeBegin"]), date.fromtimestamp(point["timeEnd"])))
 
 	with open(tweetsFile, 'r') as fin :
 		tweets = json.loads(fin.readlines()[args.point - 1])
