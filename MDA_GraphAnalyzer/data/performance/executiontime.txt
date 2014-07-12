@@ -1,0 +1,73 @@
+CERN
+truncate execution time :	0:00:18.679	neighbourhoodDistance : 3
+
+truncate execution time :	0:00:18.216	neighbourhoodDistance : 3
+
+truncate execution time :	0:00:19.114	neighbourhoodDistance : 3
+
+truncate execution time :	0:00:38.337	neighbourhoodDistance : 4
+
+truncate execution time :	0:57:40.713	neighbourhoodDistance : 5
+
+truncate execution time :	2:02:29.871	neighbourhoodDistance : 6
+
+truncate execution time :	0:02:44.878	neighbourhoodDistance : 7
+
+NASA
+truncate execution time :	0:00:19.533	neighbourhoodDistance : 3
+
+truncate execution time :	0:00:26.526	neighbourhoodDistance : 4
+
+truncate execution time :	0:00:39.949	neighbourhoodDistance : 5
+
+truncate execution time :	0:01:17.872	neighbourhoodDistance : 7
+
+truncate execution time :	0:00:20.291	neighbourhoodDistance : 3
+
+truncate execution time :	0:00:27.562	neighbourhoodDistance : 4
+
+truncate execution time :	0:00:37.872	neighbourhoodDistance : 5
+
+truncate execution time :	0:01:14.702	neighbourhoodDistance : 7
+
+LCROSS
+truncate execution time :	0:00:02.934	neighbourhoodDistance : 3
+
+truncate execution time :	0:00:01.045	neighbourhoodDistance : 4
+
+truncate execution time :	0:00:00.854	neighbourhoodDistance : 5
+
+truncate execution time :	0:00:01.132	neighbourhoodDistance : 6
+
+truncate execution time :	0:00:01.458	neighbourhoodDistance : 7
+
+MichaelJackson
+truncate execution time :	1:24:24.929	neighbourhoodDistance : 3
+
+truncate execution time :	4:47:44.666	neighbourhoodDistance : 4
+
+HANGOVER
+
+truncate execution time :	0:03:21.545	neighbourhoodDistance : 3
+
+truncate execution time :	0:09:34.886	neighbourhoodDistance : 4
+
+truncate execution time :	0:17:40.223	neighbourhoodDistance : 5
+
+truncate execution time :	0:31:08.306	neighbourhoodDistance : 6
+
+truncate execution time :	0:50:03.162	neighbourhoodDistance : 7
+
+truncate execution time :	0:00:46.153	neighbourhoodDistance : 3
+
+truncate execution time :	0:01:40.113	neighbourhoodDistance : 4
+
+truncate execution time :	0:03:17.573	neighbourhoodDistance : 5
+
+Harry Potter
+truncate execution time :	0:17:06.815	neighbourhoodDistance : 3
+
+truncate execution time :	0:47:23.889	neighbourhoodDistance : 4
+
+truncate execution time :	1:25:03.958	neighbourhoodDistance : 5
+

@@ -1,0 +1,4 @@
+The collider was designed to investigate what happens at energies and temperatures so high that the reigning theory of particle physics called the Standard Model breaks down
+When the beams began circulating again on Friday, CERN officials said they expected the first collisions to happen in early December
+Other physics labs, like the Stanford Linear Accelerator Center, have converted their accelerators into powerful X-ray sources, which can be used to plumb the properties and structures of molecules in work that led to this year’s Nobel Prize in chemistry
+Subsequent work revealed that the machine was riddled with thousands of connections unable to handle the high currents required to run the collider at its intended energy
