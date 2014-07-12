@@ -20,18 +20,20 @@ def readShiftSummaryFile(path) :
 		return json.loads(f.read())
 
 
-def evaluate(newsPath,shiftSumPath,newsSumPath,similPath, outPath) :
+def evaluate(newsPath,shiftSumPath,newsSumPath,similPath, outputFolder) :
 
 	news = readNewsFiles(newsPath)
 	shiftSum = readShiftSummaryFile(shiftSumPath)
 	newsSum = readNewsSummaryFile(newsSumPath)
 	similarities = readSimilarityFile(similPath)
 
-	evaluation = ''
+	
 
-	#for topic in similarities :
-	for topic in ['Cern','Lcross','MichaelJackson','Hangover'] :
-		evaluation += '--------------------------------------------------------\n'
+	for topic in set(similarities).intersection(set(newsSum)).intersection(set(shiftSum)).intersection(set(news)) :
+	#for topic in ['Cern','Lcross','MichaelJackson','Hangover'] :
+	
+
+		evaluation = '--------------------------------------------------------\n'
 		evaluation += topic + '\n'
 		for i in xrange(len(similarities[topic])) :
 
@@ -53,8 +55,8 @@ def evaluate(newsPath,shiftSumPath,newsSumPath,similPath, outPath) :
 			else : evaluation += '\nNo match found' + '\n'
 		evaluation += '\n'
 
-	with open(outPath,'w') as f :
-		f.write(evaluation.encode('utf-8'))
+		with open(outputFolder+'eval_'+topic+'.txt','w') as f :
+			f.write(evaluation.encode('utf-8'))
 
 fldr = 'data/results/'
-evaluate('data/news/',fldr+'shiftSummary.json',fldr+'newsSummary.json',fldr+'similarities.json',fldr+'evaluation.txt')
+evaluate('data/news/',fldr+'shiftSummary.json',fldr+'newsSummary.json',fldr+'similarities.json',fldr+'evals/')

@@ -5,45 +5,45 @@ from gensim import corpora, models
 from preprocess import Preprocessing
 from utilities import readConfigFile
 
-def readNewsFiles(folder) :
-	news = {}
-	paths = map(lambda x: folder+x, os.listdir(folder))
+def readNewsFile(path) :
+
+	news = None
 	
+	with open(path) as f :
+		topicJson = json.loads(f.read())
+		topic = topicJson['topic']
+		news = {}
+		for article in topicJson['articles'] :
+			news[article['_id']['$oid']] = {'pub_date' : article['pub_date'], 'full_text' : article['full_text']}
+
+	return topic,news
+
+def summarizeNews(newsFolder,pp,outputFolder,kTerms) :
+	
+	paths = map(lambda x: newsFolder+x, os.listdir(newsFolder))
+
 	for path in paths :
-		with open(path) as f :
-			topicJson = json.loads(f.read())
-			topic = topicJson['topic']
-			news[topic] = {}
-			for article in topicJson['articles'] :
-				news[topic][article['_id']['$oid']] = {'pub_date' : article['pub_date'], 'full_text' : article['full_text']}
 
-	return news
-
-def summarizeNews(newsFolder,pp,outputFilename,kTerms) :
-	news = readNewsFiles(newsFolder)
-	
-	baselines = {}
-	for topic in news :
-		baselines[topic] = []
-		for article in news[topic].values() :
-			baselines[topic].append(pp.processDoc(article['full_text']))
-
-	dictionary = corpora.Dictionary([text for topic in baselines for text in baselines[topic]])
-
-	for topic in news :
+		topic,news = readNewsFile(path)
 		
-		corpus = [dictionary.doc2bow(text) for text in baselines[topic]]
+		baseline = []
+
+		for article in news.values() :
+			baseline.append(pp.processDoc(article['full_text']))
+
+		dictionary = corpora.Dictionary(baseline)
+		corpus = [dictionary.doc2bow(text) for text in baseline]
 		tfidf = models.TfidfModel(corpus)
 		
-		for artId in news[topic] :
-			tokens = pp.processDoc(news[topic][artId]['full_text'])
+		for artId in news :
+			tokens = pp.processDoc(news[artId]['full_text'])
 			bow = dictionary.doc2bow(tokens)
 			summary = map(lambda x:(dictionary[x[0]],x[1]), sorted(tfidf[bow],key=lambda x:x[1],reverse=True)[:kTerms])
-			news[topic][artId]['summary'] = summary
-			news[topic][artId].pop('full_text')
+			news[artId]['summary'] = summary
+			news[artId].pop('full_text')
 
-	with open(outputFilename,'w') as f :
-		f.write(json.dumps(news))
+		with open(outputFolder + topic + '.json','w') as f :
+			f.write(json.dumps(news))
 
 if __name__ == '__main__' :
 	import getopt
@@ -51,7 +51,7 @@ if __name__ == '__main__' :
 
 	usage = '''PARAMS:
 	-c\tConfiguration file path
-	-o\tOutput filename
+	-o\tOutput folder
 	-k\tSummary size
 
 	-s\tPath of the stopwords file (OPTIONAL)
@@ -68,7 +68,7 @@ if __name__ == '__main__' :
 		sys.exit(2)
 
 	configurationPath = None
-	outputFilename = None
+	outputFolder = None
 	summarySize = None
 
 	stopwordsFile = None
@@ -84,7 +84,7 @@ if __name__ == '__main__' :
 		if o == "-c" :
 			configurationPath = v
 		elif o == "-o" :
-			outputFilename = v
+			outputFolder = v
 		elif o == "-k" :
 			summarySize = int(v)
 		elif o == "-s" :
@@ -98,7 +98,7 @@ if __name__ == '__main__' :
 		else :
 			assert False, "Unhandled option"
 
-	if not outputFilename or not configurationPath or not summarySize :
+	if not outputFolder or not configurationPath or not summarySize :
 		sys.stderr.write('[ERR] The options -c, -o and -k must be specified\n')
 		print usage
 		sys.exit(2)
@@ -111,6 +111,10 @@ if __name__ == '__main__' :
 	newsFolder = params['news_folder']
 	if not newsFolder.endswith('/') :
 		newsFolder += '/'
+
+	if not outputFolder.endswith('/') :
+		outputFolder += '/'
+
 	if 'stopwords_file' in params and not stopwordsFile : stopwordsFile = params['stopwords_file']
 	with open(stopwordsFile,'r') as f : stopwords = f.read().replace('\n',' ').strip().split()
 	if 'punctuation_file' in params and not punctuationFile : punctuationFile = params['punctuation_file']
@@ -121,6 +125,6 @@ if __name__ == '__main__' :
 	else : threshold = 0
 
 	preprocessor = Preprocessing(stopwords=stopwords, punctuation=punctuation, dpatterns=dpatterns, threshold=threshold)
-	summarizeNews(newsFolder,preprocessor,outputFilename,summarySize)	
+	summarizeNews(newsFolder,preprocessor,outputFolder,summarySize)	
 
 

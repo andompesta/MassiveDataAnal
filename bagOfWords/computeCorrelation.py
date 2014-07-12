@@ -1,17 +1,23 @@
 from gensim import corpora, models, similarities
 import json
 
-from tweetsSummary import readTweetsFiles,readShiftFiles
-from newsSummary import readNewsFiles
+from tweetsSummary import readShiftFile
+from newsSummary import readNewsFile
 from preprocess import Preprocessing
 from utilities import readConfigFile,unixTime,readableDatetime
 
 def computeCorrelation(newsFolder,tweetsFolder,shiftTweetsFolder,shiftInfoFolder,preprocessor,outputFilename,lsiDimensions) :
 	
 	print '[Parsing data]'
-	news = readNewsFiles(newsFolder)
-	#tweets = readTweetsFiles(tweetsFolder)
-	contradictions = readShiftFiles(shiftTweetsFolder,shiftInfoFolder)
+
+	newsPaths = map(lambda x: newsFolder+x, os.listdir(newsFolder))
+	shiftInfoPaths = dict(map(lambda x: ((shiftInfoFolder+x).split('/')[-1].partition('.')[0],shiftInfoFolder+x), os.listdir(shiftInfoFolder)))
+	shiftTweetsPaths = dict(map(lambda x: ((shiftTweetsFolder+x).split('/')[-1].partition('-')[0],shiftTweetsFolder+x), os.listdir(shiftTweetsFolder)))
+
+
+
+	news = readNewsFile(newsFolder)
+	contradictions = readShiftFile(shiftTweetsFolder,shiftInfoFolder)
 
 	correlations = {}
 	
