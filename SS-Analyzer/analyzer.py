@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import argparse, configparser, time
-from datetime import date
+from datetime import date, timedelta
 from classes.SpaceSaving import *
 from classes.TweetParser import *
 from classes.NewsParser import *
@@ -56,7 +56,7 @@ if __name__ == "__main__" :
 			commonWordsValues.append(ss.getSmartList())
 
 	# Initializing the comparator class
-	wsize = date.timedelta(days=3)
+	wsize = timedelta(days=3)
 	comparator = [TextComparator(i, wsize, commonWordsValues[idx]) for idx, i in enumerate(timeIntervals)]
 	# Reading news from NYT and comparing
 	print("Reading news from NYT")

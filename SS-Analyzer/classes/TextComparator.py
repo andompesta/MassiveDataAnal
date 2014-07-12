@@ -16,7 +16,7 @@ class TextComparator :
 		self.bestPublisher = None
 
 	def compare(self, text, publisher) :
-		if text["pub_date"] < (self.timeInterval["begin"] - windowsize) or text["pub_date"] > (self.timeInterval["end"] +windowsize) :
+		if text["pub_date"] < (self.timeInterval["begin"] - self.windowsize) or text["pub_date"] > (self.timeInterval["end"] +self.windowsize) :
 			return
 		score = 0
 		for word in text["content"].lower().split() :
