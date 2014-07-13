@@ -1,39 +1,35 @@
 from gensim import corpora, models, similarities
-import json
+import json,os
 
 from tweetsSummary import readShiftFile
 from newsSummary import readNewsFile
 from preprocess import Preprocessing
 from utilities import readConfigFile,unixTime,readableDatetime
 
-def computeCorrelation(newsFolder,tweetsFolder,shiftTweetsFolder,shiftInfoFolder,preprocessor,outputFilename,lsiDimensions) :
+def computeCorrelation(newsFolder,shiftTweetsFolder,shiftInfoFolder,preprocessor,outputFolder,lsiDimensions) :
 	
 	print '[Parsing data]'
 
-	newsPaths = map(lambda x: newsFolder+x, os.listdir(newsFolder))
+	newsPaths = dict(map(lambda x: ((newsFolder+x).split('/')[-1].partition('.')[0].partition('_')[-1],newsFolder+x), os.listdir(newsFolder)))
 	shiftInfoPaths = dict(map(lambda x: ((shiftInfoFolder+x).split('/')[-1].partition('.')[0],shiftInfoFolder+x), os.listdir(shiftInfoFolder)))
 	shiftTweetsPaths = dict(map(lambda x: ((shiftTweetsFolder+x).split('/')[-1].partition('-')[0],shiftTweetsFolder+x), os.listdir(shiftTweetsFolder)))
 
+	for topic in set(newsPaths).intersection(set(shiftInfoPaths)).intersection(set(shiftTweetsPaths)) :
 
-
-	news = readNewsFile(newsFolder)
-	contradictions = readShiftFile(shiftTweetsFolder,shiftInfoFolder)
-
-	correlations = {}
+		news = readNewsFile(newsPaths[topic])
+		contradictions = readShiftFile(shiftTweetsPaths[topic],shiftInfoPaths[topic])
 	
-	for topic in set(contradictions).intersection(set(news)) :
 		print '[Processing] ' + topic
-		correlations[topic] = []
+		correlations = []
 		trainingData = []
 		dictionary = corpora.Dictionary()
 		
-		for artId in news[topic] :
-			news[topic][artId]['bow'] = dictionary.doc2bow(preprocessor.processDoc(news[topic][artId]['full_text']),allow_update = True)
-			news[topic][artId].pop('full_text')
-			trainingData.append(news[topic][artId]['bow'])
+		for artId in news :
+			news[artId]['bow'] = dictionary.doc2bow(preprocessor.processDoc(news[artId]['full_text']),allow_update = True)
+			news[artId].pop('full_text')
+			trainingData.append(news[artId]['bow'])
 
-
-		for contr in contradictions[topic] :
+		for contr in contradictions :
 			tBegin = contr['timeBegin']
 			tEnd = contr['timeEnd']
 			size = contr['size']
@@ -44,7 +40,7 @@ def computeCorrelation(newsFolder,tweetsFolder,shiftTweetsFolder,shiftInfoFolder
 			# selects the candidate news for the index
 			# span = int(24 * 3600 * size / 10) # to be tested!
 			span = (tEnd - tBegin)*2 # to be tested!
-			candidateNews = [{'bow':news[topic][artId]['bow'],'_id':artId} for artId in news[topic] if unixTime(news[topic][artId]['pub_date']) <= tEnd and unixTime(news[topic][artId]['pub_date']) >= tBegin - span]
+			candidateNews = [{'bow':news[artId]['bow'],'_id':artId} for artId in news if unixTime(news[artId]['pub_date']) <= tEnd and unixTime(news[artId]['pub_date']) >= tBegin - span]
 
 			# generates a Latent Semantic Index with the candidate news
 			if candidateNews != [] :
@@ -60,10 +56,10 @@ def computeCorrelation(newsFolder,tweetsFolder,shiftTweetsFolder,shiftInfoFolder
 				candidateNews.sort(key=lambda n : n['val'], reverse = True)
 
 			outcontr = {'timeBegin' : readableDatetime(tBegin), 'timeEnd' : readableDatetime(tEnd), 'size' : size, 'correlations' : candidateNews}
-			correlations[topic].append(outcontr)
+			correlations.append(outcontr)
 
-	with open(outputFilename,'w') as f :
-		f.write(json.dumps(correlations))
+		with open(outputFolder + topic + '.json','w') as f :
+			f.write(json.dumps(correlations))
 
 if __name__ == '__main__' :
 	import getopt
@@ -71,7 +67,7 @@ if __name__ == '__main__' :
 
 	usage = '''PARAMS:
 	-c\tConfiguration file path
-	-o\tOutput filename
+	-o\tOutput folder
 	-l\tLSI space size
 
 	-s\tPath of the stopwords file (OPTIONAL)
@@ -88,7 +84,7 @@ if __name__ == '__main__' :
 		sys.exit(2)
 
 	configurationPath = None
-	outputFilename = None
+	outputFolder = None
 	lsiDimensions = None
 
 	stopwordsPath = None
@@ -104,7 +100,7 @@ if __name__ == '__main__' :
 		if o == "-c" :
 			configurationPath = v
 		elif o == "-o" :
-			outputFilename = v
+			outputFolder = v
 		elif o == "-l" :
 			lsiDimensions = int(v)
 		elif o == "-s" :
@@ -118,7 +114,7 @@ if __name__ == '__main__' :
 		else :
 			assert False, "Unhandled option"
 
-	if not outputFilename or not configurationPath or not lsiDimensions :
+	if not outputFolder or not configurationPath or not lsiDimensions :
 		sys.stderr.write('[ERR] The options -c, -o and -l must be specified\n')
 		print usage
 		sys.exit(2)
@@ -153,6 +149,9 @@ if __name__ == '__main__' :
 	if not shiftTweetsFolder.endswith('/') :
 		shiftTweetsFolder += '/'
 
+	if not outputFolder.endswith('/') :
+		outputFolder += '/'
+
 	if 'stopwords_file' in params and not stopwordsPath : stopwordsPath = params['stopwords_file']
 	with open(stopwordsPath,'r') as f : stopwords = f.read().replace('\n',' ').strip().split()
 	if 'punctuation_file' in params and not punctuationPath : punctuationPath = params['punctuation_file']
@@ -163,4 +162,4 @@ if __name__ == '__main__' :
 	else : threshold = 0
 
 	preprocessor = Preprocessing(stopwords=stopwords, punctuation=punctuation, dpatterns=dpatterns, threshold=threshold)
-	computeCorrelation(newsFolder,tweetsFolder,shiftTweetsFolder,shiftInfoFolder,preprocessor,outputFilename,lsiDimensions)	
+	computeCorrelation(newsFolder,shiftTweetsFolder,shiftInfoFolder,preprocessor,outputFolder,lsiDimensions)	

@@ -11,20 +11,19 @@ def readNewsFile(path) :
 	
 	with open(path) as f :
 		topicJson = json.loads(f.read())
-		topic = topicJson['topic']
 		news = {}
 		for article in topicJson['articles'] :
 			news[article['_id']['$oid']] = {'pub_date' : article['pub_date'], 'full_text' : article['full_text']}
 
-	return topic,news
+	return news
 
 def summarizeNews(newsFolder,pp,outputFolder,kTerms) :
 	
-	paths = map(lambda x: newsFolder+x, os.listdir(newsFolder))
+	newsPaths = dict(map(lambda x: ((newsFolder+x).split('/')[-1].partition('.')[0].partition('_')[-1],newsFolder+x), os.listdir(newsFolder)))
 
-	for path in paths :
+	for topic in newsPaths :
 
-		topic,news = readNewsFile(path)
+		news = readNewsFile(newsPaths[topic])
 		
 		baseline = []
 

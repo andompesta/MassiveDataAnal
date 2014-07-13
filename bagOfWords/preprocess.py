@@ -3,7 +3,7 @@ import re
 
 class Preprocessing :
 
-	def __init__(self,stopwords={},punctuation={},dpatterns={},threshold=0) :
+	def __init__(self,stopwords={},punctuation={},dpatterns={},threshold=0,removeURLs=True,removeUnicode=False) :
 		'''
 		Constructor for the Preprocessing instance. Optional args:
 		- stopwords = a set of stopwords to be excluded by the filtering.
@@ -16,6 +16,8 @@ class Preprocessing :
 		self.punctuation = punctuation
 		self.dpatterns = dpatterns
 		self.threshold = threshold
+		self.removeURLs = removeURLs
+		self.removeUnicode = removeUnicode
 
 	def save(self,path) :
 		'''
@@ -39,13 +41,21 @@ class Preprocessing :
 	def removeURL(document) :
 		return re.sub(r'https?:\/\/[A-Za-z0-9\.\/]*', '', document, flags=re.MULTILINE)
 
+	@staticmethod
+	def removeUnicode(document) :
+		return document.encode('ascii','ignore')
+
+
 	def processDoc(self,document):
 		'''
 		Given a document as a string, preprocesses it returning a list of tokens (strings).
 
 		'''
 		# removes URLs
-		document = Preprocessing.removeURL(document)
+		if self.removeURLs :
+			document = Preprocessing.removeURL(document)
+		if self.removeUnicode :
+			document = Preprocessing.removeUnicode(document)
 
 		# removes punctuation
 		for p in self.punctuation :
