@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.4.27)  13 JUL 2014 12:04
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.4.27)  13 JUL 2014 16:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -621,15 +621,15 @@ ex/updmap/pdftex.map}
 
 
 ]) (./chapters/ProblemDefinition.tex)
-(./chapters/ProposedApproach.tex) (./chapters/ExperimentalEvaluation.tex)
-[2
+(./chapters/ProposedApproach.tex) (./chapters/Ngram.tex)
+(./chapters/ExperimentalEvaluation.tex) [2
 
 ] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 8625 strings out of 493315
- 125840 string characters out of 6137904
+ 8631 strings out of 493315
+ 125956 string characters out of 6137904
  246106 words of memory out of 5000000
- 11862 multiletter control sequences out of 15000+600000
+ 11865 multiletter control sequences out of 15000+600000
  27566 words of font info for 56 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  41i,9n,56p,816b,248s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -640,7 +640,7 @@ local/texlive/2013/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/t
 exlive/2013/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/201
 3/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-di
 st/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (2 pages, 64124 bytes).
+Output written on report.pdf (2 pages, 65231 bytes).
 PDF statistics:
  36 PDF objects out of 1000 (max. 8388607)
  25 compressed objects within 1 object stream
