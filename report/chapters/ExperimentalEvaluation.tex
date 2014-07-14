@@ -1,1 +1,35 @@
-ExperimentalEvaluation
+\subsection*{Experimental setup}
+In order to perform the experimental evaluation we used a tool to automatically
+detect sentiment shift in tweets coming from year 2009 and regarding several
+topics. We also downloaded news from the \emph{New York Times} and \emph{ABC
+Australia} on the same topic and spanning on the same period of the tweets.
+After that, we manually labelled each contradiction point with the event which
+caused it. The topics, contradiction points and events used for the experiments
+are showed in table \ref{tab:setup}
+\begin{table*}
+	\centering
+	\begin{tabularx}{\textwidth}{|l|l|X|}
+	\hline
+	Contr. point 	& Contr. window 			& Event \\
+	\hline 
+	Cern1			& 2009-10-29 - 2009-11-08 	& On November 3rd a bird drops a
+piece of bread which cause LHC overheating. \\
+	Cern2			& 2009-11-24 - 2009-12-04	& On November 30th LHC accelerates protons to an
+energy of 1.18 TeV, becoming the world most powerful energy particle
+accelerator\\
+	FortHood 		& 2009-11-02 - 2009-11-06	& On November 5th a US marine
+kills 13 people\\
+	HangOver		& 2009-06-21 - 2009-06-27	& undetermined\\
+	Lcross			& 2009-10-31 - 2009-11-08	& undetermined\\
+	Jackson1		& 2009-06-19 - 2009-06-25	& On June 25th Michael Jackson
+dies\\
+	Jackson2		& 2009-08-23 - 2009-08-29	& On august 28th another popular
+musician, Adam Goldstein, dies. The day after, August 29th is Jackson's
+birthday\\
+	SwineFlu		& 2009-06-19 - 2009-06-23	& The swine flu is recognized as
+	a pandemic\\
+	\hline
+	\end{tabularx}
+	\caption{Contradiction points used for experimental evaluation}
+	\label{tab:setup}
+\end{table*}
