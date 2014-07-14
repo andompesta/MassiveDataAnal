@@ -1,10 +1,10 @@
 We used a bag-of-words approach exploiting a technique called Latent Semantic Analysis (also known as Latent Semantic Indexing), formalized by Scott Deerwester et al. in 1990\cite{LSA}. LSA is a statistical approach, used to find semantical similarities between sets of documents. It takes advantage of Singular Value Decomposition on a vector space of term frequencies in order to create, given a set of documents, an \emph{index} matrix, that can be queried with other documents to find the most similar one. In order to find correlations between the sentiment shifts and the news, our approach works as follows:
 \begin{itemize}
-\item All the tweets corresponding to a shift are merged in a single document.
+\item All the tweets corresponding to a CP are merged in a single document.
 \item Every document is preprocessed and converted in the bag-of-word representation.
 \item The LSA model is trained on the whole set of news for the given topic.
 \item The set of candidate news to be tested is chosen accordingly to a window, and it's used to create an index.
-\item The news are sorted in order of similarity, optionally weighted by a factor considering the time distance of the news from the shift.
+\item The news are sorted in order of similarity, optionally weighted by a factor considering the time distance of the news from the CP.
 \item All the candidate news over a certain threshold are considered to be correlated and a set of words calculated with TF-IDF is returned.
 \end{itemize}
 
