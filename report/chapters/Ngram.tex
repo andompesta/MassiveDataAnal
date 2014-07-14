@@ -39,11 +39,32 @@ In particular $NVS(G_i,G_j) = \frac{VS(G_i,G_j)}{SS(G_i,G_j)}$ where:
 \end{equation}
 
 Since NGG tools allow to compute both the tweet-news correlation and summary creation, this methodology is split in different section.
-\paragraph{Tweet-News Correlation}
-To obtain a correlation between contradiction tweet and news, this methodology use the base idea of exploiting the NVS similarity function as a correlation function: higher the similarity of the tweets n-gram graph representation and the news n-gram representation, higher will be the correlation.
 
-More in detail this procedure start reading all the contradiction tweet from the json file, concatenate the tweet text it in a unique string and compute the n-gram graph representation of the concatenated single. 
+\subsubsection*{Tweet-News Correlation}
+To compute the correlation between contradiction tweet and news, this methodology use the base idea of exploiting the NVS similarity function as a correlation function: higher the similarity of the tweets n-gram graph representation and the news n-gram representation, higher will be the correlation.
 
-Due to the absence of memory lack problem, we prefer to decrease the computation time avoiding the usage of the scalable merging function proposed by George Giannakopoulos. The merging function based on a learning factor produce the same final result, but need a n-gram graph for every single tweet witch is more expensive in terms of computation time. It is strongly suggested to avoid the usage of intersection function over tweets, since tweet text contains many different language pattern determine a big chance to obtain an empty intersection graph (remember that intersection maintains only the common n-gram between the two document).
+More in detail this procedure perform the following step:
+\begin{itemize}
+	\item Merge all the tweets corresponding to a CP are in a single document n-gram graph representation.
+	\item Compute the news n-gram graph for the news that fall inside a time slots defined by the contradiction point windows increased on both side by a time windows duration
+	\item for the news that are inside the time slot, the NVS is computed and represent the correlation value between news and tweet
+\end{itemize}
 
-After computing the tweet graph, for every news is computed the NVS value between the tweet and news graphs. Since the NVS values have no time domain impact, a time windows is defined with the purpose of discharge from the correlation computation news that are distant in time. The correlation is computed only for news that were published in time slots defined by the contradiction point windows increased on both side by the time windows duration. The combined usage of a the truncating time windows  and the NVS similarity value produce the correlation value that we look for our first goal.
+The usage of the time windows is needed given that NVS similarity values have no time domain impact, and with out the time windows isn't possible to  discharge news that are distant in time form the correlation computation.
+
+\subsubsection*{Summary Creation}
+The second goal of this research is to create a summary of the event that cause the sentiment shift. 
+
+For this purpose we use the news with the highest correlation value obtained at the step before.
+Since the goal is to create a summary of 150 word, we suggest to take in consideration only the best 4 news. Increasing the summary length can require more news.
+
+The summary algorithm perform the following action:
+\begin{itemize}
+	\item sort the news according the correlation value obtained before
+	\item save all the sentence of text best $4$ news in a set; the sentence detection is perform using OpenNLP
+	\item create the intersection graph of the best $4$ news
+	\item for every sentence saved compute the NVS between the sentence n-gram graph and the intersection graph
+	\item create the summary using the sentence with the highest NVS value until we reach 150 word
+\end{itemize}
+
+this algorithm create a summary composed by the most significant sentence of news with the highest correlation value and is 
