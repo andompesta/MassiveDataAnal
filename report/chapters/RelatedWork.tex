@@ -1,15 +1,29 @@
-Since our project have two main goal:
+We can distinguish two main subgoals in our project:
 \begin{itemize}
 	\item compute the correlation between tweet and news
-	\item create a summary of the main event that cause the sentiment shift
+	\item create a summary of the main event that caused the sentiment shift
 \end{itemize}
-There are many work that are related with it. 
-In particular, due to the incising and development of the Tweeter platform, in the last year, much work was done on the correlation and analysis of the tweeter data. Weiwei Guo et al.\cite{LTN} have propose a framework for link tweet with news and extract form the resulting correlation some missing aspect of the tweet-event. Instead of using a LSI technique for compute a text-to-word representation, they propose a methodologies based on the Weighted Textual Matrix Factorization\cite{WTMF} [WTMF] model(the 2012 defacto standard ). With the WTMF unsupervised model and the usage of cosine-similarity Weiwei Guo et al. were able to obtain good correlation performance and WTMF result to be a really strong tool for baseline creation.
+There are several works, in literature, which refer to similar tasks. 
+In particular, due to Twitter's increasing popularity, in the last years there
+have been several works regarding the correlation and analysis of the data.
+Weiwei Guo et al.\cite{LTN} proposed a framework to link tweets and news and to
+extract from the resulting correlation missing aspects of the tweet-event. 
+In their research, rather than using a LSI technique, they propose a
+methodologies based on the Weighted Textual Matrix Factorization\cite{WTMF}
+[WTMF] model(the 2012 de facto standard). This approach revealed to return
+good correlation results, making WTMF a strong tool for baseline creation.
 
-In the literature there is a lot of work done on \emph{recommendation system}; some of this systems are specifically developed for new recommendation: witch aims to recommend news articles based on some user features. This work seems to be complementary respect to our goal, but we focus on the correlation between tweet and news starting only with the tweet text content that is a much smaller and heterogeneous context respect to a user features. 
+Some works which are complementary with respect to our might be found in the
+field of recommendation systems; in particular systems which address the
+problem of recommending news given some user's features. However, there is an
+important difference between this task and our, since tweets are much more
+heterogeneous and characterized by a much smaller length than news.
 
-Recently \emph{Google} present a system for sentence compression, in particular this system try to achieve a \emph{multi-sentence compression}\cite{MSC} focusing on the importance of content selection and readable presentation.
-Our attention was caught by the fact that Google obtain good result summary using only redundancy information of the text, without the usage syntactic constraints, so potentially can be used as an other language-independent methodology. Similarly to NGG the MSC approach use a graph representation of the text, combining it with some part of speech information. The word-base graph representation allow to manage the redundancy of the text, meanwhile the part of speech information is used to obtain a readable sentence compression in output. 
+Recently \emph{Google} presented a system for \emph{multi-sentence compression} (MSC) \cite{MSC}, which aims
+to compress several senteces trying to mantain high readability and to not lose
+the semantic content of the text. Their approach explits word gram graphs,
+combining them with some semantic data. The combination of the two approaches
+allows redundancy removal while mantaining a readable sentence as output.
 
-MSC to be quite similar to the NGG approach and obtain probably obtain better summarization results, but since we prefer a system that is as much as possible language-independent we decide to use NGG.
+%MSC to be quite similar to the NGG approach and obtain probably obtain better summarization results, but since we prefer a system that is as much as possible language-independent we decide to use NGG.
 

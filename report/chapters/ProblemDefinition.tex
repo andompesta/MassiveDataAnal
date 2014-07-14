@@ -1,1 +1,26 @@
-ProblemDefinition
+We define \emph{sentiment} the measurement of feelings performed using specific
+tools analyzing the stream of tweets. This kind of measurement is usually done
+using some supervised machine learning techniques together with NLP techniques.
+
+Tools exist to track the \emph{sentiment} toward a certain topic and to identify
+changes in it. In particular we can consider three major events in a sentiment
+timeline:
+\begin{enumerate}
+	\item there is a change of sentiment from positive to negative (or
+		viceversa)
+	\item there is no change of sentiment, but there is a peek in the graph
+		describing it or its value crosses the average value
+	\item there is no change but in the volume of tweets/second
+\end{enumerate}
+We define the first of these events as \emph{sentiment shift} and the temporal
+window in which it happens is called \emph{contradiction point} or
+\emph{contradiction window}.
+
+In addition we define \emph{contradiction tweets} and \emph{contradiction news}
+respectively the tweets and news published inside a contradiction window and
+\emph{background tweets} and \emph{background news} the set of all tweets and
+news regarding the addressed topic.
+
+Given these definitions, the problem we aim to solve is to find, among the
+contradiction news, the ones which are the more representative of the
+contradiction tweets and to present to the user a summary which describes them.
