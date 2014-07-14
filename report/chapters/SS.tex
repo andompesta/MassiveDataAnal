@@ -1,0 +1,78 @@
+\subsubsection*{Description of the algorithm}
+\emph{SpaceSaving} \cite{SS} is an algorithm which was first presented by Metwally et al.
+in 2005 to efficiently compute the most frequent terms in a data stream. It
+allows the user to find $k$ words which are among the most frequent in the given
+stream. Although this is a heuristic algorithm whose result's correctness is not
+guaranteed, SpaceSaving is able to specify the upper bound of the error for each
+word presented as output.
+
+The classic implementation is based on a fixed size list of tuple 
+\begin{displaymath}
+	(word, occurrencies, error)
+\end{displaymath}
+The stream is read word by word and at any time one of the following condition
+is verified:
+\begin{enumerate}
+	\item \label{SS-among-frequent}
+		the word is already in the list of frequent terms
+	\item \label{SS-list-not-full}
+		the word is not among the frequent terms, but the list is not full
+	\item \label{SS-list-full}
+		the word is not among the frequent terms and the list is full
+\end{enumerate}
+If the first condition is verified, then the algorithm will proceed incrementing
+the number of occurrencies of that term; if condition \ref{SS-list-not-full} is
+verified, instead, we add that word to the list of frequent terms with number of
+occurrencies 1 and number of errors 0; if condition \ref{SS-list-full} is
+verified, then we scan the list for the term with the lowest number of
+occurrencies and replace it with ne new word. When this replacement takes place
+we set the number of errors equal to the number of occurrencies of the world we
+just replaced, then we increment the number of occurrencies.
+
+Our python implementation of this algorithm is slightly different from the
+classic one described above, since we test the word against a list of stop words
+and we added a hashmap to avoid useless
+replacement. In our implementation, then, the following steps are performed:
+\begin{enumerate}
+	\item if the word is in the stop word lists, does nothing
+	\item otherwise compute the hash of the given word
+	\item increment the value associated to that hash
+	\item check whether the value stored in the hash map is above the number of
+		occurrencies of the less frequent term tracked by the SpaceSaving
+		algorithm. If so, the replacement occurs, otherwise nothing happens.
+\end{enumerate}
+The output of this algorithm is a couple $(word, value)$ where the value is
+computed as 
+\begin{displaymath}
+	value = occurrencies - error
+\end{displaymath}
+In order to reduce the noise we chose to use only couples where the value is
+above a certain threshold.
+
+\subsubsection*{Description of the methodology}
+We have seen how we exploit the SpaceSaving algorithm to obtain the list of
+frequent terms in a text and their
+values. 
+
+To accomplish our task, we ran the program described above on the set of tweets inside a
+contradiction, thus obtaining the list of frequent terms inside the
+contradictions; then, we read all the news which were published during the
+contradiction (a certain error between the publishing date and the contradiction
+window might be taken in account) and for each of them we compute its score as
+\begin{displaymath}
+	newsScore = \sum_{w \in W} value(w)
+\end{displaymath}
+where $W$ is the list of words in the news and the value is null if that term is
+not in the \emph{frequent term list}.
+
+The news with the highest score is selected as the one causing the shift and its
+first words are presented as output to the user.
+
+This approach revealed to be very fast and from its formulation we can see that
+it can be applied incrementally. As a drawback, we must say that it does not
+take in account the background coming from the topic, hence it is not able to
+discern whether a given frequent term is informative or not (e.g. running this
+program on the Obama topic it is likely that the most
+frequent terms will be ``President'', `Barack'', ``Obama'', ``USA'', hence a
+news containing more repetitions of these words will have a high score, even if
+those words are not informative at all)
