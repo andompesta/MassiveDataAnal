@@ -25,7 +25,7 @@ the number of occurrencies of that term; if condition \ref{SS-list-not-full} is
 verified, instead, we add that word to the list of frequent terms with number of
 occurrencies 1 and number of errors 0; if condition \ref{SS-list-full} is
 verified, then we scan the list for the term with the lowest number of
-occurrencies and replace it with ne new word. When this replacement takes place
+occurrencies and replace it with the new word. When this replacement takes place
 we set the number of errors equal to the number of occurrencies of the world we
 just replaced, then we increment the number of occurrencies.
 
@@ -55,7 +55,7 @@ frequent terms in a text and their
 values. 
 
 To accomplish our task, we ran the program described above on the set of tweets inside a
-contradiction, thus obtaining the list of frequent terms inside the
+contradiction pint (point in which a sentiment shift occur), thus obtaining the list of frequent terms inside the
 contradictions; then, we read all the news which were published during the
 contradiction (a certain error between the publishing date and the contradiction
 window might be taken in account) and for each of them we compute its score as
