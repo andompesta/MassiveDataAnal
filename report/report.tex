@@ -74,15 +74,20 @@
 %
 \maketitle
 \begin{abstract}
-In this report we consider the task to extract a summary of the main event that caused a shift on the opinion of Twitter users. In particular we refer to those shift as \emph{sentiment shift} and we try to capture the event that caused them. In this work we present different language-independent and semantic-less meteorologies and we try to figure out the pros and cons of each of them.
-\end{abstract}  
+In this report we consider the task of extracting a summary of the main event
+that caused a shift on the opinion of Twitter users. This paper presents
+several techniques which might be used to analyze these \emph{sentiment shift}
+and to find the event which caused them. For each technique presented below
+some aspects are taken in account, which are important in the context of a data
+mining application, such as scalability and efficiency. A comparison of the
+different techniques is showed as well.\end{abstract}   
 
 \section*{Introduction}
-This work aims in founding a summary of the events which caused a\emph{sentiment shift}. 
+This work aims to find a summary of the events which caused a\emph{sentiment shift}. 
 
-While event extraction NLP technique are mature, their performance on tweets inevitably degrades due to the inherent sparsity in short texts.  Since tweets contain heterogeneous language structures and are at most 140 characters long, to extract event from tweets is quite tricky: instead linking tweet to news allow us to extract event form news text that have a well formed structure and contains more text respect to tweet.
+While event extraction NLP technique are mature, their performance on tweets inevitably degrades due to the inherent sparsity in short texts.  Since tweets contain heterogeneous language structures and are at most 140 characters long, to extract event from tweets is quite tricky: instead linking tweet to news allows us to extract events from news text that has a well formed structure and contains more text with respect to tweets.
 
-Due to the fact that out dataset is composed by labelled tweet, we manage to extract news form the New York Times archive basing the research on tweet's label. Starting form a good Tweet-News classification, allowed us to correlate tweet and news that belong to the same macro-topics avoiding to correlate object of different arguments.
+Due to the fact that our dataset is composed by labelled tweets, we manage to extract news from the New York Times archive basing the research on tweet's label. Starting form a good Tweet-News classification, allowed us to correlate tweet and news that belong to the same macro-topics avoiding to correlate object of different arguments.
 
 In particular document compression is one of the main topic in \emph{NLP} research field: usually this task is achieved using abstractive methods and language dependent technique.  Our work, rather, want to be as much as possible language independent, so we propose solutions for this problem using technique based on:
 \begin{itemize}
