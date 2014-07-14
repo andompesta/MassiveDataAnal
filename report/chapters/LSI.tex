@@ -4,7 +4,7 @@ We used a bag-of-words approach exploiting a technique called Latent Semantic An
 \item Every document is preprocessed and converted in the bag-of-word representation.
 \item The LSI model is trained on the whole set of news for the given topic.
 \item The set of candidate news to be tested is chosen accordingly to a window, and it's used to create an index.
-\item The news are sorted in order of similarity, possibily weighted by a factor considering the time distance of the news from the shift.
+\item The news are sorted in order of similarity, optionally weighted by a factor considering the time distance of the news from the shift.
 \item All the candidate news over a certain threshold are considered to be correlated and a set of words calculated with TF-IDF is returned.
 \end{itemize}
 
@@ -19,4 +19,7 @@ During the preprocessing, every document is filtered and converted from a string
 \end{itemize}
 
 \subsection{LSI and candidate news selection}
-Once the documents are filtered and transformed in a bag-of-words representation, a dictionary is created containing the association between tokens and a positive integer identifier. This is done in order to convert on-the-fly each document \math{D} in a vector of tuples \math{(i,n(D,i))} where \math{n(D,i)} is the number of occurrencies of the token \math{i} in the document \math{D}.
+Once the documents are filtered and transformed in a bag-of-words representation, a dictionary is created containing the association between tokens and a positive integer identifier. This is done in order to convert on-the-fly each document \math{D} in a vector of tuples \math{(i,n(D,i))} where \math{n(D,i)} is the number of occurrencies of the token \math{i} in the document \math{D}. The LSI model is then trained with all the news available for the given topic. Given a sentiment shift over a time interval \math{[T_b,T_e]}, the news can be selected using a fixed size window \math{[T_b - c,T_e]} or a more sofisticated approach that considers the density of the tweets inside the shift. The latter seems reasonable since news that correlates with a shift are likely to be near the shift the more the \emph{hype} increases.
+
+\subsection{News scoring and summarization}
+With the candidate news a matrix index is then created and the document representing the shift is compared. This operation produces a vector of similarities of the shift with the candidate news. These scores do not take into account the hype and the temporal distance of the news w.r.t. the sentiment shift. Unfortunately, we didn't had time to investigate this aspect and find a reasonable weighting function on those parameters. The candidate news passing a threshold are considered to be correlated with the shift, so for each of them the list of the \math{k} words with higher TF-IDF values are returned.
