@@ -1,4 +1,4 @@
-TEXFILES_REPORT:=report.tex $(shell ls chapters/*.tex)
+TEXFILES_REPORT:=report.tex $(shell ls chapters/*.tex chapters/results/*.tex)
 
 report.pdf: ${TEXFILES_REPORT}
 	@${MAKE} --no-print-directory report.pdf-forced
