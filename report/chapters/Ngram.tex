@@ -52,6 +52,9 @@ More in detail this procedure perform the following step:
 
 The usage of the time windows is needed given that NVS similarity values have no time domain impact, and with out the time windows isn't possible to  discharge news that are distant in time form the correlation computation.
 
+This approach require a lot of computation, since have to compute the graph representation of all the tweet and for every news inside the time windows compare the tweet with the news text. Instead NGG allow to compute the similarity between text without the usage of grammar information and use this similarity as correlation value: even if has no time relation.
+
+
 \subsubsection*{Summary Creation}
 The second goal of this research is to create a summary of the event that cause the sentiment shift. 
 
@@ -67,4 +70,4 @@ The summary algorithm perform the following action:
 	\item create the summary using the sentence with the highest NVS value until we reach 150 word
 \end{itemize}
 
-this algorithm create a summary composed by the most significant sentence of news with the highest correlation value and is 
+this algorithm create a summary composed by the most significant sentence of news with the highest correlation value, but is not able to remove redundant sentence since don't use any semantic index and redundant control. Even this, a summary composed by sentences result to be more human readable than a list of key word.
