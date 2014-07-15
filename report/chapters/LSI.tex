@@ -11,8 +11,6 @@ We used a bag-of-words approach exploiting a technique called Latent Semantic An
 \subsubsection*{Preprocessing}
 During the preprocessing, every document is filtered and converted from a string to a bag-of-word representation. The following steps are done in this phase:
 \begin{enumerate}
-\item (Optional) URLs removal using a regular expression.
-\item (Optional) conversion from Unicode to ASCII.
 \item The punctuation characters are substituted with a whitespace.
 \item The string is tokenized.
 \item Stopwords and tokens appearing less than $t$ times in the document are removed.

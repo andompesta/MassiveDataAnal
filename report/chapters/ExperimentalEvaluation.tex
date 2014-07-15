@@ -3,9 +3,21 @@ In order to perform the experimental evaluation we used a tool to automatically
 detect sentiment shift in tweets coming from year 2009 and regarding several
 topics. We also downloaded news from the \emph{New York Times} and \emph{ABC
 Australia} on the same topic and spanning on the same period of the tweets.
+
+It's important to remember that tweet have different language structure that need to be normalized, so for cleaning the tweet text the following operations were performed before the computation of the different methodologies:
+\begin{itemize}
+	\item URLs removal from tweets using a regular expression.
+	\item conversion from Unicode to ASCII.
+\end{itemize}
+
 After that, we manually labelled each contradiction point with the event which
 caused it. The topics, contradiction points and events used for the experiments
 are showed in table \ref{tab:setup}
+
+\subsubsection*{Experiment preparation}
+
+
+
 \begin{table*}
 	\centering
 	\begin{tabularx}{\textwidth}{|l|l|X|}
