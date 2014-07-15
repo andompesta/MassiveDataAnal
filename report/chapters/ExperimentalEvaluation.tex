@@ -14,10 +14,6 @@ After that, we manually labelled each contradiction point with the event which
 caused it. The topics, contradiction points and events used for the experiments
 are showed in table \ref{tab:setup}
 
-\subsubsection*{Experiment preparation}
-
-
-
 \begin{table*}
 	\centering
 	\begin{tabularx}{\textwidth}{|l|l|X|}
@@ -47,3 +43,90 @@ birthday\\
 	\caption{Contradiction points used for experimental evaluation}
 	\label{tab:setup}
 \end{table*}
+
+\subsection*{Experiments}
+\subsubsection*{SpaceSaving evaluation}
+The results achieved using the emph{SpaceSaving} methodology with a maximum
+error of three days on the contradiction window are shown in table
+\ref{tab:resultsSS}.
+
+\begin{table*}
+	\centering
+	\begin{tabularx}{\textwidth}{|l|X|}
+		\hline
+		Contr. point & Output \\
+		Cern1		& Peckish bird crashes atom smasher. A peckish bird has
+		briefly knocked out part of the world's biggest atom smasher by causing
+		a chain reaction with a pi...\\
+		Cern2		& Atom-smasher sets energy recordThe world's biggest
+		atom-smasher has set a world record by accelerating to energy levels
+		that had never been previously...\\
+		FortHood	&
+		HangOver	&
+		Lcross		&
+		Jackson1	&
+		Jackson2	&
+		SwineFlu	&
+	\end{tabularx}
+	\caption{Results achieved using SpaceSaving}
+	\label{tab:resultsSS}
+\end{table*}
+
+\subsubsection*{LSI evaluation}
+\begin{table*}
+	\centering
+	\begin{tabularx}{\textwidth}{|l|X|}
+		\hline
+		Contr. point & Output \\
+		Cern1		&
+		Cern2		&
+		FortHood	&
+		HangOver	&
+		Lcross		&
+		Jackson1	&
+		Jackson2	&
+		SwineFlu	&
+	\end{tabularx}
+	\caption{Results achieved using LSI}
+	\label{tab:resultsLSI}
+\end{table*}
+
+
+\subsubsection*{Tf/idf evaluation}
+\begin{table*}
+	\centering
+	\begin{tabularx}{\textwidth}{|l|X|}
+		\hline
+		Contr. point & Output \\
+		Cern1		&
+		Cern2		&
+		FortHood	&
+		HangOver	&
+		Lcross		&
+		Jackson1	&
+		Jackson2	&
+		SwineFlu	&
+	\end{tabularx}
+	\caption{Results achieved using Tf/idf}
+	\label{tab:resultsTFIDF}
+\end{table*}
+
+\subsubsection*{Ngram Graph evaluation}
+\begin{table*}
+	\centering
+	\begin{tabularx}{\textwidth}{|l|X|}
+		\hline
+		Contr. point & Output \\
+		Cern1		&
+		Cern2		&
+		FortHood	&
+		HangOver	&
+		Lcross		&
+		Jackson1	&
+		Jackson2	&
+		SwineFlu	&
+	\end{tabularx}
+	\caption{Results achieved using ngram graphs}
+	\label{tab:resultsNGG}
+\end{table*}
+
