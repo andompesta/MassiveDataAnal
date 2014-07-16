@@ -110,56 +110,81 @@ error of three days on the contradiction window are shown in table
 %\end{table*}
 
 All the experiment about Ngram graph where conduced on a 2,4 GHz Intel Core 2 Duo with 4 GB 1067 MHz DDR3 RAM memory.
- All the code was compiled with intellij IDEA on Java language. 
+ All the code was compiled with intellij IDEA on Java 1.8 language. 
 The reported test where conduced on Cern topic data set, since is the one that have multiple contradiction points and allowed us to test the methodology changing the following parameter:
 \begin{itemize}
 	\item rank of the graph
-	\item neighbourhood distance[nd]
+	\item neighbourhood distance[ND]
 	\item time windows
 \end{itemize}
 
-In figure \ref{fig:et-fixed-10days} is possible to see how is variegating the computational time respect to a fixed time windows of 10days.
-Surprisingly for a neighbourhood distance = 3 the computation time with a n-gram graph of rank=3 is higher respect to a rank=2. 
-That is quite strange since slicing a text in two-gram should produce more node that slicing a text in three-grams, so we expected a higher computation time for lower value of rank.
-Probably with rank = 2 and nd=3, gram near one to the other are always of the same word and having many similar node is easy to compute: the edge connect quite the same node.
-This produce a graph smaller that a three-gram graph where we have more distinct n-gram and so more low weight edge to check.
-
-Instead increasing the neighbourhood distance over 3 will increase exponentially the number of nodes check that we have to do in order to compute the edge weight. Increasing the computational time for two-gram graph.
-
-
-\begin{figure*}[htbp]
-	\centering
-			\begin{subfigure}[neighbourhood distance = 3]
-					{\includegraphics[width=8cm,height=6cm]{image/win_2_ndist_3.pdf}}	
-			\end{subfigure}
-			\begin{subfigure}[neighbourhood distance = 4]
-					{\includegraphics[width=8cm,height=6cm]{image/win_2_ndist_4.pdf}}	
-			\end{subfigure}
-			\begin{subfigure}[neighbourhood distance = 5]
-					{\includegraphics[width=8cm,height=6cm]{image/win_2_ndist_5.pdf}}	
-			\end{subfigure}
-			\begin{subfigure}[neighbourhood distance = 6]
-					{\includegraphics[width=8cm,height=6cm]{image/win_2_ndist_6.pdf}}	
-			\end{subfigure}
-			\caption[et-fixed-10days]{Execution time for a fixed timewindows of 10 days at different neighbourhood distance }
-	\label{fig:et-fixed-10days}
-\end{figure*} 
+In figure \ref{fig:et-fixed-10days-r-rank} is reported the computational time respect the neighbourhood distance for different rank values. 
+It is easy to notice how for all the rank there is an exponential behaviour respect to the neighbourhood distance. 
+Increasing ND will increase exponentially the number of edges that a graph contains, so the computation will became exponentially longer.
+Since neighbourhood distance strongly affect the computational time and have no big difference on the summary obtained, is reasonable to use a ND between 3 and 4.
 
 \begin{figure*}[htbp]
 	\centering
 			\begin{subfigure}[rank = 2]
-					{\includegraphics[width=6cm,height=6cm]{image/win_2_rank_2.pdf}}	
+					{\includegraphics[width=5cm,height=5cm]{image/win_2_rank_2.pdf}}	
 			\end{subfigure}
 			\begin{subfigure}[rank = 3]
-					{\includegraphics[width=6cm,height=6cm]{image/win_2_rank_3.pdf}}	
+					{\includegraphics[width=5cm,height=5cm]{image/win_2_rank_3.pdf}}	
 			\end{subfigure}
 			\begin{subfigure}[rank = 4]
-					{\includegraphics[width=6cm,height=6cm]{image/win_2_rank_4.pdf}}	
+					{\includegraphics[width=5cm,height=5cm]{image/win_2_rank_4.pdf}}	
 			\end{subfigure}
-			\caption[et-fixed-10days-r-rank]{Execution time for a fixed timewindows of 10 days at difference rank value}
-	\label{fig:et-fixed-10days}
+			\caption[et-fixed-10days-r-rank]{Execution time for different rank value}
+	\label{fig:et-fixed-10days-r-rank}
+\end{figure*} 
+
+In figure \ref{fig:et-fixed-10days-r-nd} is possible to see how the computation time change respect to the rank value at different neighbourhood distance. 
+Surprisingly for a neighbourhood distance = 3 the computation time with a n-gram graph of rank=3 is slightly higher respect to a rank=2. 
+That is quite strange since slicing a text in two-gram should produce more node that slicing a text in three-grams.
+Probably with rank = 2 and ND = 3; near grams are part of the same word creating graph easy to compute.
+This scenario produce a smaller computation time in a two-gram graph that a three-gram graph where we have more distinct node and so edge to check.
+
+Is possible to notice how for bigger ND values, the computation time for of the 2-gram diverge, instead 3-gram became more similar at the 4-gram behaviour. Probably because computing the similarity between 2-gram graph is an operation quite expensive since they have many edges to check.
+
+\begin{figure*}[htbp]
+	\centering
+			\begin{subfigure}[neighbourhood distance = 3]
+					{\includegraphics[width=5cm,height=5cm]{image/win_2_ndist_3.pdf}}	
+			\end{subfigure}
+			\begin{subfigure}[neighbourhood distance = 4]
+					{\includegraphics[width=5cm,height=5cm]{image/win_2_ndist_4.pdf}}	
+			\end{subfigure}
+			\begin{subfigure}[neighbourhood distance = 5]
+					{\includegraphics[width=5cm,height=5cm]{image/win_2_ndist_5.pdf}}	
+			\end{subfigure}
+			\begin{subfigure}[neighbourhood distance = 6]
+					{\includegraphics[width=5cm,height=5cm]{image/win_2_ndist_6.pdf}}	
+			\end{subfigure}
+			\caption[et-fixed-10days-r-nd]{Execution time for different neighbourhood distance }
+	\label{fig:et-fixed-10days-r-nd}
 \end{figure*} 
 
 
+Figure \ref{fig:et-fixed-r3-winds} report the variation of computation time for fixed rank value(3). The shape of the computation time in this case is always the same: exponential respect the ND. 
+Notice that the max computation time always increase with the increasing of the windows size, since the algorithm have to compute the similarity between more news. In this way we can derive that the number of news, inside the time windows, affect the computation time in a almost linear way.
+
+
+\begin{figure*}[htbp]
+	\centering
+			\begin{subfigure}[windows distance of 5 days]
+					{\includegraphics[width=5cm,height=5cm]{image/win_0_rank_3.pdf}}	
+			\end{subfigure}
+			\begin{subfigure}[windows distance of 7 days]
+					{\includegraphics[width=5cm,height=5cm]{image/win_1_rank_3.pdf}}	
+			\end{subfigure}
+			\begin{subfigure}[windows distance of 10 days]
+					{\includegraphics[width=5cm,height=5cm]{image/win_2_rank_3.pdf}}	
+			\end{subfigure}
+			\begin{subfigure}[windows distance of 30 days]
+					{\includegraphics[width=5cm,height=5cm]{image/win_3_rank_3.pdf}}	
+			\end{subfigure}
+			\caption[et-fixed-10days-r-nd]{Execution time for different neighbourhood distance }
+	\label{fig:et-fixed-r3-winds}
+\end{figure*} 
 
 
