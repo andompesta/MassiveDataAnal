@@ -63,7 +63,7 @@ if __name__ == "__main__" :
 			bestWords.append(ss.getBestWords(10))
 
 	# Initializing the comparator class
-	wsize = timedelta(days=3)
+	wsize = timedelta(days=5)
 	comparator = [TextComparator(i, wsize, commonWordsValues[idx]) for idx, i in enumerate(timeIntervals)]
 	# Reading news from NYT and comparing
 	print("Reading news from NYT")
