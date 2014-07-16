@@ -1,12 +1,16 @@
-N-Gram Graph[NGG] is a NPL tool initially proposed by George Giannakopoulos \cite{Ngram} that use word or character n-gram in order to achieve documents summarization. The NGG tool basically slice the text in word or character n-gram and then represent them in a graph \emph{G = $\lbrace N,E,L,W\rbrace$} according the following structure:
+N-Gram Graph (NGG) is a NPL tool initially proposed by George Giannakopoulos \cite{Ngram} that use word or character n-grams in order to achieve documents summarization. The NGG tool basically slices the text in word or character n-grams and then represent them in a graph \emph{G = $\lbrace N,E,L,W\rbrace$} according to the following structure:
+% io inserirei prima la definizione di vicino secondo gli NGG
+% poi sotto possiamo riutilizzarla. Cosi' mi pare confuso, non si e' mai spiegata la cosa della finestra
 \begin{itemize}
 	\item N is the set of nodes created for every different n-gram in the text
-	\item E represent the edge of the graph; where two node are connected by an edge if they are "near" according to a window-distance
-	\item L is a labelling function which give the label to every node and every edge (define the size of the n-gram)
-	\item W is the weight function that gives weigh to every edge according to the number of times that two n-gram appear near one to the other
+	\item E represent the edge of the graph; two nodes are connected if they are "close" according to a certain window-distance
+	\item L is a labelling function which assigns labels to every node and every edge (define the size of the n-gram)
+	\item W is the weight function which assigns weights to every edge according to the number of times that two n-gram appear close one to the other
 \end{itemize}
 
-Whit this implementation NGG  result to be a tool with the property to be language-neutral (make no assumption about the underlying language) and allow text manipulation trough graph operations.
+The big advantage coming from the use of this methodology is language
+independence, since it makes no assumption on the underlying languages and
+allows text manipulation trough graph operations.
 
 In particular two operation are necessary for our goal:
 \begin{itemize}

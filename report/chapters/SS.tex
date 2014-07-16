@@ -26,7 +26,7 @@ verified, instead, we add that word to the list of frequent terms with number of
 occurrencies 1 and number of errors 0; if condition \ref{SS-list-full} is
 verified, then we scan the list for the term with the lowest number of
 occurrencies and replace it with the new word. When this replacement takes place
-we set the number of errors equal to the number of occurrencies of the world we
+we set the number of errors equal to the number of occurrencies of the word we
 just replaced, then we increment the number of occurrencies.
 
 Our python implementation of this algorithm is slightly different from the
@@ -55,10 +55,10 @@ frequent terms in a text and their
 values. 
 
 To accomplish our task, we ran the program described above on the set of tweets inside a
-\emph{contradiction pint}[CP] (point in which a sentiment shift occur), thus obtaining the list of frequent terms inside the
-contradictions; then, we read all the news which were published during the
-contradiction (a certain error between the publishing date and the contradiction
-window might be taken in account) and for each of them we compute its score as
+\emph{contradiction point}[CP], thus obtaining the list of frequent terms within the
+contradiction; then, we read all the news which were published in the same time
+period (a certain error between the publishing date and the contradiction
+window) and for each of them we compute its score as
 \begin{displaymath}
 	newsScore = \sum_{w \in W} value(w)
 \end{displaymath}
