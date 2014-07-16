@@ -49,9 +49,9 @@ To compute the correlation between contradiction tweet and news, this methodolog
 
 More in detail this procedure perform the following step:
 \begin{itemize}
-	\item Merge all the tweets corresponding to a CP are in a single document n-gram graph representation.
-	\item Compute the news n-gram graph for the news that fall inside a time slots defined by the contradiction point windows increased on both side by a time windows duration
-	\item for the news that are inside the time slot, the NVS is computed and represent the correlation value between news and tweet
+	\item Merge all the tweets corresponding to a CP are in a single document n-gram graph representation ($G_{tw}$).
+	\item Compute the news n-gram graph for the news that fall inside a time slots defined by the contradiction point windows increased on both side by a time windows duration ($G_{n}$)
+	\item for the news that are inside the time slot, the NVS is computed and represent the correlation value between news and tweet $G_{sim} = NVS(G_n, G_{tw})$
 \end{itemize}
 
 The usage of the time windows is needed given that NVS similarity values have no time domain impact, and with out the time windows isn't possible to  discharge news that are distant in time form the correlation computation.
@@ -69,9 +69,8 @@ The summary algorithm perform the following action:
 \begin{itemize}
 	\item sort the news according the correlation value obtained before
 	\item save all the sentence of text best $4$ news in a set; the sentence detection is perform using OpenNLP
-	\item create the intersection graph of the best $4$ news
-	\item for every sentence saved compute the NVS between the sentence n-gram graph and the intersection graph
+	\item create the intersection graph of the best $4$ news ($G_{bn}$)
+	\item for every sentence saved compute the NVS between the sentence n-gram graph and the intersection graph ($NVS( G_{s}, G_{bn} )$)
 	\item create the summary using the sentence with the highest NVS value until we reach 150 word
 \end{itemize}
-
-this algorithm create a summary composed by the most significant sentence of news with the highest correlation value, but is not able to remove redundant sentence since don't use any semantic index and redundant control. Even this, a summary composed by sentences result to be more human readable than a list of key word.
+this algorithm create a summary composed by the most significant sentence of news with the highest correlation value using a back-loop approach, but is not able to remove redundant sentence. Even this, a summary composed by sentences result to be more human readable than a list of key word.
