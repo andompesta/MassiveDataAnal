@@ -11,14 +11,18 @@ def plotData(x,y,outputFile,xLabel="",yLabel="",xBounds = None,yBounds = None,co
 	if xBounds != None : ax.set_xlim([xBounds[0],xBounds[1]])
 	if yBounds != None : ax.set_ylim([yBounds[0],yBounds[1]])
 
-	ax.plot(x,y,'--', color=color,alpha=alpha)
+	#ax.plot(x,y,'--', color=color,alpha=alpha)
+	ax.plot(x,y, color=color,alpha=alpha)
 
-	ax.set_xlabel(xLabel)
-	ax.set_ylabel(yLabel)
+	ax.set_xlabel(xLabel,fontsize=30)
+	ax.set_ylabel(yLabel,fontsize=30)
 
 
 	ax.set_xticks(range(min(x), max(x)+1))
 	#ax.set_yticks(range(0, max(x)+1))
+
+	plt.setp(ax.get_xticklabels(), fontsize=15)
+	plt.setp(ax.get_yticklabels(), fontsize=15)
 
 	fig.savefig(outputFile)
 
