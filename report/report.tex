@@ -118,6 +118,30 @@ some conclusions and draw some suggestions on how this work may be extended.
 \include*{chapters/ExperimentalEvaluation}
 
 \section*{Conclusions}
+\subsection*{Future improvement}
+
+\subsubsection*{Redundancy removal}
+NGG is a technique developed primary with the goal of \emph{inter-summary} generation: a summarization process that takes into account information already available to the reader. In order to achieve this goal, in a good summary every new sentence must add as less redundant information as possible.
+According to the proposal of the NGG developer, implementing the following function can improve the quality of the summary created:
+\begin{itemize}
+	\item Starting form the first sentence of the summary, compute his NGG representation $G_{sum}$
+	\item Remote $G_{sum}$ form the intersection of all the news to summarize ($C_{u}$). The new graph $G_{sum}^{\prime}$ = $G_{sum} \triangle G_{in}$
+	\item For every candidate sentence of the news that has not been already used:
+	\begin{itemize}
+		\item extract its n-gram graph representation $G_{cs}$
+		\item keep only $G_{cs}^{\prime} = G_{cs} \triangle C_{in}$, because we want to add sentence with low redundancy
+		\item Computing the NVS between $G_{cs}^{\prime}$ and $G_{sum}^{\prime}$ give a \emph{redundancy score}
+	\end{itemize}
+	\item rank the candidate sentence using as score their NVS value respect $G_{in}$ decreased by the redundancy score
+\end{itemize}
+this functionality was developed by the author of NGG tool and was used for inter-summary generation. Unfortunately for time reason we weren't able to test his performance in our research, but we think that will produce much more human readable summary with more information.
+
+\subsubsection*{Adaptive time windows}
+All the methodologies compute the correlation between news and tweet using a fixed-length time windows. This approach is quite simple and can produce good performance since there are a good number of news in the selected time slice. 
+
+In order to face tricky situation where there are only few news for the selected interval, a more sophisticated approach should adapt the length of the time windows according to the number of news and available:
+precisely, more news are present in the time period of the sentiment shift and shorter should be the amount of time added to the time windows of CP.
+Developing and testing an adaptive time windows can increase the performances of the all the methodologies and is one of the main point for the future improvements.
 
 \begin{thebibliography}{9}
 \bibitem{LSA} 
