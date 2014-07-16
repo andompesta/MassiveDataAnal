@@ -10,6 +10,14 @@ It's important to remember that tweet have different language structure that nee
 	\item conversion from Unicode to ASCII
 \end{itemize}
 
+In addition, while parsing the news, we considered the possibility that the
+opinion expressed by tweets might be both delayed or in advance with respect to
+news (e.g. if a movie becomes popular it is probable that news spread very fast
+on twitter, but slower on newspaper, whereas other topics are discussed on
+twitter only after news about them came out for several days). Thus, we
+considered a enlarged time window for news which starts 5 days before the
+beginning of the contradiction and last up to 5 days after the end of it.
+
 After that, we manually labelled each contradiction point with the event which
 caused it. The topics, contradiction points and events used for the experiments
 are showed in table \ref{tab:setup}
