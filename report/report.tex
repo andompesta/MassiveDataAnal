@@ -77,16 +77,21 @@
 \begin{abstract}
 In this report we consider the task of extracting a summary of the main event
 that caused a shift on the opinion of Twitter users. This paper presents
-several techniques which might be used to analyze these \emph{sentiment shift}
+several techniques which can be used to analyze these \emph{sentiment shift}
 and to find the event which caused them. For each technique presented below
 some aspects are taken in account, which are important in the context of a data
 mining application, such as scalability and efficiency. A comparison of the
-different techniques is showed as well.\end{abstract}   
+different techniques is shown as well.\end{abstract}   
 
 \section*{Introduction}
 This work aims to find a summary of the events which caused a \emph{sentiment shift}. 
 
-While event extraction NLP techniques are mature, their performance on tweets inevitably degrades due to the inherent sparsity in short texts.  Since tweets contain heterogeneous language structures and are at most 140 characters long, to extract event from tweets is quite tricky: instead linking tweet to news allows us to extract events from news text that has a well formed structure and contains more text with respect to tweets.
+While event extraction Natural Language Processing (NLP) techniques are mature,
+their performance on tweets inevitably degrades due to the inherent sparsity in
+short texts.  Since tweets contain heterogeneous language structures and are at
+most 140 characters long, to extract event from tweets is quite tricky: instead
+linking tweet to news articles allows us to extract data from well structured
+and longer text than tweets.
 
 %Due to the fact that our dataset is composed by labelled tweets, we manage to extract news from the New York Times archive basing the research on tweet's label. Starting form a good Tweet-News classification, allowed us to correlate tweet and news that belong to the same macro-topics avoiding to correlate object of different arguments.
 
@@ -95,14 +100,21 @@ dependent methods, whereas we want a methodology as language independent as
 possible. 
 
 This paper is structured as follows: in the next chapter we present some works
-which are somehow related with the one we are addressing, then we present a more
-formal definition of our problem and three different techniques which might be
-used to solve it (two of this techniques are based on the \emph{bag of words}
-approach - one exploiting the \emph{SpaceSaving algorithm} presented in
-\cite{SS}, the other exploiting \emph{Latent Semantic Indexing} \cite{LSA} - ,
-whereas the third one exploits \emph{n-gram graphs} \cite{Ngram}).
-After that we will show and compare the results and the performances which
-characterize each of these metodologies. At the end of the paper we will present
+which are somehow related with the problem we are addressing, then we present a more
+formal definition of our problem and some techniques which might be
+used to solve it. The techniques which will be later discussed are:
+\begin{itemize}
+	\item a technique exploiting the \emph{SpaceSaving} algorithm presented in
+		\cite{SS};
+	\item a technique exploiting \emph{Latent Semantic Indexing} \cite{LSA};
+	\item the third one based on the popular \emph{Tf/Idf};
+	\item the last (but not least) which take advantage of ngram graphs
+		\cite{Ngram}
+\end{itemize}
+We will discuss each of these showing their advantages and
+disadvantages, their efficiency and scalability issues. In addition, we will
+show experimental results in order to compare their results and performances.
+At the end of the paper we will present
 some conclusions and draw some suggestions on how this work may be extended.
 
 \section*{Related Work}

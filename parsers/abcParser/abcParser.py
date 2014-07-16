@@ -17,7 +17,8 @@ months = { "January":1, \
 		"December":12, \
 		}
 
-def newsParser(errf, url) :
+
+def newsParser(errf, url, newsID) :
 	try :
 		response = requests.get(url)
 		soup = BeautifulSoup(response.text)
@@ -39,7 +40,7 @@ def newsParser(errf, url) :
 				lead_paragraph = p.get_text()
 			else :
 				full_text += p.get_text()
-		return {"title":title, "lead_paragraph":lead_paragraph, "full_text":full_text, "pub_date":fpub_date}
+		return {"title":title, "lead_paragraph":lead_paragraph, "full_text":full_text, "pub_date":fpub_date, "_id":{"$oid":newsID}}
 	except Exception as exc :
 		print("ERROR: Unreadable schema detected. Details can be found on log file")
 		errf.write(str(exc) + '\n')
@@ -90,10 +91,11 @@ if __name__ == "__main__" :
 	print("{0} news have been selected for download".format(len(newsURLs)))
 	# Downloading the news
 	trimmedTopic = args.topic.replace(" ", "")
+	idBase = "ABC" + trimmedTopic
 	with open("abc_{0}.json".format(trimmedTopic), "w") as outf :
 		with open("errors.log", "w") as errf :
 			articles = []
 			for idx, url in enumerate(newsURLs) :
 				print("Downloading and parsing news {0}/{1}".format(idx+1, len(newsURLs)))
-				articles.append(newsParser(errf, "http://www.abc.net.au" + url))
+				articles.append(newsParser(errf, "http://www.abc.net.au" + url, idBase+str(idx)))
 			outf.write(json.dumps({"topic" : trimmedTopic, "articles" : articles}))
