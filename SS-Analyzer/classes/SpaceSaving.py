@@ -53,3 +53,12 @@ class SpaceSaving :
 			if value >= threshold :
 				wlist.append({"word":v["word"], "value":value})
 		return wlist
+
+	def getBestWords(self, n = None) :
+		if n == None : n = len(self.vals)
+		smartList = [{"word":v["word"], "value":v["occurrencies"]-v["error"]} for v in self.vals]
+		smartList.sort(key=(lambda d: d["value"]), reverse=True)
+		return smartList[:n]
+
+
+

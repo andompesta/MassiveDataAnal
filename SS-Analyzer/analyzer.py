@@ -37,6 +37,7 @@ if __name__ == "__main__" :
 	# commonWordsValues is a list of list of pair
 	# it contains a list of pair <word, value> for each different contr. point
 	commonWordsValues = []
+	bestWords = []
 	with open(tweetsFileName, "r") as tfile :
 		idx = 1
 		# Each line corresponds to a different contradiction point
@@ -54,6 +55,7 @@ if __name__ == "__main__" :
 				for word in t.lower().split() :
 					ss.notify(word)
 			commonWordsValues.append(ss.getSmartList())
+			bestWords.append(ss.getBestWords(10))
 
 	# Initializing the comparator class
 	wsize = timedelta(days=3)
@@ -80,6 +82,9 @@ if __name__ == "__main__" :
 	#	for idx in range(len(timeIntervals)) :
 	#		comparator[idx].compare(n, "Wikipedia")
 	# Printing results
-	for c in comparator :
+	for idx, c in enumerate(comparator) :
 		c.printinfo()
+		print("Frequent terms: ", end="")
+		for w in bestWords[idx] : print("{0}({1})".format(w["word"], w["value"]), end="\t")
+		print()
 
