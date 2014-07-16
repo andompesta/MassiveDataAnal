@@ -72,44 +72,19 @@ error of five days on the contradiction window are shown in table
 
 
 \subsubsection*{Tf/idf evaluation}
-%\begin{table*}
-%	\centering
-%	\begin{tabularx}{\textwidth}{|l|X|}
-%		\hline
-%		Contr. point & Output \\
-%		Cern1		&
-%		Cern2		&
-%		FortHood	&
-%		HangOver	&
-%		Lcross		&
-%		Jackson1	&
-%		Jackson2	&
-%		SwineFlu	&
-%	\end{tabularx}
-%	\caption{Results achieved using Tf/idf}
-%	\label{tab:resultsTFIDF}
-%\end{table*}
+
+\include{chapters/results/TfIdf}
 
 \subsubsection*{Ngram Graph evaluation}
-As for the other methods for the NGG computation we used a time windows of five days and in table \ref{} are reported the obtained results
+Similarly as the other methods, as for NGG methodologies we used a time windows of five days. In table \ref{tab:resultsNGG} are reported the obtained results with the following field:
+\begin{itemize}
+	\item \emph{Summary mean score}: that indicate the mean of the correlation value of the news used for create the summary
+	\item \emph{News homogeneity}: is the average of the NVS similarity values computed between all the news inside the time windows(average of the all-to-all value). This value indicate how much the news inside the time windows are similar one to the other.
+	\item \emph{News best score}: indicate the maximum correlation value between a news and the contradiction tweet
+\end{itemize}
+It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies
 
-%\begin{table*}
-%	\centering
-%	\begin{tabularx}{\textwidth}{|l|X|}
-%		\hline
-%		Contr. point & Output \\
-%		Cern1		&
-%		Cern2		&
-%		FortHood	&
-%		HangOver	&
-%		Lcross		&
-%		Jackson1	&
-%		Jackson2	&
-%		SwineFlu	&
-%	\end{tabularx}
-%	\caption{Results achieved using ngram graphs}
-%	\label{tab:resultsNGG}
-%\end{table*}
+\include{chapters/results/NGG}
 
 All the experiment about Ngram graph where conduced on a 2,4 GHz Intel Core 2 Duo with 4 GB 1067 MHz DDR3 RAM memory.
  All the code was compiled with intellij IDEA on Java 1.8 language. 
