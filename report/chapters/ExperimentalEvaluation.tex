@@ -47,7 +47,7 @@ birthday\\
 \subsection*{Experiments}
 \subsubsection*{SpaceSaving evaluation}
 The results achieved using the \emph{SpaceSaving} methodology with a maximum
-error of three days on the contradiction window are shown in table
+error of five days on the contradiction window are shown in table
 \ref{tab:resultsSS}.
 \include{chapters/results/SS}
 
@@ -91,6 +91,8 @@ error of three days on the contradiction window are shown in table
 %\end{table*}
 
 \subsubsection*{Ngram Graph evaluation}
+As for the other methods for the NGG computation we used a time windows of five days and in table \ref{} are reported the obtained results
+
 %\begin{table*}
 %	\centering
 %	\begin{tabularx}{\textwidth}{|l|X|}
@@ -165,26 +167,7 @@ Is possible to notice how for bigger ND values, the computation time for of the 
 \end{figure*} 
 
 
-Figure \ref{fig:et-fixed-r3-winds} report the variation of computation time for fixed rank value(3). The shape of the computation time in this case is always the same: exponential respect the ND. 
-Notice that the max computation time always increase with the increasing of the windows size, since the algorithm have to compute the similarity between more news. In this way we can derive that the number of news, inside the time windows, affect the computation time in a almost linear way.
-
-
-\begin{figure*}[htbp]
-	\centering
-			\begin{subfigure}[windows distance of 5 days]
-					{\includegraphics[width=5cm,height=5cm]{image/win_0_rank_3.pdf}}	
-			\end{subfigure}
-			\begin{subfigure}[windows distance of 7 days]
-					{\includegraphics[width=5cm,height=5cm]{image/win_1_rank_3.pdf}}	
-			\end{subfigure}
-			\begin{subfigure}[windows distance of 10 days]
-					{\includegraphics[width=5cm,height=5cm]{image/win_2_rank_3.pdf}}	
-			\end{subfigure}
-			\begin{subfigure}[windows distance of 30 days]
-					{\includegraphics[width=5cm,height=5cm]{image/win_3_rank_3.pdf}}	
-			\end{subfigure}
-			\caption[et-fixed-10days-r-nd]{Execution time for different neighbourhood distance }
-	\label{fig:et-fixed-r3-winds}
-\end{figure*} 
+%Figure \ref{fig:et-fixed-r3-winds} report the variation of computation time for fixed rank value(3). The shape of the computation time in this case is always the same: exponential respect the ND. 
+%Notice that the max computation time always increase with the increasing of the windows size, since the algorithm have to compute the similarity between more news. In this way we can derive that the number of news, inside the time windows, affect the computation time in a almost linear way.
 
 
