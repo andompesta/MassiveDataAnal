@@ -10,14 +10,6 @@ It's important to remember that tweet have different language structure that nee
 	\item conversion from Unicode to ASCII
 \end{itemize}
 
-In addition, while parsing the news, we considered the possibility that the
-opinion expressed by tweets might be both delayed or in advance with respect to
-news (e.g. if a movie becomes popular it is probable that news spread very fast
-on twitter, but slower on newspaper, whereas other topics are discussed on
-twitter only after news about them came out for several days). Thus, we
-considered a enlarged time window for news which starts 5 days before the
-beginning of the contradiction and last up to 5 days after the end of it.
-
 After that, we manually labelled each contradiction point with the event which
 caused it. The topics, contradiction points and events used for the experiments
 are showed in table \ref{tab:setup}
@@ -53,35 +45,18 @@ birthday\\
 \end{table*}
 
 \subsection*{Experiments}
+In this section we are going to present all the experiments present conduced with the different methods; for this purpose all the algorithm allow a maximum error of five days on the contradiction window.
+
 \subsubsection*{SpaceSaving evaluation}
-The results achieved using the \emph{SpaceSaving} methodology with a maximum
-error of five days on the contradiction window are shown in table
-\ref{tab:resultsSS}.
-\include{chapters/results/SS}
-
-\subsubsection*{LSI evaluation}
-%\begin{table*}
-%	\centering
-%	\begin{tabularx}{\textwidth}{|l|X|}
-%		\hline
-%		Contr. point & Output \\
-%		Cern1		&
-%		Cern2		&
-%		FortHood	&
-%		HangOver	&
-%		Lcross		&
-%		Jackson1	&
-%		Jackson2	&
-%		SwineFlu	&
-%	\end{tabularx}
-%	\caption{Results achieved using LSI}
-%	\label{tab:resultsLSI}
-%\end{table*}
-
+In the table \ref{tab:resultsSS} is possible to see how the simple SpaceSaving algorithm perform creating a summary on the topic.
 
 \subsubsection*{Tf/idf evaluation}
 
-\include{chapters/results/TfIdf}
+
+\subsubsection*{LSI evaluation}
+
+
+
 
 \subsubsection*{Ngram Graph evaluation}
 Similarly as the other methods, as for NGG methodologies we used a time windows of five days. In table \ref{tab:resultsNGG} are reported the obtained results with the following field:
@@ -90,7 +65,12 @@ Similarly as the other methods, as for NGG methodologies we used a time windows 
 	\item \emph{News homogeneity}: is the average of the NVS similarity values computed between all the news inside the time windows(average of the all-to-all value). This value indicate how much the news inside the time windows are similar one to the other.
 	\item \emph{News best score}: indicate the maximum correlation value between a news and the contradiction tweet
 \end{itemize}
-It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies
+It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies.
+
+
+\include{chapters/results/SS}
+
+\include{chapters/results/TF-Idf}
 
 \include{chapters/results/NGG}
 
