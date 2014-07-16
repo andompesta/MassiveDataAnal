@@ -7,6 +7,7 @@ from classes.TweetParser import *
 from classes.NewsParser import *
 from classes.TextComparator import *
 from classes.WikiParser import *
+from classes.preprocess import *
 
 if __name__ == "__main__" :
 	# Parsing arguments...
@@ -19,10 +20,11 @@ if __name__ == "__main__" :
 	# Reading the stop words file
 	swf = config["Paths"]["StopWordFile"]
 	try :
-		with open(swf, "r") as fin :
-			stopWords = [line.rstrip("\n") for line in fin]
+		with open(swf, "r") as fin : stopWords = fin.read().replace('\n',' ').strip().split()
 	except IOError :
 		print("WARNING: no stopwords file or invalid file")
+	with open(config["Paths"]["dPatternsFile"]) as fin : dpatterns = fin.read().replace('\n',' ').strip().split()
+	with open(config["Paths"]["PunctuationFile"]) as fin : punctuation = fin.read().replace('\n',' ').strip().split()
 	
 	# Getting contradiction time interval
 	contrFile = open(config["Paths"]["ContrInfo"].replace("X", args.topic), "r")
@@ -46,13 +48,16 @@ if __name__ == "__main__" :
 		# Also, while parsing them, we also compute the time interval
 		# the tweets have been published in
 		for line in tfile :
-			ss = SpaceSaving(size=100, stopWordsList=(stopWords or []))
+			ss = SpaceSaving(size=100)
 			tweets = TweetParser(line)
 			print("Computing the list of more common words for contr. point {0}".format(idx))
 			idx += 1
 			tweetsText = tweets.getText()
-			for t in tweetsText :
-				for word in t.lower().split() :
+			preproc = Preprocessing(stopWords, punctuation, dpatterns, True, True)
+			tweetsToken = [preproc.processDoc(tt) for tt in tweetsText]
+
+			for t in tweetsToken :
+				for word in t :
 					ss.notify(word)
 			commonWordsValues.append(ss.getSmartList())
 			bestWords.append(ss.getBestWords(10))
@@ -85,6 +90,6 @@ if __name__ == "__main__" :
 	for idx, c in enumerate(comparator) :
 		c.printinfo()
 		print("Frequent terms: ", end="")
-		for w in bestWords[idx] : print("{0}({1})".format(w["word"], w["value"]), end="\t")
+		for w in bestWords[idx] : print("{0}({1})".format(w["word"], w["value"]), end=", ")
 		print()
 

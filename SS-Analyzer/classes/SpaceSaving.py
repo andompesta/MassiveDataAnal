@@ -4,21 +4,17 @@ import collections
 import hashlib
 
 class SpaceSaving :
-	def __init__ (self, size=10, stopWordsList=[], HashSize=1000) :
+	def __init__ (self, size=10, HashSize=1000) :
 		self.k = size
 		self.vals = []
 		self.cnt = collections.Counter()
 		self.hash_dim = HashSize
-		self.stopWords = stopWordsList
 
 	# Check whether a word is a stop word and should be ignored
 	def StopWord(self, word) :
 		return word in self.stopWords
 
 	def notify (self, word) :
-		word = word.lower()
-		if self.StopWord(word) :
-			return
 		# Update the hash table
 		wordhash = int(hashlib.md5(word.encode("utf-8")).hexdigest(), 16) % self.hash_dim
 		self.cnt[wordhash] += 1
