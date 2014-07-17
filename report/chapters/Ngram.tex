@@ -1,9 +1,7 @@
 N-Gram Graph (NGG) is a NPL tool initially proposed by George Giannakopoulos \cite{Ngram} that uses word or character n-grams in order to achieve documents summarization. The NGG tool basically slices the text in word or character n-grams and then represent them in a graph \emph{G = $\lbrace N,E,L,W\rbrace$} according to the following structure:
-% io inserirei prima la definizione di vicino secondo gli NGG
-% poi sotto possiamo riutilizzarla. Cosi' mi pare confuso, non si e' mai spiegata la cosa della finestra
 \begin{itemize}
 	\item N is the set of nodes created for every different n-gram in the text
-	\item E represent the edge of the graph; two nodes are connected if they are ``close'' or whithin a \emph{distance window} from each other
+	\item E represent the edge of the graph; two nodes are connected if they are "close'' or within a \emph{distance window} from each other. The distance windows is denominated as neighbourhood distance
 	\item L is a labelling function which assigns labels to every node and every edge (define the size of the n-gram)
 	\item W is the weight function which assigns weights to every edge according to the number of times that two n-gram appear close one to the other
 \end{itemize}
@@ -63,14 +61,20 @@ This approach requires a lot of computation, since have to compute the graph rep
 The second goal of this research is to create a summary of the event that cause the sentiment shift. 
 
 For this purpose we use the news with the highest correlation value obtained at the step before.
-Our choice was to limit the summary length to 150 word, and to compute it extracting information from only the best 4 news. Increasing the summary length can require more news.
+Our choice was to limit the summary length to 150 word so there is no need to summarize many document. 
+In particulate we select the candidate document $D_c$ to be summarized with the following procedure:
+\begin{itemize}
+	\item compute the standard deviation($std_{dev}$) between all the correlation value of the document in the selected time windows
+	\item add at the set $D_c$ the news mostly correlate and save his correlation value $C_b$
+	\item add at the set $D_c$ two more news if their score is inside the interval [$C_b - std_{dev}$, $C_b$]
+\end{itemize}
+In this way we obtain at most three news to summarize and the intersection of the news will never be empty because we intersect quite similar news.
 
 The summary algorithm perform the following action:
 \begin{itemize}
-	\item sort the news according the correlation value obtained before
-	\item save all the sentence of text best $4$ news in a set; the sentence detection is perform using OpenNLP
-	\item create the intersection graph of the best $4$ news ($G_{bn}$)
-	\item for every sentence saved compute the NVS between the sentence n-gram graph and the intersection graph ($NVS( G_{s}, G_{bn} )$)
+	\item save all the sentence of the candidate news in a set $S_c$; the sentence detection is perform using OpenNLP
+	\item create the intersection graph($G_{bn}$) of the candidate news inside $D_c$
+	\item for every sentence inside $S_c$ compute the NVS between the sentence n-gram graph and the intersection graph ($NVS( G_{s}, G_{bn} )$)
 	\item create the summary using the sentence with the highest NVS value until we reach 150 word
 \end{itemize}
 this algorithm create a summary composed by the most significant sentences in news with the highest correlation value using a back-loop approach, but is not able to remove redundant sentences. Even so, a summary composed by sentences results to be more human readable than a list of key word.

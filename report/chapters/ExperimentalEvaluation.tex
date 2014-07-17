@@ -68,9 +68,10 @@ LSI as for TF-IDF present a list of word for output that are reported on table \
 \subsubsection*{Ngram Graph evaluation}
 In table \ref{tab:resultsNGG} are reported the obtained results with the following field:
 \begin{itemize}
-	\item \emph{Summary mean score}: that indicate the mean of the correlation value of the news used for create the summary
-	\item \emph{News homogeneity}: is the average of the NVS similarity values computed between all the news inside the time windows(average of the all-to-all value). This value indicate how much the news inside the time windows are similar one to the other.
-	\item \emph{News best score}: indicate the maximum correlation value between a news and the contradiction tweet
+	\item \emph{Summary mean}: is the average correlation score between the news used to create the summary
+	\item \emph{Best news}: indicate the maximum correlation value between a news and the contradiction tweet
+	\item \emph{News homogeneity}: is the average of the NVS similarity values computed between all the news inside the time windows(average of the all-to-all value). This value indicate how much the news inside the time windows are similar one to the other
+	\item \emph{News-Tweet avg}: average between the correlation value of all the news inside the time windows and the contradiction tweet. Indicate on average how much the news inside the time windows are correlate with the tweet
 \end{itemize}
 It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies.
 
