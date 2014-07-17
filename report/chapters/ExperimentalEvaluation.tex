@@ -73,8 +73,7 @@ In table \ref{tab:resultsNGG} are reported the obtained results with the followi
 	\item \emph{News homogeneity}: is the average of the NVS similarity values computed between all the news inside the time windows(average of the all-to-all value). This value indicate how much the news inside the time windows are similar one to the other
 	\item \emph{News-Tweet avg}: average between the correlation value of all the news inside the time windows and the contradiction tweet. Indicate on average how much the news inside the time windows are correlate with the tweet
 \end{itemize}
-It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies.
-
+It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies and all the experiment reported where conduced with the default setting suggested by George Giannakopoulos of rank=3 and neighbourhood distance = 3
 
 \include{chapters/results/SS}
 
@@ -83,6 +82,7 @@ It's important to point out that, for presentation reasons, the summary reported
 \include{chapters/results/LSI}
 
 \include{chapters/results/NGG}
+
 
 \subsubsection*{NGG performance}
 All the experiment about Ngram graph where conduced on a 2,4 GHz Intel Core 2 Duo with 4 GB 1067 MHz DDR3 RAM memory.
@@ -94,10 +94,10 @@ The reported test where conduced on Cern topic data set, since is the one that h
 	\item time windows
 \end{itemize}
 
+
 In figure \ref{fig:et-fixed-10days-r-rank} is reported the computational time respect the neighbourhood distance for different rank values. 
 It is easy to notice how for all the rank there is an exponential behaviour respect to the neighbourhood distance. 
-Increasing ND will increase exponentially the number of edges that a graph contains, so the computation will became exponentially longer.
-Since neighbourhood distance strongly affect the computational time and have no big difference on the summary obtained, is reasonable to use a ND between 3 and 4.
+Enlarging ND cause an exponential increasing of the edges number that a graph contains, so the computation time became exponentially longer.
 
 \begin{figure*}[htbp]
 	\centering
@@ -139,6 +139,29 @@ Is possible to notice how for bigger ND values, the computation time for of the 
 			\caption[et-fixed-10days-r-nd]{Execution time for different neighbourhood distance }
 	\label{fig:et-fixed-10days-r-nd}
 \end{figure*} 
+
+For what concern the summary point of view the neighbourhood distance factor has little influence on the summary since changing his value just produce a swapping on the order of the sentence in the summary.
+In particular for a rank = 3 we obtain the following summary:
+\begin{enumerate}
+	\item bird escaped unharmed but lost its bread,'CERN said in a statement.The 27 kilometre-long particle collider, which runs in a circular tunnel under the French-Swiss border near Geneva, has been plagued by problems since it was briefly started in September 2008.CERN said the latest incident was minor and did not affect attempts to restart the accelerator later this month following repairs.
+	
+	\item It was the first time protons have traveled in the giant particle accelerator since last September when the first attempts to turn on the \$6 billion machine ended in a fury of sparks and smoke.
+	
+	\item This work, conducted during the past week, was the first time protons have traveled in the giant particle accelerator since last September when the first attempts to turn on the \$6-billion machine ended in a fury of sparks and smoke.
+	
+	\item The machine was designed to accelerate the protons to 7 trillion electron volts before colliding them, but the laboratory had already announced that problems with the magnets and connections between them would restrict the energies to only about half that, about 3.  5 trillion electron volts, when collisions begin in earnest next year.
+\end{enumerate}
+
+instead for a rank = 6 we obtain the summary
+\begin{enumerate}
+	\item bird escaped unharmed but lost its bread,'CERN said in a statement.The 27 kilometre-long particle collider, which runs in a circular tunnel under the French-Swiss border near Geneva, has been plagued by problems since it was briefly started in September 2008.CERN said the latest incident was minor and did not affect attempts to restart the accelerator later this month following repairs.
+	\item This work, conducted during the past week, was the first time protons have traveled in the giant particle accelerator since last September when the first attempts to turn on the \$6-billion machine ended in a fury of sparks and smoke.
+	\item It was the first time protons have traveled in the giant particle accelerator since last September when the first attempts to turn on the \$6 billion machine ended in a fury of sparks and smoke.
+	\item The machine was designed to accelerate the protons to 7 trillion electron volts before colliding them, but the laboratory had already announced that problems with the magnets and connections between them would restrict the energies to only about half that, about 3.  5 trillion electron volts, when collisions begin in earnest next year.
+\end{enumerate}
+
+This means that the rank has just a little effect of the order of the sentence, but not on the news-tweet correlation.
+Knowing that neighbourhood distance strongly affect the computational time and slightly change the summary; it is reasonable to use a ND between 3 and 4 as suggested by the N-gram graph creator
 
 
 %Figure \ref{fig:et-fixed-r3-winds} report the variation of computation time for fixed rank value(3). The shape of the computation time in this case is always the same: exponential respect the ND. 
