@@ -3,8 +3,8 @@ try :
 	EnableStats = True
 except ImportError :
 	EnableStats = False
-	print("WARNING: python 3.4 is required to compute the statistics")
-	print("If you don't care about stats you can go ahead, everything will be fine")
+	print("\033[93mWARNING: python 3.4 is required to compute the statistics\033[0m")
+	print("If you don't care about stats you can go ahead, everything will be fine\n")
 
 class TextComparator :
 	def __init__(self, timeInterval, windowsize, wordsValues) :
