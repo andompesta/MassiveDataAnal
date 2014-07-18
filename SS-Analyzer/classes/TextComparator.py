@@ -1,6 +1,8 @@
 try :
 	import statistics
+	EnableStats = True
 except ImportError :
+	EnableStats = False
 	print("WARNING: python 3.4 is required to compute the statistics")
 	print("If you don't care about stats you can go ahead, everything will be fine")
 
@@ -35,14 +37,12 @@ class TextComparator :
 			print("\nNo news found in the selected time period")
 			return
 		print("\nAnalyzed {0} news".format(len(self.scoreList)))
-		try :
-			mean = statistics.mean(self.scoreList)
-			stdev = statistics.stdev(self.scoreList)
-		except statistics.StatisticsError :
-			print("WARNING: not enough point to compute mean and standard deviation")
-			mean = stdev = 0
-		except ImportError :
-			print("WARNING: python 3.4 is required to compute the statistics")
-			mean = stdev = 0
-		print("Mean: {0}\nStdDev: {1}".format(mean, stdev))
+		if EnableStats :
+			try :
+				mean = statistics.mean(self.scoreList)
+				stdev = statistics.stdev(self.scoreList)
+			except statistics.StatisticsError :
+				print("WARNING: not enough point to compute mean and standard deviation")
+				mean = stdev = 0
+			print("Mean: {0}\nStdDev: {1}".format(mean, stdev))
 		print("Best news published on: {0} by {3}\tScore:{1}\n{2}...".format(self.bestDate, self.bestScore, self.bestText, self.bestPublisher))
