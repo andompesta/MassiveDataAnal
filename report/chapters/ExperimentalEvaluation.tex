@@ -19,34 +19,94 @@ considered a enlarged time window for news which starts 5 days before the
 beginning of the contradiction and last up to 5 days after the end of it.
 
 After that, we manually labelled each contradiction point with the event which
-caused it. The topics, contradiction points and events used for the experiments
-are showed in table \ref{tab:setup}
+caused it. 
+
+The topics and contradiction points used for the experiments 
+are showed in table \ref{tab:setup}. For each contradiction point we list its
+symbolical name, the time interval in which it occurred, a description of the event
+which we extracted by reading the tweet and a short label which syntetize it,
+the number of news present in the contradiction interval $\pm 5$ days,
+the correlation among these news and among news and tweets in the window.
 
 \begin{table*}
 	\centering
-	\begin{tabularx}{\textwidth}{|l|l|X|}
+	\begin{tabularx}{\textwidth}{XX}
+	
 	\hline
-	Contr. point 	& Contr. window 			& Event \\
-	\hline 
-	Cern1			& 2009-10-29 - 2009-11-08 	& On November 3rd a bird drops a
-piece of bread which cause LHC overheating. \\
-	Cern2			& 2009-11-24 - 2009-12-04	& On November 30th LHC accelerates protons to an
-energy of 1.18 TeV, becoming the world most powerful energy particle
-accelerator\\
-	FortHood 		& 2009-11-02 - 2009-11-06	& On November 5th a US marine
-kills 13 people\\
-	HangOver		& 2009-06-21 - 2009-06-27	& undetermined or movie released
-	on June 5th\\
-	Lcross			& 2009-10-31 - 2009-11-08	& Preliminary findings from
-	Lcross. Others announced\\
-	Jackson1		& 2009-06-19 - 2009-06-25	& On June 25th Michael Jackson
-dies\\
-	Jackson2		& 2009-08-23 - 2009-08-29	& On august 28th another popular
+\textbf{Contr. point:} Cern1 & \textbf{Contr. window:} 2009-10-29 - 2009-11-08\\
+\multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
+	\textbf{Description:} On November 3rd a bird drops a
+piece of bread which cause LHC overheating.
+} \\
+\textbf{Label:} bird accident & \textbf{Number of news in window $\pm 5$ days:} 3 \\
+\textbf{IntraNews correlation:} 0.44437 & \textbf{News-Tweets correlation:} 0.3572 \\
+
+	\hline
+\textbf{Contr. point:} Cern2 & \textbf{Contr. window:} 2009-11-24 - 2009-12-04\\
+\multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
+	\textbf{Description:} On November 30th LHC accelerates protons to an
+energy of 1.18 TeV, becoming the world most powerful energy particle accelerator
+} \\
+\textbf{Label:} power on and record & \textbf{Number of news in window $\pm 5$ days:} 6 \\
+\textbf{IntraNews correlation:} 0.25468 & \textbf{News-Tweets correlation:} 0.44832 \\
+
+	\hline
+\textbf{Contr. point:} FortHood & \textbf{Contr. window:} 2009-11-02 - 2009-11-06\\
+\multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
+	\textbf{Description:} On November 5th a US marine kills 13 people
+} \\
+\textbf{Label:} shooting & \textbf{Number of news in window $\pm 5$ days:} 70 \\
+\textbf{IntraNews correlation:} 0.26553 & \textbf{News-Tweets correlation:} 0.3582 \\
+
+\hline
+\textbf{Contr. point:} Hangover & \textbf{Contr. window:} 2009-06-21 - 2009-06-27\\
+\multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
+	\textbf{Description:} People are entusiastic about the movie (released on June 5th)
+} \\
+\textbf{Label:} movie released & \textbf{Number of news in window $\pm 5$ days:} 5 \\
+\textbf{IntraNews correlation:} 0.19866 & \textbf{News-Tweets correlation:} 0.37797 \\
+
+\hline
+\textbf{Contr. point:} Lcross & \textbf{Contr. window:} 2009-10-31 - 2009-11-08\\
+\multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
+	\textbf{Description:} NASA publishes preliminary results on the Lcross missions.
+	Other results are announced to be released in the next weeks
+} \\
+\textbf{Label:} preliminary findings & \textbf{Number of news in window $\pm 5$ days:} 0 \\
+\textbf{IntraNews correlation:} 0 & \textbf{News-Tweets correlation:} 0 \\
+
+\hline
+\textbf{Contr. point:} Jackson1 \textbf{Contr. window:} 2009-06-19 - 2009-06-25 \\
+\multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
+	\textbf{Description:} People discuss about incoming Michael Jackson concert in London.
+The singer dies on June 25th.
+}\\
+\multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
+	\textbf{Note:} The contradiction ends in the same day in which Jackson died, hence
+	only a small amount of the tweets in the interval are about his death.
+} \\
+\textbf{Label:} Jackson's death & \textbf{Number of news in window $\pm 5$ days:} 95 \\
+\textbf{IntraNews correlation:} 0.21324 & \textbf{News-Tweets correlation:} 0.22579 \\
+
+\hline
+\textbf{Contr. point:} Jackson2 \textbf{Contr. window:} 2009-08-23 - 2009-08-29 \\
+\multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
+	\textbf{Description:} On august 28th another popular
 musician, Adam Goldstein, dies. The day after, August 29th is Jackson's
-birthday\\
-	SwineFlu		& 2009-06-19 - 2009-06-23	& The swine flu is recognized as
-	a pandemic\\
-	\hline
+birthday
+}\\
+\textbf{Label:} Jackson birthday, Goldstein's death & \textbf{Number of news in window $\pm 5$ days:} 48 \\
+\textbf{IntraNews correlation:} 0.23583 & \textbf{News-Tweets correlation:} 0.54462 \\
+
+\hline
+\textbf{Contr. point:} SwineFlu \textbf{Contr. window:} 2009-06-19 - 2009-06-23 \\
+\multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
+	\textbf{Description:} Swine flu is spreading around the world.
+}\\
+\textbf{Label:} pandemic & \textbf{Number of news in window $\pm 5$ days:} 31 \\
+\textbf{IntraNews correlation:} 0.21648 & \textbf{News-Tweets correlation:} 0.20320 \\
+
+\hline
 	\end{tabularx}
 	\caption{Contradiction points used for experimental evaluation}
 	\label{tab:setup}
