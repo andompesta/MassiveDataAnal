@@ -9,3 +9,6 @@
 /bagOfWords/data/
 /MDA_GraphAnalyzer/out/
 /report/report.pdf
+*.log
+*.aux
+*_directory
