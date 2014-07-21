@@ -38,8 +38,12 @@ function notify(word) {
   if word in StopWordList return;
   H = hash(word);
   hashmap[H]++;
-  if hashmap[H] > min(occurrencies)
-    SS-replace less frequent term with word
+  if hashmap[H] > min(occurrencies) {
+    minElement = less frequent term
+    minElement[term] = word
+    minElement[error] = minElement[occ]
+    minElement[occ]++
+  }
 }
 \end{verbatim}
 
@@ -59,8 +63,7 @@ values.
 To accomplish our task, we ran the program described above on the set of tweets inside a
 \emph{contradiction point}, thus obtaining the list of frequent terms within the
 contradiction; then, we read all the news which were published in the same time
-period (a certain error between the publishing date and the contradiction
-window) and for each of them we compute its score as
+period and for each of them we compute its score as
 \begin{displaymath}
 	newsScore = \sum_{w \in W} value(w)
 \end{displaymath}
