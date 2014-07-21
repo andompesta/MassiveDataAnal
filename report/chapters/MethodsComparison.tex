@@ -1,0 +1,34 @@
+A comparison of the proposed methodologies is presented in table
+\ref{tab:methComp}.
+
+The SpaceSaving approach is, indeed, the simplest but it can be applied in real
+time and is very scalable with respect to the number of tweets and the number of
+words contained in the tweets.
+
+LSI and TF-IDF have similar characteristics, providing background removal. Both
+of them might be applied in real time, but they may suffer if the number of
+different terms in the corpus of tweets is big.
+
+The Ngram Graphs method is the only one not based on the \emph{bag of words}
+approach. It is probably the most complex approach presented, providing
+background removal and considering word order in its analysis, but it is the most
+expendive in terms of computational time and memory, making it absolutely unfeasible for
+real time applications and unpractical when the number of tweets or news in the
+contradiction window is big.
+
+\begin{table}[htb]
+	\centering
+	\begin{tabular}{r|c|c|c|c}
+		& \begin{sideways}Words order\end{sideways} & \begin{sideways}Background
+			removal\end{sideways} & \begin{sideways}Real Time\end{sideways} &
+				\begin{sideways}Scalability\end{sideways} \\
+		\hline
+		SpaceSaving & No & No & Yes & High \\
+		LSI & No & Yes & Maybe & Medium \\
+		TF-IDF & No & Yes & Maybe & Medium\\
+		NGram Graphs & Yes & Yes & No & Low\\
+		\end{tabular}
+	\caption{Comparison of proposed methods}
+	\label{tab:methComp}
+\end{table}
+
