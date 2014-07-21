@@ -31,16 +31,18 @@ just replaced, then we increment the number of occurrencies.
 
 Our python implementation of this algorithm is slightly different from the
 classic one described above, since we test the word against a list of stop words
-and we added a hashmap to avoid useless
-replacement. In our implementation, then, the following steps are performed:
-\begin{enumerate}
-	\item if the word is in the stop word lists, does nothing
-	\item otherwise compute the hash of the given word
-	\item increment the value associated to that hash
-	\item check whether the value stored in the hash map is above the number of
-		occurrencies of the less frequent term tracked by the SpaceSaving
-		algorithm. If so, the replacement occurs, otherwise nothing happens.
-\end{enumerate}
+and we added a hashmap to avoid useless replacement. The pseudo code representing
+our implementaion is the following:
+\begin{verbatim}
+function notify(word) {
+  if word in StopWordList return;
+  H = hash(word);
+  hashmap[H]++;
+  if hashmap[H] > min(occurrencies)
+    SS-replace less frequent term with word
+}
+\end{verbatim}
+
 The output of this algorithm is a couple $(word, value)$ where the value is
 computed as 
 \begin{displaymath}
@@ -64,6 +66,26 @@ window) and for each of them we compute its score as
 \end{displaymath}
 where $W$ is the list of words in the news and the value is null if that term is
 not in the \emph{frequent term list}.
+
+The pseudo code of this function is the following:
+\begin{verbatim}
+function NewsScore(WordValueList) {
+  newsList = news in contr. window
+  bestNews = ''
+  bestScore = 0
+  for news in newsList {
+    score = 0
+    for word in news {
+      if word in WordValueList
+        score += WordValueList[word]['value']
+    }
+    if score > bestScore {
+      bestScore = score
+      bestNews = news
+    }
+  }
+}
+\end{verbatim}
 
 The news with the highest score is selected as the one causing the shift and its
 first words are presented as output to the user.
