@@ -16,7 +16,7 @@ class NewsParser :
 					else : headline = ""
 					lead_paragraph = news["lead_paragraph"] or ""
 					full_text = news["full_text"] or ""
-					content = headline + lead_paragraph + full_text
+					content = "{0}. {1}. {2}.".format(headline, lead_paragraph, full_text)
 					date_tokens = news["pub_date"].split("T")[0].split("-")
 					pub_date = date(int(date_tokens[0]), int(date_tokens[1]), int(date_tokens[2]))
 					self.contentList.append({"content":content, "pub_date":pub_date})

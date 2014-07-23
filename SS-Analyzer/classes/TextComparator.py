@@ -6,18 +6,39 @@ except ImportError :
 	print("\033[93mWARNING: python 3.4 is required to compute the statistics\033[0m")
 	print("If you don't care about stats you can go ahead, everything will be fine\n")
 
+class bestStorer :
+	def __init__(self, n) :
+		self.resultList = []
+		self.size = n
+	
+	def test(self, element, score) :
+		if len(self.resultList) < self.size : 
+			self.resultList.append({"sentence":element, "score":score})
+			self.resultList.sort(key=(lambda x: x["score"]), reverse=True)
+		elif score > self.resultList[-1]["score"] :
+			self.resultList[-1] = {"sentence":element, "score":score}
+			self.resultList.sort(key=(lambda x: x["score"]), reverse=True)
+
+	def print(self) :
+		for s in self.resultList : print("{0} ({1})".format(s["sentence"],s["score"]))
+
+
+
+
 class TextComparator :
 	def __init__(self, timeInterval, windowsize, wordsValues) :
 		self.timeInterval = timeInterval
 		self.windowsize = windowsize
 		self.wordsValues = wordsValues
 		self.scoreList = []
+		self.IntervalNews = 0
 		self.bestText = ""
 		self.bestScore = 0
 		self.bestDate = None
 		self.bestPublisher = None
+		self.bestSentences = bestStorer(4)
 
-	def compare(self, text, publisher) :
+	def compareNews(self, text, publisher) :
 		if text["pub_date"] < (self.timeInterval["begin"] - self.windowsize) or text["pub_date"] > (self.timeInterval["end"] +self.windowsize) :
 			return
 		score = 0
@@ -31,6 +52,20 @@ class TextComparator :
 			self.bestText = text["content"][:150]
 			self.bestDate = text["pub_date"]
 			self.bestPublisher = publisher
+
+	def compareSentences(self, text) :
+		if text["pub_date"] < (self.timeInterval["begin"] - self.windowsize) or text["pub_date"] > (self.timeInterval["end"] +self.windowsize) :
+			return
+		self.IntervalNews += 1
+		paragraphs = text["content"].split('\n')
+		for p in paragraphs : 
+			score = 0
+			for w in p.lower().split() : 
+				for wv in self.wordsValues :
+					if wv["word"] == w :
+						score += wv["value"]
+	#		score /= len(paragraphs)
+			self.bestSentences.test(p, score)
 
 	def printinfo(self) :
 		if len(self.scoreList) == 0 :
@@ -46,3 +81,7 @@ class TextComparator :
 				mean = stdev = 0
 			print("Mean: {0}\nStdDev: {1}".format(mean, stdev))
 		print("Best news published on: {0} by {3}\tScore:{1}\n{2}...".format(self.bestDate, self.bestScore, self.bestText, self.bestPublisher))
+
+	def printSentences(self) :
+		print("\nAnalyzed {0} news".format(self.IntervalNews))
+		self.bestSentences.print()

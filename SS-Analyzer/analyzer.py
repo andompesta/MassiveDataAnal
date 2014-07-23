@@ -71,14 +71,14 @@ if __name__ == "__main__" :
 	news = np.getNewsText()
 	for n in news :
 		for idx in range(len(timeIntervals)) :
-			comparator[idx].compare(n, "NYT")
+			comparator[idx].compareSentences(n)
 	# Reading news from ABC Australia
 	print("Reading news from ABC")
 	np = NewsParser("ABC", config["Paths"]["ABCfile"].replace("X", args.topic), args.topic)
 	news = np.getNewsText()
 	for n in news :
 		for idx in range(len(timeIntervals)) :
-			comparator[idx].compare(n, "ABC Australia")
+			comparator[idx].compareSentences(n)
 	# Reading news from wikipedia and comparing
 	#print("Reading news from Wikipedia")
 	#wp = WikiParser(config["Paths"]["WikiEvents"], config["Paths"]["WikiDeaths"])
@@ -88,7 +88,8 @@ if __name__ == "__main__" :
 	#		comparator[idx].compare(n, "Wikipedia")
 	# Printing results
 	for idx, c in enumerate(comparator) :
-		c.printinfo()
+#		c.printinfo()
+		c.printSentences()
 		print("Frequent terms: ", end="")
 		for w in bestWords[idx] : print("{0}({1})".format(w["word"], w["value"]), end=", ")
 		print()
