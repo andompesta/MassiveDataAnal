@@ -5,8 +5,9 @@
 /nytParser/examples/
 /nytParser/new_jsons/
 /nytParser/old_jsons/
-/bagOfWords/examples/
+/bagOfWords/oldstuff/
 /bagOfWords/data/
+/plots/out/
 /MDA_GraphAnalyzer/out/
 /report/report.pdf
 *.log
