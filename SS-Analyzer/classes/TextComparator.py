@@ -36,7 +36,7 @@ class TextComparator :
 		self.bestScore = 0
 		self.bestDate = None
 		self.bestPublisher = None
-		self.bestSentences = bestStorer(4)
+		self.bestSentences = bestStorer(1)
 
 	def compareNews(self, text, publisher) :
 		if text["pub_date"] < (self.timeInterval["begin"] - self.windowsize) or text["pub_date"] > (self.timeInterval["end"] +self.windowsize) :
@@ -60,11 +60,12 @@ class TextComparator :
 		paragraphs = text["content"].split('\n')
 		for p in paragraphs : 
 			score = 0
-			for w in p.lower().split() : 
+			wordsList = p.lower().split()
+			for w in wordsList : 
 				for wv in self.wordsValues :
 					if wv["word"] == w :
 						score += wv["value"]
-	#		score /= len(paragraphs)
+			score /= len(wordsList)
 			self.bestSentences.test(p, score)
 
 	def printinfo(self) :
