@@ -14,6 +14,7 @@ if __name__ == "__main__" :
 	parser = argparse.ArgumentParser(description="Finds the more similar news")
 	parser.add_argument("-t", help="Topic to analyze", required=True, dest="topic")
 	parser.add_argument("--splits_at_sentence", action="store_true", help="Consider single sentences rather than paragraph")
+	parser.add_argument("--outputNumber", required=False, default=2, type=int, help="Specifies the number of sentences to be produced as output (default 2)")
 	args = parser.parse_args()
 	# ... and the configuration file
 	config = configparser.RawConfigParser()
@@ -65,7 +66,7 @@ if __name__ == "__main__" :
 
 	# Initializing the comparator class
 	wsize = timedelta(days=5)
-	comparator = [TextComparator(i, wsize, commonWordsValues[idx]) for idx, i in enumerate(timeIntervals)]
+	comparator = [TextComparator(i, wsize, commonWordsValues[idx], args.outputNumber) for idx, i in enumerate(timeIntervals)]
 	# Reading news from NYT and comparing
 	print("Reading news from NYT")
 	np = NewsParser("NYT", config["Paths"]["NYTFile"].replace("X", args.topic), args.topic)

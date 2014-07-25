@@ -34,7 +34,7 @@ class bestStorer :
 
 
 class TextComparator :
-	def __init__(self, timeInterval, windowsize, wordsValues) :
+	def __init__(self, timeInterval, windowsize, wordsValues, outputNumber) :
 		self.timeInterval = timeInterval
 		self.windowsize = windowsize
 		self.wordsValues = wordsValues
@@ -44,7 +44,7 @@ class TextComparator :
 		self.bestScore = 0
 		self.bestDate = None
 		self.bestPublisher = None
-		self.bestSentences = bestStorer(1)
+		self.bestSentences = bestStorer(outputNumber)
 
 	def compareNews(self, text, publisher) :
 		if text["pub_date"] < (self.timeInterval["begin"] - self.windowsize) or text["pub_date"] > (self.timeInterval["end"] +self.windowsize) :
