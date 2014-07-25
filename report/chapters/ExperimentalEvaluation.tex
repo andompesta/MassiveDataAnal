@@ -24,9 +24,15 @@ caused it.
 The topics and contradiction points used for the experiments 
 are showed in table \ref{tab:setup}. For each contradiction point we list its
 symbolical name, the time interval in which it occurred, a description of the event
-which we extracted by reading the tweet and a short label which syntetize it,
+which we extracted by reading the tweet and a short label which synthesize it,
 the number of news present in the contradiction interval $\pm 5$ days,
-the correlation among these news and among news and tweets in the window.
+the correlation between news (all-to-all) and the correlation between news and tweets in the window.
+
+In detail the \emph{IntraNews} correlation is a indicator of how much the news inside the time windows are similar one to the other,
+the \emph{News-Tweets} correlation, instead, indicate how much the news inside the time windows are correlate with the tweet.
+Topic with high IntraNews correlation are easy to summarize since every news contains quite the same information,
+on the other hand topic with high News-Tweets correlation are topic with low noise.
+Both IntraNews and News-Tweets  correlations are calculated using N-gram tools.
 
 \begin{table*}
 	\centering
@@ -76,7 +82,7 @@ energy of 1.18 TeV, becoming the world most powerful energy particle accelerator
 \textbf{IntraNews correlation:} 0 & \textbf{News-Tweets correlation:} 0 \\
 
 \hline
-\textbf{Contr. point:} Jackson1 \textbf{Contr. window:} 2009-06-19 - 2009-06-25 \\
+\textbf{Contr. point:} Jackson1 & \textbf{Contr. window:} 2009-06-19 - 2009-06-25 \\
 \multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
 	\textbf{Description:} People discuss about incoming Michael Jackson concert in London.
 The singer dies on June 25th.
@@ -89,7 +95,7 @@ The singer dies on June 25th.
 \textbf{IntraNews correlation:} 0.21324 & \textbf{News-Tweets correlation:} 0.22579 \\
 
 \hline
-\textbf{Contr. point:} Jackson2 \textbf{Contr. window:} 2009-08-23 - 2009-08-29 \\
+\textbf{Contr. point:} Jackson2 & \textbf{Contr. window:} 2009-08-23 - 2009-08-29 \\
 \multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
 	\textbf{Description:} On august 28th another popular
 musician, Adam Goldstein, dies. The day after, August 29th is Jackson's
@@ -99,7 +105,7 @@ birthday
 \textbf{IntraNews correlation:} 0.23583 & \textbf{News-Tweets correlation:} 0.54462 \\
 
 \hline
-\textbf{Contr. point:} SwineFlu \textbf{Contr. window:} 2009-06-19 - 2009-06-23 \\
+\textbf{Contr. point:} SwineFlu & \textbf{Contr. window:} 2009-06-19 - 2009-06-23 \\
 \multicolumn{2}{>{\setlength{\hsize}{2\hsize}\addtolength{\hsize}{2\tabcolsep}}X} {
 	\textbf{Description:} Swine flu is spreading around the world.
 }\\
@@ -112,7 +118,7 @@ birthday
 	\label{tab:setup}
 \end{table*}
 
-Some interesting considertions can be drawn looking at the contradiction points.
+Some interesting considerations can be drawn looking at the contradiction points.
 First of all, you may notice, that, although our tool detected a \emph{sentiment
 shift} in the \emph{Lcross} topic, no news can be found in the selected time period.
 Similarly, the amount of news regarding other contradiction points is sometimes
@@ -140,8 +146,6 @@ In table \ref{tab:resultsNGG} are reported the obtained results with the followi
 \begin{itemize}
 	\item \emph{Summary mean}: is the average correlation score between the news used to create the summary
 	\item \emph{Best news}: indicate the maximum correlation value between a news and the contradiction tweet
-	\item \emph{News homogeneity}: is the average of the NVS similarity values computed between all the news inside the time windows(average of the all-to-all value). This value indicate how much the news inside the time windows are similar one to the other
-	\item \emph{News-Tweet avg}: average between the correlation value of all the news inside the time windows and the contradiction tweet. Indicate on average how much the news inside the time windows are correlate with the tweet
 \end{itemize}
 It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies and all the experiment reported where conduced with the default setting suggested by George Giannakopoulos of rank=3 and neighbourhood distance = 3
 
