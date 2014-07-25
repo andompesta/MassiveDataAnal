@@ -13,6 +13,7 @@ if __name__ == "__main__" :
 	# Parsing arguments...
 	parser = argparse.ArgumentParser(description="Finds the more similar news")
 	parser.add_argument("-t", help="Topic to analyze", required=True, dest="topic")
+	parser.add_argument("--splits_at_sentence", action="store_true", help="Consider single sentences rather than paragraph")
 	args = parser.parse_args()
 	# ... and the configuration file
 	config = configparser.RawConfigParser()
@@ -71,14 +72,14 @@ if __name__ == "__main__" :
 	news = np.getNewsText()
 	for n in news :
 		for idx in range(len(timeIntervals)) :
-			comparator[idx].compareSentences(n)
+			comparator[idx].compareSentences(n, args.splits_at_sentence)
 	# Reading news from ABC Australia
 	print("Reading news from ABC")
 	np = NewsParser("ABC", config["Paths"]["ABCfile"].replace("X", args.topic), args.topic)
 	news = np.getNewsText()
 	for n in news :
 		for idx in range(len(timeIntervals)) :
-			comparator[idx].compareSentences(n)
+			comparator[idx].compareSentences(n, args.splits_at_sentence)
 	# Reading news from wikipedia and comparing
 	#print("Reading news from Wikipedia")
 	#wp = WikiParser(config["Paths"]["WikiEvents"], config["Paths"]["WikiDeaths"])

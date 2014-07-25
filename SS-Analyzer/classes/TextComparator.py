@@ -1,3 +1,4 @@
+import string
 try :
 	import statistics
 	EnableStats = True
@@ -5,6 +6,13 @@ except ImportError :
 	EnableStats = False
 	print("\033[93mWARNING: python 3.4 is required to compute the statistics\033[0m")
 	print("If you don't care about stats you can go ahead, everything will be fine\n")
+try :
+	import nltk, nltk.data
+	forceSplitsAtParagraph = False
+except ImportError :
+	forceSplitsAtParagraph = True
+	print("\033[93mWARNING: nltk or nltk-data are required to split at sentence level\033[0m")
+	print("Split will be forced at paragraph level\n")
 
 class bestStorer :
 	def __init__(self, n) :
@@ -53,20 +61,26 @@ class TextComparator :
 			self.bestDate = text["pub_date"]
 			self.bestPublisher = publisher
 
-	def compareSentences(self, text) :
+	def compareSentences(self, text, splitsAtSentence) :
 		if text["pub_date"] < (self.timeInterval["begin"] - self.windowsize) or text["pub_date"] > (self.timeInterval["end"] +self.windowsize) :
 			return
 		self.IntervalNews += 1
-		paragraphs = text["content"].split('\n')
-		for p in paragraphs : 
+		if splitsAtSentence :
+			tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+			sentences = tokenizer.tokenize(text["content"])
+		else :	
+			sentences = text["content"].split('\n')
+
+		punct = set(string.punctuation)
+		for s in sentences :
 			score = 0
-			wordsList = p.lower().split()
-			for w in wordsList : 
+			wordsList = s.lower().split()
+			for w in wordsList :
+				wCleaned = ''.join(ch for ch in w if ch not in punct)
 				for wv in self.wordsValues :
-					if wv["word"] == w :
-						score += wv["value"]
+					if wv["word"] == wCleaned : score += wv["value"]
 			score /= len(wordsList)
-			self.bestSentences.test(p, score)
+			self.bestSentences.test(s, score)
 
 	def printinfo(self) :
 		if len(self.scoreList) == 0 :
