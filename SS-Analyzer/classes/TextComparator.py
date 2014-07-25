@@ -61,7 +61,7 @@ class TextComparator :
 			self.bestDate = text["pub_date"]
 			self.bestPublisher = publisher
 
-	def compareSentences(self, text, splitsAtSentence) :
+	def compareSentences(self, text, splitsAtSentence, aggregate=1) :
 		if text["pub_date"] < (self.timeInterval["begin"] - self.windowsize) or text["pub_date"] > (self.timeInterval["end"] +self.windowsize) :
 			return
 		self.IntervalNews += 1
@@ -70,10 +70,14 @@ class TextComparator :
 			sentences = tokenizer.tokenize(text["content"])
 		else :	
 			sentences = text["content"].split('\n')
+			# Forcing to consider a single paragraph, ignoring the parameter passed by the user
+			aggregate = 1
 
 		punct = set(string.punctuation)
-		for s in sentences :
+		stopsAt = len(sentences) - (aggregate + 1)
+		for idx in range(stopsAt) :
 			score = 0
+			s = ' '.join(sentences[idx : idx + aggregate])
 			wordsList = s.lower().split()
 			for w in wordsList :
 				wCleaned = ''.join(ch for ch in w if ch not in punct)
