@@ -79,6 +79,7 @@ class TextComparator :
 			score = 0
 			s = ' '.join(sentences[idx : idx + aggregate])
 			wordsList = s.lower().split()
+			if len(wordsList) == 0 : return
 			for w in wordsList :
 				wCleaned = ''.join(ch for ch in w if ch not in punct)
 				for wv in self.wordsValues :
