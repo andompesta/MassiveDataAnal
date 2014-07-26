@@ -126,8 +126,17 @@ experiments.
 
 \subsection*{Experiments}
 \subsubsection*{SpaceSaving evaluation}
-In the table \ref{tab:resultsSS} is possible to see how the SpaceSaving algorithm behave with respect to the given task.
-In the table are listed several information such as the number of news in the selected time period, the score achieved by the best news, and the average and standard deviation values of the score (for comparison). The last rows represent a short summary obtained by concatenating the title and the first lines of the news article and the list of the more common words in the tweets (according to SpaceSaving) together with their computed value.
+Among all the possible SpaceSaving configuration, we chose to split news at
+sentence level and to group them 2 by 2, since this seemed to be the best
+configuration from some preliminary tests.
+
+The results obtained by running it are showed in table \ref{tab:resultsSS}. For
+each contradiction point the three best chunks are showed with their score, as well as the most
+common words in the tweets (according to SpaceSaving) and their value.
+
+As you may notice, some sentences are present more than once. This can be
+justified either by repetition of the same sentence in the same news or by
+articles citing previous ones.
 
 \subsubsection*{Tf/idf evaluation}
 In the table \ref{tab:resultsTfIdf} is possible to see the results of TF/IDF that is used as baseline and is possible compare other methods.
