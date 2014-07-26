@@ -12,6 +12,7 @@
 \usepackage{listings}
 \usepackage{caption}
 \usepackage{rotating}
+\usepackage{footnote}
 %\usepackage[toc,page]{appendix}
 
 %\usepackage{hyperref}
@@ -40,6 +41,8 @@
 \usepackage{cite}
 \usepackage{algorithmic} % Pacchetto per pseudocodice
 \usepackage[english]{varioref}
+
+\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
 
 \usepackage[letterpaper]{geometry}
 \geometry{top=1.0in, bottom=1.0in, left=1.0in, right=1.0in}
@@ -155,6 +158,9 @@ some conclusions and draw some suggestions on how this work may be extended.
 \bibitem{SS}
 	METWALLY Ahmed, et al. ``\emph{Efficient Computation of Frequent and Top-k
 	Elements in Data Streams}'', Lecture Notes in Computer Science Volume 3363, 2005, pp 398-412
+\bibitem{nltk}
+	BIRD, Steven. ``\emph{NLTK: The Natural Language Toolkit}''.Proceedings of the COLING/ACL '06 on Interactive presentation sessions
+Pages 69-72. 2006
 
 \end{thebibliography}
 \end{document}
