@@ -152,11 +152,7 @@ LSI as for TF-IDF present a list of word for output that are reported on table \
 
 
 \subsubsection*{Ngram Graph evaluation}
-In table \ref{tab:resultsNGG} are reported the obtained results with the following field:
-\begin{itemize}
-	\item \emph{Summary mean}: is the average correlation score between the news used to create the summary
-	\item \emph{Best news}: indicate the maximum correlation value between a news and the contradiction tweet
-\end{itemize}
+In table \ref{tab:resultsNGG} are reported the obtained results with the correlation score of the best news. It's the maximum correlation value between a news and the contradiction tweet.
 It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies and all the experiment reported where conduced with the default setting suggested by George Giannakopoulos of rank=3 and neighbourhood distance = 3
 
 \include{chapters/results/SS}
@@ -185,63 +181,42 @@ Enlarging ND cause an exponential increasing of the edges number that a graph co
 
 \begin{figure*}[htbp]
 	\centering
-			\begin{subfigure}[rank = 2]
-					{\includegraphics[width=5cm,height=5cm]{image/win_2_rank_2.pdf}}	
-			\end{subfigure}
-			\begin{subfigure}[rank = 3]
-					{\includegraphics[width=5cm,height=5cm]{image/win_2_rank_3.pdf}}	
-			\end{subfigure}
-			\begin{subfigure}[rank = 4]
-					{\includegraphics[width=5cm,height=5cm]{image/win_2_rank_4.pdf}}	
-			\end{subfigure}
-			\caption[et-fixed-10days-r-rank]{Execution time for different rank value}
+			{\includegraphics[width=5cm,height=5cm]{image/win_2_ranks.pdf}}	
+		\caption[et-fixed-10days-r-rank]{Execution time for different rank value}
 	\label{fig:et-fixed-10days-r-rank}
 \end{figure*} 
 
 In figure \ref{fig:et-fixed-10days-r-nd} is possible to see how the computation time change respect to the rank value at different neighbourhood distance. 
-Surprisingly for a neighbourhood distance = 3 the computation time with a n-gram graph of rank=3 is slightly higher respect to a rank=2. 
-That is quite strange since slicing a text in two-gram should produce more node that slicing a text in three-grams.
-Probably with rank = 2 and ND = 3; near grams are part of the same word creating graph easy to compute.
-This scenario produce a smaller computation time in a two-gram graph that a three-gram graph where we have more distinct node and so edge to check.
+It's possible to see how if we increasing the rank, the computational time is quite the same. Seems that rank can mitigate the neighbourhood distance effect. 
 
-Is possible to notice how for bigger ND values, the computation time for of the 2-gram diverge, instead 3-gram became more similar at the 4-gram behaviour. Probably because computing the similarity between 2-gram graph is an operation quite expensive since they have many edges to check.
+The computation time for of the 2-gram diverge, instead 3-gram became more similar at the 4-gram behaviour. Probably because computing the similarity between 2-gram graph is an operation quite expensive since they have many edges to check.
+Indeed neighbourhood distance is a less impactive parameter, 3 o 4 have quite the same computational time.
 
 \begin{figure*}[htbp]
 	\centering
-			\begin{subfigure}[neighbourhood distance = 3]
-					{\includegraphics[width=5cm,height=5cm]{image/win_2_ndist_3.pdf}}	
-			\end{subfigure}
-			\begin{subfigure}[neighbourhood distance = 4]
-					{\includegraphics[width=5cm,height=5cm]{image/win_2_ndist_4.pdf}}	
-			\end{subfigure}
-			\begin{subfigure}[neighbourhood distance = 5]
-					{\includegraphics[width=5cm,height=5cm]{image/win_2_ndist_5.pdf}}	
-			\end{subfigure}
-			\begin{subfigure}[neighbourhood distance = 6]
-					{\includegraphics[width=5cm,height=5cm]{image/win_2_ndist_6.pdf}}	
-			\end{subfigure}
-			\caption[et-fixed-10days-r-nd]{Execution time for different neighbourhood distance }
+			{\includegraphics[width=5cm,height=5cm]{image/win_2_ndists.pdf}}	
 	\label{fig:et-fixed-10days-r-nd}
 \end{figure*} 
 
 For what concern the summary point of view the neighbourhood distance factor has little influence on the summary since changing his value just produce a swapping on the order of the sentence in the summary.
 In particular for a rank = 3 we obtain the following summary:
 \begin{enumerate}
-	\item bird escaped unharmed but lost its bread,'CERN said in a statement.The 27 kilometre-long particle collider, which runs in a circular tunnel under the French-Swiss border near Geneva, has been plagued by problems since it was briefly started in September 2008.CERN said the latest incident was minor and did not affect attempts to restart the accelerator later this month following repairs.
-	
-	\item It was the first time protons have traveled in the giant particle accelerator since last September when the first attempts to turn on the \$6 billion machine ended in a fury of sparks and smoke.
-	
-	\item This work, conducted during the past week, was the first time protons have traveled in the giant particle accelerator since last September when the first attempts to turn on the \$6-billion machine ended in a fury of sparks and smoke.
-	
-	\item The machine was designed to accelerate the protons to 7 trillion electron volts before colliding them, but the laboratory had already announced that problems with the magnets and connections between them would restrict the energies to only about half that, about 3.  5 trillion electron volts, when collisions begin in earnest next year.
+	\item CERN said the latest incident was minor and did not affect attempts to restart the accelerator later this month following repairs.
+	\item 'The bird escaped unharmed but lost its bread,'CERN said in a statement.
+	\item Bits of a French loaf dropped on an external electrical power supply caused a short circuit last week, triggering failsafe devices that shut down part of the cooling system of the giant experiment to probe the secrets of the universe.
+	\item The bird was believed to be an owl.
+	\item The European Organisation for Nuclear Research (CERN) says the system was restored several hours after the incident last week while the multi-billion-dollar Large Hadron Collider was barely affected.
+	\item The 27 kilometre-long particle collider, which runs in a circular tunnel under the French-Swiss border near Geneva, has been plagued by problems since it was briefly started in September 2008.
 \end{enumerate}
 
 instead for a rank = 6 we obtain the summary
 \begin{enumerate}
-	\item bird escaped unharmed but lost its bread,'CERN said in a statement.The 27 kilometre-long particle collider, which runs in a circular tunnel under the French-Swiss border near Geneva, has been plagued by problems since it was briefly started in September 2008.CERN said the latest incident was minor and did not affect attempts to restart the accelerator later this month following repairs.
-	\item This work, conducted during the past week, was the first time protons have traveled in the giant particle accelerator since last September when the first attempts to turn on the \$6-billion machine ended in a fury of sparks and smoke.
-	\item It was the first time protons have traveled in the giant particle accelerator since last September when the first attempts to turn on the \$6 billion machine ended in a fury of sparks and smoke.
-	\item The machine was designed to accelerate the protons to 7 trillion electron volts before colliding them, but the laboratory had already announced that problems with the magnets and connections between them would restrict the energies to only about half that, about 3.  5 trillion electron volts, when collisions begin in earnest next year.
+	\item CERN said the latest incident was minor and did not affect attempts to restart the accelerator later this month following repairs.
+	\item Bits of a French loaf dropped on an external electrical power supply caused a short circuit last week, triggering failsafe devices that shut down part of the cooling system of the giant experiment to probe the secrets of the universe.
+	\item The European Organisation for Nuclear Research (CERN) says the system was restored several hours after the incident last week while the multi-billion-dollar Large Hadron Collider was barely affected.
+	\item 'The bird escaped unharmed but lost its bread,'CERN said in a statement. 
+	\item The bird was believed to be an owl.
+	\item The 27 kilometre-long particle collider, which runs in a circular tunnel under the French-Swiss border near Geneva, has been plagued by problems since it was briefly started in September 2008.
 \end{enumerate}
 
 This means that the rank has just a little effect of the order of the sentence, but not on the news-tweet correlation.
