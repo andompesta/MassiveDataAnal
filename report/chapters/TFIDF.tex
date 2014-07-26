@@ -1,7 +1,62 @@
-We also tried an approach based on TF-IDF to correlate the sentiment shifts with the news. TF-IDF is a widely used statistic in NLP and is indeed a effective technique to extract keywords from documents. Our methodology works as follows:
+We also tried an approach based on TF-IDF to select which paragraphs from the news articles better summarize a sentiment shift. TF-IDF is a widely used statistic in NLP and is indeed a effective technique to extract keywords from documents. In our implementation, each news article is a list of \emph{newline-separated paragraphs}, but this can be generalized by trying every possible set of $n$ contiguous sentences in the text.
+\\
+Given a topic $T$, let $Tweets_T$ and $News_T$ be, respectively, the set of all the tweets and all the news articles about that topic. Then, given a shift $S$, let $Tweets_{T,S}$ and $News_{T,S}$ be the tweets and the news falling inside that shift window.
+\\
+For each shift $S$, our methodology works as follows:
+\\\\
 \begin{algorithmic}
-\FOR {shift in Shifts}
-\STATE Compute
+
+\FORALL {$word \in Tweets_{T,S}$}
+	\STATE $n$ = number of total occurrencies of $word$ in $Tweets_{T,S}$
+	\STATE $W_{score}(word)$ = $TFIDF(word,Tweets_T) * n$
 \ENDFOR
+\STATE
+\STATE $Keywords$ = the $k$ words with highest $W_{score}$
+\STATE
+\FORALL { $Article \in News_{T,S}$ }
+	\FORALL { $Paragraph \in Article$ }
+		\STATE $P_{score}(Paragraph)$ = $0$
+
+		\FORALL { $word \in Paragraph$ }
+			\IF { $word \in Keywords$ }
+				\STATE $P_{score}(Paragraph)$ += $W_{score}(word)$
+			\ENDIF
+		\ENDFOR
+	\ENDFOR
+\ENDFOR
+\STATE
+\STATE Returns the $s$ paragraphs with highest $ {P_{score}(Paragraph) \over |Paragraph| } $
+
 
 \end{algorithmic}
+
+
+%		# computes the top-k-keywords by summing the TF-IDF values for each token in the shift tweets
+%		keywords = {}
+%		for tweet in shift['tweets'] :
+%			tokens = preprocessor.processDoc(tweet)
+%			bow = dictionary.doc2bow(tokens)
+%			for key,value in tfidf[bow] :
+%				if dictionary[key] in keywords : keywords[dictionary[key]] += value
+%				else : keywords[dictionary[key]] = value
+
+%		keywords = dict(sorted(keywords.items(),key=lambda x:x[1],reverse=True)[:topK])
+
+%		# selects the news falling into the shift window and splits them in sentences, ranking them according to the keywords TF-IDF values
+%		tBegin = shift['timeBegin']
+%		tEnd = shift['timeEnd']
+%		span = 3600*24*5
+%		candidateNews = [news[artId]['full_text'] for artId in news if 'full_text' in news[artId] and unixTime(news[artId]['pub_date']) <= tEnd + span and unixTime(news[artId]['pub_date']) >= tBegin - span]
+%		sentences = {}
+%		for s in [s for n in candidateNews for s in n.split('\n')] :
+%			score = 0
+%			for token in s.split(' ') :
+%				if token in keywords : score += keywords[token]
+%			sentences[s] = score
+
+%		total_score = 0
+%		text = ''
+%		for s,score in sorted(sentences.items(),key=lambda x:x[1],reverse=True)[:topS] :
+%			text = text + '\n' + s
+%			total_score += score
+%		summaries.append( {'summary':text.strip(),'score':total_score,'keywords':sorted(keywords.items(),key=lambda x:x[1],reverse=True)} )
