@@ -1,26 +1,22 @@
-We can distinguish two main subgoals in our project:
+Our project addresses two main sub goals::
 \begin{itemize}
 	\item compute the correlation between tweet and news
 	\item create a summary of the main event that caused the sentiment shift
 \end{itemize}
-There are several works, in literature, which refer to similar tasks. 
-In particular, due to Twitter's increasing popularity, in the last years there
-have been several works regarding the correlation and analysis of the data.
 
-In 2011 Bifet et al.\cite{Bifet} proposed a method to detect sentiment change in
-tweets, analyzing the changes in terms frequency.
-Weiwei Guo et al.\cite{LTN} proposed a framework to link tweets and news and to
-extract from the resulting correlation missing aspects of the tweet-event. 
-In their research, rather than using a LSI technique, they propose a
-methodologies based on the Weighted Textual Matrix Factorization\cite{WTMF}
-[WTMF] model(the 2012 de facto standard). This approach revealed to return
-good correlation results, making WTMF a strong tool for baseline creation.
 
-Some works which are complementary with respect to our might be found in the
-field of recommendation systems; in particular systems which address the
-problem of recommending news given some user's features. However, there is an
-important difference between this task and our, since tweets are much more
-heterogeneous than features that characterize users.
+ 
+There are several works, in literature, which refer to similar objectives. In particular, due to Twitter’s increasing popularity, in the last years there have been several works regarding the correlation and analysis of tweets data. 
+ 
+ 
+In 2011 Bifet et al. \cite{Bifet}proposed a method to detect sentiment change in tweets, analyzing the changes in term's frequency. 
+Weiwei Guo et al.\cite{LTN} proposed a framework to link tweets and news and to extract from the resulting correlation missing aspects of the tweet-event.
+In their research, rather than using a LSI technique, they propose a methodologies based on the Weighted Textual Matrix Factorization\cite{WTMF}
+[WTMF] model(the 2012 de facto standard).
+This approach revealed to return good correlation results, making WTMF a strong tool for baseline creation.
+
+Some works, which are complementary to our one, might be found in the field of recommendation systems; in particular systems which address the problem of recommending news given some user’s features and profiles.
+However, there is an important difference between these approaches and the one we are focusing on, since tweets are much more heterogeneous than features or personal profiles that characterize users. 
 
 Recently \emph{Google} presented a system for \emph{multi-sentence compression} (MSC) \cite{MSC}, which aims
 to compress several senteces trying to mantain high readability and to not lose
