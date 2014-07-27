@@ -1,10 +1,8 @@
-\subsubsection*{Description of the algorithm}
-\emph{SpaceSaving} \cite{SS} is an algorithm which was first presented by Metwally et al.
+\textbf{SpaceSaving} \cite{SS} is an algorithm which was first presented by Metwally et al.
 in 2005 to efficiently compute the most frequent terms in a data stream. It
 allows the user to find $k$ words which are among the most frequent in the given
-stream. Although this is a heuristic algorithm whose result's correctness is not
-guaranteed, SpaceSaving is able to specify the upper bound of the error for each
-word presented as output.
+stream. 
+Although this is a heuristic algorithm whose result’s correctness is not guaranteed, SpaceSaving is able to specify the upper bound of the error for each word presented as output.
 
 The classic implementation is based on a fixed size list of tuple 
 \begin{displaymath}
@@ -30,9 +28,9 @@ we set the number of errors equal to the number of occurrencies of the word we
 just replaced, then we increment the number of occurrencies.
 
 Our python implementation of this algorithm is slightly different from the
-classic one described above, since we test the word against a list of stop words
+classic one described above; we test the word against a list of \emph{stop words}
 and we added a hashmap to avoid useless replacement. The pseudo code representing
-our implementaion is the following:
+our implementation is the following:
 
 \begin{algorithmic}
 	\IF{word not in StopWordList} 
@@ -53,16 +51,16 @@ computed as
 	value = occurrencies - error
 \end{displaymath}
 In order to reduce the noise we chose to use only couples where the value is
-above a certain threshold.
+above a certain threshold; the threshold value is identified empirically.
 
 \subsubsection*{Description of the methodology}
 We have seen how we exploit the SpaceSaving algorithm to obtain the list of
 frequent terms in a text and their values. 
 
 To accomplish our task, we ran the program described above on the set of tweets inside a
-\emph{contradiction point}, thus obtaining the list of frequent terms within the
-contradiction; then, we read all the news which were published in the same time
-period, we split them into chunks (a the description of the possible methods to
+contradiction point, thus obtaining the list of frequent terms within the
+contradiction. After this process, we read all the news which were published in the same time
+period, we split them into chunks (the description of the possible methods to
 perform this split can be found in the next section) and compute the score for
 each chunk as
 \begin{displaymath}
@@ -93,20 +91,19 @@ The pseudo code of the scoring function is the following:
 \ENDFOR
 \end{algorithmic}
 The sentence with the highest score is selected as the one causing the shift and
-it is presented as output to the user. Optionally the program can 
+it is presented as output to the user.
 
 This approach revealed to be very fast and from its formulation we can see that
-it can be applied incrementally and in real time, succeding where many other fail. As a drawback, we must say that it does not
+it can be applied incrementally and in real time. As a drawback, we must say that it does not
 take in account the background coming from the topic, hence it is not able to
-discern whether a given frequent term is informative or not (e.g. running this
-program on the Obama topic it is likely that the most
+discern whether a given frequent term is informative or not.
+
+E.g. running this program on the Obama topic it is likely that the most
 frequent terms will be ``President'', `Barack'', ``Obama'', ``USA'', hence a
 news containing more repetitions of these words will have a high score, even if
-those words are not informative at all)
+those words are not informative at all.
 
 \subsubsection*{Implementation}
-The algorithm depicted in the previous paragraphs has been implemented in python 3.4.
-
 The chunks we discussed in previous section can be entire paragraph or blocks of
 $n$ consecutive sentences. A well known library, know as \emph{nltk}\cite{nltk} has been used in order to
 split news articles at sentence level. Using this library was needed since we wanted

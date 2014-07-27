@@ -1,13 +1,18 @@
-We also tried an approach based on TF-IDF to select which paragraphs from the news articles better summarize a sentiment shift. TF-IDF is a widely used statistic in NLP and is indeed a effective technique to extract keywords from documents. In our implementation, each news article is a list of \emph{newline-separated paragraphs}, but this can be generalized by trying every possible set of $n$ contiguous sentences in the text.
-\\
-Given a topic $T$, let $Tweets_T$ and $News_T$ be, respectively, the set of all the tweets and all the news articles about that topic. Then, given a shift $S$, let $Tweets_{T,S}$ and $News_{T,S}$ be the tweets and the news falling inside that shift window.
-\\
+We also tried an approach based on TF-IDF to select which paragraphs from, the news articles, better summarize a sentiment shift. 
+In NLP, TF-IDF is a widely used statistic. It is indeed an effective technique to extract keywords from documents.
+In our implementation, each news article is a list of \emph{newline-separated paragraphs}, but this can be generalized by trying every possible set of $n$ contiguous sentences in the text.
+
+
+Given a topic $T$, let $Tweets_T$ and $News_T$ be, respectively, the set of all the tweets and all the news articles about that topic. 
+In a shift $S$ , let $Tweets_{T,S}$ and $News_{T,S}$ be the tweets and the news falling inside that shift window.
+
 For each shift $S$, our methodology works as follows:
-\\\\
+
+
 \begin{algorithmic}
 
 \FORALL {$word \in Tweets_{T,S}$}
-	\STATE $n$ = number of total occurrencies of $word$ in $Tweets_{T,S}$
+	\STATE $n$ = number of total occurrences of $word$ in $Tweets_{T,S}$
 	\STATE $W_{score}(word)$ = $TFIDF(word,Tweets_T) * n$
 \ENDFOR
 \STATE
