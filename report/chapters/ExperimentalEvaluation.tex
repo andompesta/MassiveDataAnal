@@ -1,41 +1,58 @@
 \subsection*{Experimental setup}
 In order to perform the experimental evaluation we used a tool to automatically
 detect sentiment shift in tweets coming from year 2009 and regarding several
-topics. We also downloaded news from the \emph{New York Times} and \emph{ABC
-Australia} on the same topic and spanning on the same period of the tweets.
+topics. We also downloaded news from the \emph{New York Times} and \emph{ABC Australia} on the same topic and spanning on the same period of the tweets.
 
-It's important to remember that tweet have different language structure that need to be normalized, so for cleaning purpose, the following operations were performed on the tweet text before starting the computation of all the different methodologies:
+It's important to remember that tweets have different language structure which need to be normalized so, for cleaning purpose, the following operations were performed on the tweet's text before starting the computation in all the different methodologies:
 \begin{itemize}
 	\item URLs removal from tweets using a regular expression
 	\item conversion from Unicode to ASCII
 \end{itemize}
 
 In addition, while parsing the news, we considered the possibility that the
-opinion expressed by tweets might be both delayed or in advance with respect to
-news (e.g. if a movie becomes popular it is probable that news spread very fast
-on twitter, but slower on newspaper, whereas other topics are discussed on
-twitter only after news about them came out for several days). Thus, we
-considered a enlarged time window for news which starts 5 days before the
+opinion expressed by tweets might be both delayed or in respect to news. 
+E.g. if a movie becomes popular it is likely that news spread very fast
+on twitter, but slower on newspaper; whereas other topics are discussed on
+twitter only after related news have been published for several days.
+
+Thus, we considered a enlarged time window for news which starts 5 days before the
 beginning of the contradiction and last up to 5 days after the end of it.
 
 After that, we manually labelled each contradiction point with the event which
 caused it. 
 
 The topics and contradiction points used for the experiments 
-are showed in table \ref{tab:setup}. For each contradiction point we list its
-symbolical name, the time interval in which it occurred, a description of the event
-which we extracted by reading the tweet and a short label which synthesize it,
-the number of news present in the contradiction interval $\pm 5$ days,
-the correlation between news (all-to-all) and the correlation between news and tweets in the window.
+are:
+\begin{itemize}
+ 	\item Cern
+ 	\item FortHood
+ 	\item Hangover
+ 	\item Lcross
+ 	\item Michael Jackson
+ 	\item SwineFlu
+\end{itemize}
 
-To compute the \textbf{IntraNews} correlation: an algorithm calculate the NVS between all the possible couple created
-using the news inside the time windows, then the IntraNews correlation is simple the average between the similarity value.
-Likewise, the \textbf{News-Tweets} correlation is the NVS computed between tweet belonging to the contradiction points and 
-news of the same time windows. The NVS is calculated between the contradiction tweet representation and the representation of all the news belonging to the same time windows. 
+A more detailed explanation of those contradiction points is reported in table \ref{tab:setup}. 
+For each contradiction point we list:
+\begin{itemize}
+	\item its symbolical name
+	\item the time interval in which it occurred
+	\item description of the event which we extracted 
+	\item a short label which synthesize it
+	\item the number of news present in the contradiction interval $\pm 5$ days
+	\item the correlation between news (all-to-all) [IntraNews correlation]
+	\item the correlation between news and contradiction tweets [News-Tweets correlation]
+\end{itemize}
 
-In detail the IntraNews correlation is a indicator of how much the news inside the time windows are similar one to the other,
-instead the News-Tweets correlation indicate how much the news inside the time windows are correlate with the tweet.
-Topic with high IntraNews correlation are easy to summarize since every news contains quite the same information,
+To compute the \textbf{IntraNews} correlation we developed an algorithm that calculate the NVS between all the possible couple created
+using the news inside the time windows. In this approach, the IntraNews correlation, is simply the average between the similarity value.
+
+Likewise, the \textbf{News-Tweets} correlation is the NVS computed between tweets belonging to the contradiction points and 
+news of the same time windows.
+
+In detail, the IntraNews correlation is a indicator of how much the news inside the time windows are similar one to the other,
+instead the News-Tweets correlation indicate how much the news inside the time windows are similar to the tweet.
+Topic with high IntraNews correlation are easy to summarize since every news contains quite the same information;
 on the other hand topic with high News-Tweets correlation are topic with low noise.
 Both IntraNews and News-Tweets  correlations are calculated using N-gram tools.
 
@@ -120,39 +137,39 @@ birthday
 \end{table*}
 
 Some interesting considerations can be drawn looking at the contradiction points.
-First of all, you may notice, that, although our tool detected a \emph{sentiment
+First of all, you may notice, that, although our tool for tweet processing detected a \emph{sentiment
 shift} in the \emph{Lcross} topic, no news can be found in the selected time period.
 Similarly, the amount of news regarding other contradiction points is sometimes
 very small; this is particularly true for scientific topics (e.g. \emph{Cern1},
 \emph{Cern2}).
-This fact will be further discussed at the end of this paper. Since there are no
-news in the \emph{Lcross} contradiction point, we will omit it from following
+Since there are no news in the \emph{Lcross} contradiction point, we will omit it from following
 experiments.
 
 \subsection*{Experiments}
-\subsubsection*{SpaceSaving evaluation}
+Following are reported the main results using the four different approaches previously mentioned.
+\subsubsection*{Space Saving evaluation}
 Among all the possible SpaceSaving configuration, we chose to split news at
 sentence level and to group them 2 by 2, since this seemed to be the best
 configuration from some preliminary tests.
 
-The results obtained by running it are showed in table \ref{tab:resultsSS}. For
+The results obtained by running it are reported in table \ref{tab:resultsSS}. For
 each contradiction point the three best chunks are showed with their score, as well as the most
 common words in the tweets (according to SpaceSaving) and their value.
 
-As you may notice, some sentences are present more than once. This can be
+As you may notice, some sentences are repeated more than once. This can be
 justified either by repetition of the same sentence in the same news or by
 articles citing previous ones.
 
-\subsubsection*{Tf/idf evaluation}
-In the table \ref{tab:resultsTfIdf} is possible to see the results of TF/IDF that is used as baseline and is possible compare other methods.
+\subsubsection*{TF-IDF evaluation}
+In table \ref{tab:resultsTfIdf} it is possible to see the results of TF/IDF. TF/IDF is interesting since it's widely used to compare other methods; it's results can be used as baseline comparison for other methods.
 
 \subsubsection*{LSI evaluation}
 LSI as for TF-IDF present a list of word for output that are reported on table \ref{tab:resultsLSI}. It's to mark down that the output, for FortHood topic, is cut due to paper readability motivations.
 
 
 
-\subsubsection*{Ngram Graph evaluation}
-In table \ref{tab:resultsNGG} are reported the obtained results with the correlation score of the best news. It's the maximum correlation value between a news and the contradiction tweet.
+\subsubsection*{N-Gram Graph evaluation}
+Table \ref{tab:resultsNGG} reports the identified results expressing, among the others, the correlation score of the best news. It's the maximum correlation value between a news and the contradiction tweet.
 It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies and all the experiment reported where conduced with the default setting suggested by George Giannakopoulos of rank=3 and neighbourhood distance = 3
 
 \include{chapters/results/SS}
@@ -163,9 +180,11 @@ It's important to point out that, for presentation reasons, the summary reported
 
 \include{chapters/results/NGG}
 
+\subsection*{Performance}
+For the first three approaches time performance is not really relevant since it's all experiments were performed in few seconds or less, making them really suitable for real time processing. N-Gram Graph, on the other hand, is more resources consuming and so we made more detailed investigations about response time.
 
-\subsubsection*{NGG performance}
-All the experiment about Ngram graph where conduced on a 2,4 GHz Intel Core 2 Duo with 4 GB 1067 MHz DDR3 RAM memory.
+\subsubsection*{N-Gram Graph }
+All the experiment about N-Gram graph where conduced on a 2,4 GHz Intel Core 2 Duo with 4 GB 1067 MHz DDR3 RAM memory.
  All the code was compiled with intellij IDEA on Java 1.8 language. 
 The reported test where conduced on Cern topic data set, since is the one that have multiple contradiction points and allowed us to test the methodology changing the following parameter:
 \begin{itemize}
@@ -174,9 +193,9 @@ The reported test where conduced on Cern topic data set, since is the one that h
 \end{itemize}
 
 
-In figure \ref{fig:et-fixed-10days-r-rank} is reported the computational time respect the neighbourhood distance for different rank values. 
-It is easy to notice how for all the rank there is an exponential behaviour respect to the neighbourhood distance. 
-Enlarging ND cause an exponential increasing of the edges number that a graph contains, so the computation time became exponentially longer.
+the computational time respect the neighbourhood distance for different rank values is reported in figure \ref{fig:et-fixed-10days-r-rank}.
+It can be noticed, for all ranks, there is an exponential behaviour in relation to the neighbourhood distance. 
+Increasing ND cause an exponential increase of the edges number that a graph contains, so the computation time became exponentially longer.
 
 \begin{figure}[htbp]
 	\centering
@@ -185,11 +204,13 @@ Enlarging ND cause an exponential increasing of the edges number that a graph co
 	\label{fig:et-fixed-10days-r-rank}
 \end{figure} 
 
-In figure \ref{fig:et-fixed-10days-r-nd} is possible to see how the computation time change respect to the rank value at different neighbourhood distance. 
-It's possible to see how if we increasing the rank, the computational time is quite the same. Seems that rank can mitigate the neighbourhood distance effect. 
+Figure \ref{fig:et-fixed-10days-r-nd} shows how the computation time changes in respect to the rank value at different neighbourhood distance;
+increasing the rank, the computational time is quite the same.
+Apparently, the rank can mitigate the neighbourhood distance effect.
 
-The computation time for of the 2-gram diverge, instead 3-gram became more similar at the 4-gram behaviour. Probably because computing the similarity between 2-gram graph is an operation quite expensive since they have many edges to check.
-Indeed neighbourhood distance is a less impactive parameter, 3 o 4 have quite the same computational time.
+The computation time for of the 2-gram diverge, instead 3-gram became more similar to the 4-gram behaviour. 
+Probably because computing the similarity between 2-gram graph is an operation quite expensive since they have many edges to check.
+Instead the neighbourhood distance is a less impactive parameter; a value as 3 o 4 requires quite the same computational time.
 
 \begin{figure}[htbp]
 	\centering
@@ -197,8 +218,10 @@ Indeed neighbourhood distance is a less impactive parameter, 3 o 4 have quite th
 	\label{fig:et-fixed-10days-r-nd}
 \end{figure} 
 
-For what concern the summary point of view the neighbourhood distance factor has little influence on the summary since changing his value just produce a swapping on the order of the sentence in the summary.
-In particular for a rank = 3 we obtain the following summary:
+Concerning the evaluation of the summary, the neighbourhood distance factor has little influence on the summary since changing its value just produce a swapping on the order of the sentence in the summary.
+
+Always using Cern dataset, we notice that for a rank of 3 we obtain the following results:
+
 \begin{enumerate}
 	\item CERN said the latest incident was minor and did not affect attempts to restart the accelerator later this month following repairs.
 	\item 'The bird escaped unharmed but lost its bread,'CERN said in a statement.
@@ -208,7 +231,8 @@ In particular for a rank = 3 we obtain the following summary:
 	\item The 27 kilometre-long particle collider, which runs in a circular tunnel under the French-Swiss border near Geneva, has been plagued by problems since it was briefly started in September 2008.
 \end{enumerate}
 
-instead for a rank = 6 we obtain the summary
+instead for a rank = 6 we obtain the summary:
+
 \begin{enumerate}
 	\item CERN said the latest incident was minor and did not affect attempts to restart the accelerator later this month following repairs.
 	\item Bits of a French loaf dropped on an external electrical power supply caused a short circuit last week, triggering failsafe devices that shut down part of the cooling system of the giant experiment to probe the secrets of the universe.
@@ -218,11 +242,9 @@ instead for a rank = 6 we obtain the summary
 	\item The 27 kilometre-long particle collider, which runs in a circular tunnel under the French-Swiss border near Geneva, has been plagued by problems since it was briefly started in September 2008.
 \end{enumerate}
 
-This means that the rank has just a little effect of the order of the sentence, but not on the news-tweet correlation.
-Knowing that neighbourhood distance strongly affect the computational time and slightly change the summary; it is reasonable to use a ND between 3 and 4 as suggested by the N-gram graph creator
+As conclusion we can say that the rank has just a little effect of the order of the sentence, but not on the news-tweet correlation.
+Knowing that neighbourhood distance strongly affect the computational time and slightly change the summary; it is reasonable to use a ND between 3 and 4 as suggested by the N-gram graph creator.
 
 
 %Figure \ref{fig:et-fixed-r3-winds} report the variation of computation time for fixed rank value(3). The shape of the computation time in this case is always the same: exponential respect the ND. 
 %Notice that the max computation time always increase with the increasing of the windows size, since the algorithm have to compute the similarity between more news. In this way we can derive that the number of news, inside the time windows, affect the computation time in a almost linear way.
-
-
