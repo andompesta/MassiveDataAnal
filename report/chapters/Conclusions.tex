@@ -1,3 +1,28 @@
+The main aim of our research work is to link tweets to news articles to extract relevant information from news 
+instead of only tweets since the later source can be used as a wider and more structured source of information. 
+In fact the main focus of the project is to create a correlation between tweets about a well known topic and 
+the most relevant news that are dealing with the same topic in a defined time window.
+ 
+All approaches used to address this topic proved to be valid and give congruent results. 
+Of course the quality of the result produced by the various approaches is different and each of them
+might be useful in different contexts: TF-IDF, Space Saving and LSI  are less accurate, but can be used in environments where 
+real time data feeds must be processed; the N-Gram Graph is more accurate in finding correlations and it's 
+results are more useful since they generate summaries of the news related to the relevant tweets that are
+more human friendly. 
+
+It is quite obvious that this approach could be used in a much wider scenario where tweets (as a measure of 
+human behaviour) could be related to specific news and vice versa. Finding correlations automatically and 
+in near real time could be of great help for the whole publishing industry. Of course to achieve this result there 
+are more complex problems that must be better described and solved.
+
+Our work clearly identify at least three major new research directions:
+\begin{enumerate}
+	\item automatically calculate the proper window frame depending on the topic (in our case we use a fixed window frame)
+	\item identify and discard the news that are related to specific topics, but might not be interesting (or even misleading) in relation with tweets. This is a very challenging research topic especially if the correlation calculation should not use semantic evaluation of text sources to be language and culture  independent 
+	\item identify if a correlation that links tweets to news is recursively linked to other correlations to cross detect which topic might influence or be influenced by other ones
+\end{enumerate}
+
+\subsection*{Research challenges and problems solved}
 During the development of this work we found out that working in a blurred environments as the one of the natural language is quite difficult.
 Problems were due to the comparison of the results produces by different tool and languages used for the different approaches: every tool generates different output format and normalizing them in a standard way it's quite challenging. 
 Eventually, developing an automatic validation system for the results, will help a lot the comparison and may produce more objective results.
