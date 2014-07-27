@@ -39,7 +39,7 @@ Topic with high IntraNews correlation are easy to summarize since every news con
 on the other hand topic with high News-Tweets correlation are topic with low noise.
 Both IntraNews and News-Tweets  correlations are calculated using N-gram tools.
 
-\begin{table*}
+\begin{table*}[ht]
 	\centering
 	\begin{tabularx}{\textwidth}{XX}
 	
@@ -179,12 +179,12 @@ In figure \ref{fig:et-fixed-10days-r-rank} is reported the computational time re
 It is easy to notice how for all the rank there is an exponential behaviour respect to the neighbourhood distance. 
 Enlarging ND cause an exponential increasing of the edges number that a graph contains, so the computation time became exponentially longer.
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 	\centering
-			{\includegraphics[width=5cm,height=5cm]{image/win_2_ranks.pdf}}	
+			{\includegraphics[width=8.5cm,height=7cm]{image/win_2_ranks.pdf}}	
 		\caption[et-fixed-10days-r-rank]{Execution time for different rank value}
 	\label{fig:et-fixed-10days-r-rank}
-\end{figure*} 
+\end{figure} 
 
 In figure \ref{fig:et-fixed-10days-r-nd} is possible to see how the computation time change respect to the rank value at different neighbourhood distance. 
 It's possible to see how if we increasing the rank, the computational time is quite the same. Seems that rank can mitigate the neighbourhood distance effect. 
@@ -192,11 +192,11 @@ It's possible to see how if we increasing the rank, the computational time is qu
 The computation time for of the 2-gram diverge, instead 3-gram became more similar at the 4-gram behaviour. Probably because computing the similarity between 2-gram graph is an operation quite expensive since they have many edges to check.
 Indeed neighbourhood distance is a less impactive parameter, 3 o 4 have quite the same computational time.
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
 	\centering
-			{\includegraphics[width=5cm,height=5cm]{image/win_2_ndists.pdf}}	
+			{\includegraphics[width=8.5cm,height=7cm]{image/win_2_ndists.pdf}}	
 	\label{fig:et-fixed-10days-r-nd}
-\end{figure*} 
+\end{figure} 
 
 For what concern the summary point of view the neighbourhood distance factor has little influence on the summary since changing his value just produce a swapping on the order of the sentence in the summary.
 In particular for a rank = 3 we obtain the following summary:
