@@ -41,7 +41,7 @@ def TF_IDF(shifts,tweets,news,topK,topS,preprocessor) :
 			score = 0
 			for token in s.split(' ') :
 				if token in keywords : score += keywords[token]
-			sentences[s] = score
+			sentences[s] = score / len(s.split(' '))
 
 		total_score = 0
 		text = ''
