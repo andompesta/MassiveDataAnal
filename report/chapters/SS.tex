@@ -27,8 +27,8 @@ occurrencies and replace it with the new word. When this replacement takes place
 we set the number of errors equal to the number of occurrencies of the word we
 just replaced, then we increment the number of occurrencies.
 
-Our python implementation of this algorithm is slightly different from the
-classic one described above; we test the word against a list of \emph{stop words}
+Our implementation is slightly different from the
+classic one described above, since we test the word against a list of \emph{stop words}
 and we added a hashmap to avoid useless replacement. The pseudo code representing
 our implementation is the following:
 
@@ -55,7 +55,7 @@ above a certain threshold; the threshold value is identified empirically.
 
 \subsubsection*{Description of the methodology}
 We have seen how we exploit the SpaceSaving algorithm to obtain the list of
-frequent terms in a text and their values. 
+frequent terms in a text, and their values. 
 
 To accomplish our task, we ran the program described above on the set of tweets inside a
 contradiction point, thus obtaining the list of frequent terms within the

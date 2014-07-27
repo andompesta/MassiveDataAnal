@@ -10,12 +10,11 @@ It's important to remember that tweets have different language structure which n
 \end{itemize}
 
 In addition, while parsing the news, we considered the possibility that the
-opinion expressed by tweets might be both delayed or in respect to news. 
-E.g. if a movie becomes popular it is likely that news spread very fast
+opinion expressed by tweets might be both delayed or in advance with respect to
+news (e.g. if a movie becomes popular it is likely that news spread very fast
 on twitter, but slower on newspaper; whereas other topics are discussed on
-twitter only after related news have been published for several days.
-
-Thus, we considered a enlarged time window for news which starts 5 days before the
+twitter only after related news have been published for several days); thus, we
+considered an enlarged time window for news which starts 5 days before the
 beginning of the contradiction and last up to 5 days after the end of it.
 
 After that, we manually labelled each contradiction point with the event which
@@ -181,7 +180,7 @@ It's important to point out that, for presentation reasons, the summary reported
 \include{chapters/results/NGG}
 
 \subsection*{Performance}
-For the first three approaches time performance is not really relevant since it's all experiments were performed in few seconds or less, making them really suitable for real time processing. N-Gram Graph, on the other hand, is more resources consuming and so we made more detailed investigations about response time.
+For the first three approaches time performance is not really relevant since it's all experiments were performed in few seconds or less, making them really suitable for real time processing. N-Gram Graph, on the other hand, is more resources consuming, hence we made more detailed investigations regarding its  response time.
 
 \subsubsection*{N-Gram Graph }
 All the experiment about N-Gram graph where conduced on a 2,4 GHz Intel Core 2 Duo with 4 GB 1067 MHz DDR3 RAM memory.
