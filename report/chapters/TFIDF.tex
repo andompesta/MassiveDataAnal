@@ -1,6 +1,6 @@
 We also tried an approach based on TF-IDF to select which paragraphs from the news articles better summarize a sentiment shift. TF-IDF is a widely used statistic in NLP and is indeed a effective technique to extract keywords from documents. In our implementation, each news article is a list of \emph{newline-separated paragraphs}, but this can be generalized by trying every possible set of $n$ contiguous sentences in the text.
 \\
-Given a topic $T$, let $Tweets_T$ and $News_T$ be, respectively, the set of all the tweets and all the news articles about that topic. Then, given a shift $S$, let $Tweets_{T,S}$ and $News_{T,S}$ be the tweets and the news falling inside that shift window.
+Given a topic $T$, let $Tweets_T$ and $News_T$ be, respectively, the set of all the tweets and all the news articles about that topic. Then, given a shift $S$, let $Tweets_{T,S}$ and $News_{T,S}$ be the tweets and the news falling inside that shift window. Before applying our methodology, every document is preprocessed, in order to remove stopwords, punctuation and URLs.
 \\
 First, given a shift $S$, a set of $k$ keywords is computed according to their TF-IDF value w.r.t. $Tweets_T$. Then, for each paragraph, a score is calculated as the sum of the TF-IDF value of the keywords that are contained in it, divided by the length of the paragraph. Finally, for each shift, the top $p$ paragraphs are returned as a summary.
 \\\\
@@ -24,44 +24,14 @@ First, given a shift $S$, a set of $k$ keywords is computed according to their T
 					\STATE $P_{score}(Paragraph)$ += $W_{score}(word)$
 				\ENDIF
 			\ENDFOR
+			\STATE $P_{score}(Paragraph)$ $\leftarrow$ ${P_{score}(Paragraph) \over |Paragraph|}$
 		\ENDFOR
 	\ENDFOR
 	\STATE
-	\STATE $summaries$($S$) $\leftarrow$ The $p$ paragraphs with highest $ {P_{score}(Paragraph) \over |Paragraph| } $
+	\STATE $summaries$($S$) $\leftarrow$ The $p$ paragraphs with highest $P_{score}$
 \ENDFOR
 \STATE
 \RETURN $summaries$
 
 
 \end{algorithmic}
-
-
-%		# computes the top-k-keywords by summing the TF-IDF values for each token in the shift tweets
-%		keywords = {}
-%		for tweet in shift['tweets'] :
-%			tokens = preprocessor.processDoc(tweet)
-%			bow = dictionary.doc2bow(tokens)
-%			for key,value in tfidf[bow] :
-%				if dictionary[key] in keywords : keywords[dictionary[key]] += value
-%				else : keywords[dictionary[key]] = value
-
-%		keywords = dict(sorted(keywords.items(),key=lambda x:x[1],reverse=True)[:topK])
-
-%		# selects the news falling into the shift window and splits them in sentences, ranking them according to the keywords TF-IDF values
-%		tBegin = shift['timeBegin']
-%		tEnd = shift['timeEnd']
-%		span = 3600*24*5
-%		candidateNews = [news[artId]['full_text'] for artId in news if 'full_text' in news[artId] and unixTime(news[artId]['pub_date']) <= tEnd + span and unixTime(news[artId]['pub_date']) >= tBegin - span]
-%		sentences = {}
-%		for s in [s for n in candidateNews for s in n.split('\n')] :
-%			score = 0
-%			for token in s.split(' ') :
-%				if token in keywords : score += keywords[token]
-%			sentences[s] = score
-
-%		total_score = 0
-%		text = ''
-%		for s,score in sorted(sentences.items(),key=lambda x:x[1],reverse=True)[:topS] :
-%			text = text + '\n' + s
-%			total_score += score
-%		summaries.append( {'summary':text.strip(),'score':total_score,'keywords':sorted(keywords.items(),key=lambda x:x[1],reverse=True)} )
