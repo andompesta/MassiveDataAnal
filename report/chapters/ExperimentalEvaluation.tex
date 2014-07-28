@@ -167,7 +167,7 @@ LSI as for TF-IDF present single paragraph summaries that are reported on table 
 
 \subsubsection*{N-Gram Graph evaluation}
 Table \ref{tab:resultsNGG} reports the identified results expressing, among the others, the correlation score of the best news. It's the maximum correlation value between a news and the contradiction tweet.
-It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies and all the experiment reported where conduced with the default setting suggested by George Giannakopoulos of rank=3 and neighbourhood distance = 3
+It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies and all the experiment reported where conduced with the default setting suggested by George Giannakopoulos of rank 3 and neighbourhood distance 3.
 
 \include{chapters/results/SS}
 
@@ -246,3 +246,6 @@ Knowing that neighbourhood distance strongly affect the computational time and s
 
 %Figure \ref{fig:et-fixed-r3-winds} report the variation of computation time for fixed rank value(3). The shape of the computation time in this case is always the same: exponential respect the ND. 
 %Notice that the max computation time always increase with the increasing of the windows size, since the algorithm have to compute the similarity between more news. In this way we can derive that the number of news, inside the time windows, affect the computation time in a almost linear way.
+
+\subsection*{User Evaluation}
+\include{chapters/UserEvaluation}
