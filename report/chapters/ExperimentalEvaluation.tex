@@ -160,12 +160,10 @@ justified either by repetition of the same sentence in the same news or by
 articles citing previous ones.
 
 \subsubsection*{TF-IDF evaluation}
-In table \ref{tab:resultsTfIdf} it is possible to see the results of TF/IDF. TF/IDF is interesting since it's widely used to compare other methods; it's results can be used as baseline comparison for other methods.
+In table \ref{tab:resultsTfIdf} it is possible to see the results of TF/IDF. For these experiments, we used keyword set of size 30, to produce a single paragraph summary, otherwise it would be to long to be fairly compared to the other methods.
 
 \subsubsection*{LSI evaluation}
-LSI as for TF-IDF present a list of word for output that are reported on table \ref{tab:resultsLSI}. It's to mark down that the output, for FortHood topic, is cut due to paper readability motivations.
-
-
+LSI as for TF-IDF present single paragraph summaries that are reported on table \ref{tab:resultsLSI}. The choice of the number of dimensions of the LSA space is non-trivial. For small dataset like ours, a number between 50 and 100 has proven to be optimal\cite{LSA2}. At the same time, for a more specific discrimination in an homogeneous topic a larger number is suggested. For those reasons we used a 200 dimensions vectorial space.
 
 \subsubsection*{N-Gram Graph evaluation}
 Table \ref{tab:resultsNGG} reports the identified results expressing, among the others, the correlation score of the best news. It's the maximum correlation value between a news and the contradiction tweet.
