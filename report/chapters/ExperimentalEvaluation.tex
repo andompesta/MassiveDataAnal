@@ -146,7 +146,7 @@ experiments.
 
 \subsection*{Experiments}
 Following are reported the main results using the four different approaches previously mentioned.
-\subsubsection*{Space Saving evaluation}
+\subsubsection*{Space Saving}
 Among all the possible SpaceSaving configuration, we chose to split news at
 sentence level and to group them 2 by 2, since this seemed to be the best
 configuration from some preliminary tests.
@@ -159,13 +159,13 @@ As you may notice, some sentences are repeated more than once. This can be
 justified either by repetition of the same sentence in the same news or by
 articles citing previous ones.
 
-\subsubsection*{TF-IDF evaluation}
-In table \ref{tab:resultsTfIdf} it is possible to see the results of TF/IDF. For these experiments, we used keyword set of size 30, to produce a single paragraph summary, otherwise it would be to long to be fairly compared to the other methods.
+\subsubsection*{TF-IDF}
+In table \ref{tab:resultsTfIdf} it is possible to see the results of TF/IDF. For these experiments, we used keyword set of size 30, to produce a single paragraph* summary, otherwise it would be to long to be fairly compared to the other methods.
 
-\subsubsection*{LSI evaluation}
-LSI as for TF-IDF present single paragraph summaries that are reported on table \ref{tab:resultsLSI}. The choice of the number of dimensions of the LSI space is non-trivial. For small dataset like ours, a number between 50 and 100 has proven to be optimal\cite{LSA2}. At the same time, for a more specific discrimination in an homogeneous topic a larger number is suggested. For those reasons we used a 200 dimensions vectorial space.
+\subsubsection*{LSI}
+LSI as for TF-IDF present single paragraph* summaries that are reported on table \ref{tab:resultsLSI}. The choice of the number of dimensions of the LSI space is non-trivial. For small dataset like ours, a number between 50 and 100 has proven to be optimal\cite{LSA2}. At the same time, for a more specific discrimination in an homogeneous topic a larger number is suggested. For those reasons we used a 200 dimensions vectorial space.
 
-\subsubsection*{N-Gram Graph evaluation}
+\subsubsection*{N-Gram Graph}
 Table \ref{tab:resultsNGG} reports the identified results expressing, among the others, the correlation score of the best news. It's the maximum correlation value between a news and the contradiction tweet.
 It's important to point out that, for presentation reasons, the summary reported is smaller respect the one created by the NGG methodologies and all the experiment reported where conduced with the default setting suggested by George Giannakopoulos of rank=3 and neighbourhood distance = 3
 
@@ -176,6 +176,56 @@ It's important to point out that, for presentation reasons, the summary reported
 \include{chapters/results/LSI}
 
 \include{chapters/results/NGG}
+
+\subsubsection*{Results evaluation}
+From the results achieved we can conclude that all methods achieve good results,
+but we have to mark that some seems more effective on certain topics and some
+seems more effective on others.
+
+We will proceed analyzing the results achieved per each contradiction point.
+
+\paragraph*{Cern1}
+All the methods but LSI managed in the task of catching the \emph{bird accident}
+event. Among the ones which succeded, the NGG methods is probably the one which
+returned the best result, followed by TF-IDF.
+
+\paragraph*{Cern2}
+All the methods returned results regarding the LHC power on, but only the
+SpaceSaving method returns a text emphatizing the new energy record achieved by the
+linear accelerator, although it is the lowest in rank among the ones showed.
+
+\paragraph*{FortHood}
+SpaceSaving and TF-IDF return results which are related, but not very
+explicative, while the LSI revelead itself to be the least effective. Again, NGG
+is the most effective methodology for this particular contradiction point.
+
+\paragraph*{HangOver}
+LSI, TF-IDF and NGG revealed to be useless in order to detect the reasons behind
+this particular contradiction point, whereas the SpaceSaving achieved a good and
+explicative result.
+
+\paragraph*{Jackson1}
+No methods but the NGG managed to catch the event related to
+Michael Jackson death. This is less surprisingly if we consider that
+\emph{IntraNews correlation} and \emph{News-Tweet correlation} are among the
+lowest experienced during the experiments.
+There are two other interesting aspects regarding the
+results: even NGG caught some results which are not so closed to the main event
+and TF-IDF, surprisingly, caught the event of the death of another popular pop
+icon, the salesman Billy Mays.
+
+\paragraph*{Jackson2}
+No methods caught neither the event of Jackson's birthday, nor the one regarding
+Goldstein's death. However, an analysis performed on the news dataset revealed
+this is not due to errors or unefficiency, but due to lack of news regarding
+these two events.
+
+\paragraph*{SwineFlu}
+SpaceSaving, TF-IDF and NGG achieved good and comparable results. LSI returned
+no results. We have no idea about why this happened and is probably due to some
+software bug in the program.
+
+\subsubsection*{User evaluation}
 
 \subsection*{Performance}
 For the first three approaches time performance is not really relevant since it's all experiments were performed in few seconds or less, making them really suitable for real time processing. N-Gram Graph, on the other hand, is more resources consuming, hence we made more detailed investigations regarding its  response time.
