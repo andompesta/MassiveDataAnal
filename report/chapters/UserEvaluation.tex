@@ -1,4 +1,4 @@
-To compare the results of the different methods, we performed a summative user evaluation. We asked to the user to mark each summary in a scale from 1 to 5. As a suggestion, we gave the following meaning to each mark:
+To compare the results of the different methods, we performed a summative user evaluation. Given a short description of the event that caused the contradiction, we asked to the user to mark each summary in a scale from 1 to 5. As a suggestion, we gave the following meaning to each mark:
 \begin{itemize}
 \item \textbf{1}. The summary is completely out of topic.
 \item \textbf{2}. The topic can be deduced but it's not explicit, the event is not mentioned.
@@ -7,6 +7,8 @@ To compare the results of the different methods, we performed a summative user e
 \item \textbf{5}. The summary is correct.
 \end{itemize}
 
-We performed the evaluation on 10 user of both genders and ages between 20 and 30. The results are shown in table \ref{tab:UserEvaluation}
+We performed the evaluation on 12 users of both genders and ages between 20 and 30. The results are shown in table \ref{tab:UserEvaluation}.
+In this experiment, NGG clearly outperforms the other methodologies. It is also clear that LSI has some problems even in selecting paragraphs about the right topic, not to mention the production of a correct summary. As expected, SS and TF-IDF results are comparable, being very similar from a conceptual point of view. To assess which methodology works better, an extensive user evaluation should be performed, with a larger number of users and topics.
+
 
 \include*{chapters/results/UserEvaluation}
