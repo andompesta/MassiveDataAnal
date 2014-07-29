@@ -82,8 +82,8 @@
 \maketitle
 \begin{abstract}
 In this report we are evaluating the task of extracting a summary of the main event that caused a shift on the opinion of Twitter users. 
-This paper presents several techniques, which can be used to analyze these \emph{sentiment shift} and to find the events that might have caused them.
-For each technique presented below we are inspecting some major aspects, which are important in the context of a data mining application, such as scalability and efficiency.
+This paper presents several techniques, which can be used to analyze these \emph{sentiment shifts} and to find the events that might have caused them.
+For each technique presented below, we are inspecting some major aspects, which are important in the context of a data mining application, such as scalability and efficiency.
  A comparison of the different techniques is presented as well.
  \end{abstract}   
 
@@ -104,12 +104,12 @@ used to solve it. The techniques which will be later discussed are:
 \begin{itemize}
 	\item a technique exploiting the \emph{SpaceSaving} algorithm presented in
 		\cite{SS};
+	\item an implementation based on the popular \emph{Tf/Idf} measure;
 	\item a technique exploiting \emph{Latent Semantic Indexing} \cite{LSA};
-	\item the third one based on the popular \emph{Tf/Idf};
-	\item the last (but not least) which take advantage of ngram graphs
+	\item the last (but not least) which take advantage of ngram graphs.
 		\cite{Ngram}
 \end{itemize}
-We will discuss each of these techniques identifying their main advantages and disadvantages paying a particular attention to their efficiency and scalability issues.
+We will discuss each of these techniques, identifying their main advantages and disadvantages, paying a particular attention to their efficiency and scalability issues.
 At the end of the paper we will present some conclusions and draw some suggestions on how this work may be extended.
 
 \section{Related Work}
