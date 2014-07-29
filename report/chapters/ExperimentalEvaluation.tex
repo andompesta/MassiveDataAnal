@@ -178,7 +178,7 @@ It's important to point out that, for presentation reasons, the summary reported
 \include{chapters/results/NGG}
 
 \subsubsection*{Results evaluation}
-From the results achieved we can conclude that all methods achieve good results,
+From the results we can conclude that all methods achieve good results,
 but we have to mark that some seems more effective on certain topics and some
 seems more effective on others.
 
@@ -229,19 +229,29 @@ software bug in the program.
 \include*{chapters/UserEvaluation}
 
 \subsection*{Performance}
-For the first three approaches time performance is not really relevant since it's all experiments were performed in few seconds or less, making them really suitable for real time processing. N-Gram Graph, on the other hand, is more resources consuming, hence we made more detailed investigations regarding its  response time.
-
+Execution time is not a big issue for three of the proposed methodologies.
+SpaveSaving, TF/IDF and LSI are characterized by a worst case execution time
+which is in the order of a few second, and always below the minute, which make
+them a good choice for a real time application. On the other hand, the Ngram
+Graph methodology is more resource consuming and requires both a big amount of
+memory and time to terminate. For this reason, we chose to investigate deeper
+this matter, in order to discern which are the key factor that may reduce its
+execution time and which are more relevant for the quality of the results. 
+ 
 \subsubsection*{N-Gram Graph }
-All the experiment about N-Gram graph where conduced on a 2,4 GHz Intel Core 2 Duo with 4 GB 1067 MHz DDR3 RAM memory.
- All the code was compiled with intellij IDEA on Java 1.8 language. 
-The reported test where conduced on Cern topic data set, since is the one that have multiple contradiction points and allowed us to test the methodology changing the following parameter:
+All the experiment in this section have been performed on a 2,4 GHz Intel Core 2
+Duo equipped with 4 GB 1067 MHz DDR3 RAM memory.
+All the code was compiled with intellij IDEA on Java 1.8 language. 
+The reported test were conduced on Cern data set, since it has two different
+contradiction points, which allow us to perform more test. The experiments were
+focused on studying how the NGG behaves varying the following parameter:
 \begin{itemize}
 	\item rank of the graph
 	\item neighbourhood distance[ND]
 \end{itemize}
 
-
-the computational time respect the neighbourhood distance for different rank values is reported in figure \ref{fig:et-fixed-10days-r-rank}.
+The computational time as a function of neighbourhood distance for different
+rank values is showed in figure \ref{fig:et-fixed-10days-r-rank}.
 It can be noticed, for all ranks, there is an exponential behaviour in relation to the neighbourhood distance. 
 Increasing ND cause an exponential increase of the edges number that a graph contains, so the computation time became exponentially longer.
 
@@ -252,7 +262,8 @@ Increasing ND cause an exponential increase of the edges number that a graph con
 	\label{fig:et-fixed-10days-r-rank}
 \end{figure} 
 
-Figure \ref{fig:et-fixed-10days-r-nd} shows how the computation time changes in respect to the rank value at different neighbourhood distance;
+Figure \ref{fig:et-fixed-10days-r-nd} shows how the execution time varies as a
+function of the rank value for different neighbourhood distance;
 increasing the rank, the computational time is quite the same.
 Apparently, the rank can mitigate the neighbourhood distance effect.
 
@@ -267,9 +278,10 @@ Instead the neighbourhood distance is a less impactive parameter; a value as 3 o
 	\label{fig:et-fixed-10days-r-nd}
 \end{figure} 
 
-Concerning the evaluation of the summary, the neighbourhood distance factor has little influence on the summary since changing its value just produce a swapping on the order of the sentence in the summary.
-
-Always using Cern dataset, we notice that for a rank of 3 we obtain the following results:
+Concerning the evaluation of the summary, the neighbourhood distance has little
+influence on the summary since changing its value only resulted in a change
+in the order of output sentences. For example, the results achieved with
+$rank=3$ are:
 
 \begin{enumerate}
 	\item CERN said the latest incident was minor and did not affect attempts to restart the accelerator later this month following repairs.
@@ -279,9 +291,7 @@ Always using Cern dataset, we notice that for a rank of 3 we obtain the followin
 	\item The European Organisation for Nuclear Research (CERN) says the system was restored several hours after the incident last week while the multi-billion-dollar Large Hadron Collider was barely affected.
 	\item The 27 kilometre-long particle collider, which runs in a circular tunnel under the French-Swiss border near Geneva, has been plagued by problems since it was briefly started in September 2008.
 \end{enumerate}
-
-instead for a rank = 6 we obtain the summary:
-
+whereas, with $rank=6$ we obtained the summary:
 \begin{enumerate}
 	\item CERN said the latest incident was minor and did not affect attempts to restart the accelerator later this month following repairs.
 	\item Bits of a French loaf dropped on an external electrical power supply caused a short circuit last week, triggering failsafe devices that shut down part of the cooling system of the giant experiment to probe the secrets of the universe.
@@ -291,7 +301,7 @@ instead for a rank = 6 we obtain the summary:
 	\item The 27 kilometre-long particle collider, which runs in a circular tunnel under the French-Swiss border near Geneva, has been plagued by problems since it was briefly started in September 2008.
 \end{enumerate}
 
-As conclusion we can say that the rank has just a little effect of the order of the sentence, but not on the news-tweet correlation.
+As a conclusion we can state rank has just a little effect of the order of the sentence, but not on the news-tweet correlation.
 Knowing that neighbourhood distance strongly affect the computational time and slightly change the summary; it is reasonable to use a ND between 3 and 4 as suggested by the N-gram graph creator.
 
 
