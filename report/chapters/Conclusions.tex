@@ -4,38 +4,40 @@ In fact the main focus of the project is to create a correlation between tweets
 regarding a well known topic and 
 the most relevant news that are dealing with the same topic in a defined time window.
  
-All approaches used to address this topic proved to be valid and give congruent results. 
+All approaches used to address this topic proved to be valid and to return congruent results. 
 Of course the quality of the result produced by the various approaches is different and each of them
-might be useful in different contexts: TF-IDF, Space Saving and LSI  are less accurate, but can be used in environments where 
+might be useful in different contexts: TF-IDF and Space Saving are still less
+accurate than NGG, but can be used in environments where 
 real time data feeds must be processed; the N-Gram Graph is slightly
-more accurate.
+more accurate. LSI probably needs more refinements.
 
 
-It is quite obvious that this approach could be used in a much wider scenario where tweets (as a measure of 
-human behaviour) could be related to specific news and vice versa. Finding correlations automatically and 
-in real time could be of great help for the whole publishing industry. Of course to achieve this result there 
+It is quite obvious that NGG approach could be used in a much wider scenario where tweets (as a measure of 
+human behaviour) could be related to specific news and vice versa. Of course to achieve this result there 
 are more complex problems that must be better described and solved.
 
 Our work clearly identify at least three major new research directions:
 \begin{enumerate}
-	\item automatically calculate the proper window frame depending on the topic (in our case we use a fixed window frame)
-	\item identify and discard the news that are related to specific topics, but might not be interesting (or even misleading) in relation with tweets. This is a very challenging research topic especially if the correlation calculation should not use semantic evaluation of text sources to be language and culture  independent 
-	\item identify if a correlation that links tweets to news is recursively linked to other correlations to cross detect which topic might influence or be influenced by other ones
+	\item automatically computing the proper window frame depending on the topic,
+		rather than using a fixed window as in our experiments;
+	\item identifying the noise created by news concerning the topic, but not the
+		event tweets are focusing on. This is a very challenging research topic especially if the correlation calculation should not use semantic evaluation of text sources to be language and culture  independent 
+	\item identifying whether a correlation that links tweets to news is recursively linked to other correlations to cross detect which topic might influence or be influenced by other ones
 \end{enumerate}
 
-\subsection*{Research challenges and problems solved}
-During the development of this work we found out that working in a blurred
-environments as the one of the natural language is quite difficult. One of the
-biggest problem has been to find out how to present different methodologies,
-while making all of them comparable to each other.
-
-Also, the lack of an automatic validation system gives many problems, since the
-results can be interpreted by anyone in a different way.
+%\subsection*{Research challenges and problems solved}
+%During the development of this work we found out that working in a blurred
+%environments as the one of the natural language is quite difficult. One of the
+%biggest problem has been to find out how to present different methodologies,
+%while making all of them comparable to each other.
+%
+%Also, the lack of an automatic validation system gives many problems, since the
+%results can be interpreted by anyone in a different way.
 
 \subsection*{Future improvements}
 \subsubsection*{News retrieval}
 One of the biggest difficulties we had to face is the lack of news for the
-selected time period (i.e. year 2009). Unfortunately, retrieving 4 years old
+selected time period (i.e. year 2009). Unfortunately, retrieving 5 years old
 news is not as easy as one may think and many news agencies and newspapers only
 provide this kind of service with a payed subscription.
 
@@ -64,21 +66,26 @@ According to the proposal of the NGG developer, implementing the following funct
 this functionality was developed by the author of NGG tool and was used for inter-summary generation. Unfortunately for time reason we weren't able to test his performance in our research, but we think that will produce much more human readable summary with more information.
 
 \subsubsection*{Adaptive time windows}
-All the methodologies compute the correlation between news and tweet using a fixed-length time windows. This approach is quite simple and can produce good performance since there are a good number of news in the selected time slice. 
+All the methodologies compute the correlation between news and tweet using a
+fixed-length time windows. This approach is indeed simple and we have seen that,
+still, it allows to obtain good outputs. 
 
-In order to face tricky situation where there are only few news for the selected interval, a more sophisticated approach should adapt the length of the time windows according to the number of news available:
-precisely, more news are present in the time period of the sentiment shift and shorter should be the amount of time added to the time windows of CP.
-Developing and testing an adaptive time windows can increase the performances of the all the methodologies and is one of the main point for the future improvements.
+However, tricky situation may require a more sophisticated approach: if only a
+few news are available or in event characterized by big variance, an
+automatically adjusting window might be a relevant factor to obtain good
+results.
+
+Developing an adaptive time window can increase the performances of all the methodologies and is one of the main point for the future improvements.
 
 \subsubsection*{Evaluation}
 Due to the nature of the output format returned by our tools, presently, we have
 no method to automatically compare the results achieved. We presented and
 commented some results and we also showed some results achieved by performing a
-human evaluation, but indeed this is but a starting point.
+human evaluation, but indeed this is a starting point.
 
-In order to have a more unbiased and precise evalution it is needed to perform
-more experiments on more contradiction points and to go through a severe user
-evaluation phase to discern which methology behaves better on which
+In order to have a more unbiased and precise evaluation more experiments on a
+bigger set of contradiction points are needed, as well as a severe user
+evaluation phase to discern which methodology behaves better on which
 contradiction point and why.
 
 Moreover, the implementation and exploitation of an automatic tool might be

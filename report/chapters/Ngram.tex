@@ -47,9 +47,9 @@ Once we have these base components, we use an algorithm to create a background k
 
 \begin{algorithmic}
 \FOR{New nw : allNews}
-	\IF{ nw outside contradiction window }
+	\IF{ nw is outside the contradiction window}
 		\STATE nGraph = DocumentNGramGraph(nw.getText());
-		\STATE double NVS = Similarity(nGraph, insideNews[i]);
+		\STATE NVS = Similarity(nGraph, insideNews[i]);
 		\IF{NVS < similarityLimit}
 			\STATE outsideNews[i].merge(newsGraph);
 		\ENDIF
@@ -60,12 +60,14 @@ Once we have these base components, we use an algorithm to create a background k
 
 Our approach is to filter out form the outsideNews those that belong to the group of the insideNews so as to avoid misleading results.
 We have to take this precaution because with a fixed timeWindows some news related to the main event can fall in the outsideNews.
-This produce bad result when we create the baseline graph as the degraded version of the insideNews respect the outsideNews, since the degrade function decrease the weight of the common edges between insideNews and outsideNews. In the previous pseudo code the similarityLimit is used to filter out the misleading news; this limit index has been detected empirically to 0.5, but this is reasonable since, in a single news the relevant information is for sure less than 100\% of the real content.
+This produce bad result when we create the baseline graph as the degraded version of the insideNews respect the outsideNews, since the degrade function decrease the weight of the common edges between insideNews and outsideNews. 
+
+In the previous pseudo code the similarityLimit is used to filter out the misleading news; this limit index has been detected empirically to 0.5, but this is reasonable since, in a single news the relevant information is for sure less than 100\% of the real content.
 
 When we have a good baseline we can compute the correlation for the news inside the contradiction window.
 \begin{algorithmic}
 \FOR{News nw : allNews}
-	\IF{nw inside contradiction window}
+	\IF{nw is inside the contradiction window}
 		\STATE nGraph = DocumentNGramGraph(nw.getText());
         \STATE nGraph = nGraph.intersectGraph(background[i]);
         \STATE correlationValue = Similarity(nGraph, cTweetGraph[i]);

@@ -1,11 +1,11 @@
-We used a bag-of-words approach exploiting a technique called Latent Semantic Analysis (also known as Latent Semantic Indexing), formalized by Scott Deerwester et al. in 1990\cite{LSA}. LSA is an information retrieval statistical approach, that can be used to find semantic similarities between sets of documents. It takes advantage of Singular Value Decomposition on a vector space of term frequencies in order to create, given a set of documents, an \emph{index} matrix that can be queried with other documents to find the most similar ones.
+We used a bag-of-words approach exploiting a technique called Latent Semantic Indexing, formalized by Scott Deerwester et al. in 1990\cite{LSA}. LSI is an information retrieval statistical approach, that can be used to find semantic similarities between sets of documents. It takes advantage of Singular Value Decomposition on a vector space of term frequencies in order to create, given a set of documents, an \emph{index} matrix that can be queried with other documents to find the most similar ones.
 \\
 As for the TF/IDF approach, each document is previously preprocessed and it's assumed to deal with news articles composed by separated paragraphs.
 \\
-Given a topic $T$ and the number of dimensions of the LSA space $dim$, our implementation returns the $p$ most similar paragraphs to each sentiment shift. The training of the model is performed on the whole corpus of tweets of the topic, while the similarity of a paragraph to the shift is computed as the sum of the similarities w.r.t. each tweet belonging to the latter.
+Given a topic $T$ and the number of dimensions of the LSI space $dim$, our implementation returns the $p$ most similar paragraphs to each sentiment shift. The training of the model is performed on the whole corpus of tweets of the topic, while the similarity of a paragraph to the shift is computed as the sum of the similarities w.r.t. each tweet belonging to the latter.
 \\\\
 \begin{algorithmic}
-\STATE \textbf{LSA Method}($T$,$dim$,$p$)
+\STATE \textbf{LSI Method}($T$,$dim$,$p$)
 \STATE
 \STATE $LSA$.train($Tweets_T$,$dim$)
 \STATE
