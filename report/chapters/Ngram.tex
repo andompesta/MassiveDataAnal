@@ -1,20 +1,20 @@
-\textbf{N-Gram Graph} (NGG) is a NPL tool initially proposed by George Giannakopoulos \cite{Ngram} that uses word or character n-grams in order to achieve documents summarization. The NGG tool basically slices the text in words or characters n-grams and represent them in a graph \emph{G = $\lbrace N,E,L,W\rbrace$} according to the following structure:
+\textbf{N-Gram Graph} (NGG) is a NLP tool, initially proposed by George Giannakopoulos \cite{Ngram}, that uses word or character n-grams in order to achieve documents summarization. The NGG tool basically slices the text in words or characters n-grams and represent them in a graph \emph{G = $\lbrace N,E,L,W\rbrace$} according to the following structure:
 \begin{itemize}
-	\item N is the set of nodes created for every different n-gram in the text
-	\item E represent the edge of the graph; two nodes are connected if they are "close'' or within a \emph{distance window} from each other. The distance windows is denominated as \emph{neighbourhood distance}
-	\item L is a labelling function which assigns labels to every node and every edge (define the size of the n-gram)
-	\item W is the weight function which assigns weights to every edge according to the number of times that two n-gram appear close one to the other
+	\item N is the set of nodes created for every different n-gram in the text;
+	\item E represent the edge of the graph; two nodes are connected if they are "close'' or within a \emph{distance window} from each other. The distance windows is denominated as \emph{neighbourhood distance};
+	\item L is a labelling function which assigns labels to every node and every edge (define the size of the n-gram);
+	\item W is the weight function which assigns weights to every edge according to the number of times that two n-gram appear close one to the other.
 \end{itemize}
 
 The big advantage due to use of this methodology is language
 independence, since it makes no assumption on the underlying languages and
-allows text manipulation trough graph operations.
+allows text manipulation through graph operations.
 
-In particular three operation are mandatory for our goal:
+In particular three operations are mandatory for our goal:
 \begin{itemize}
-	\item the \textbf{Merging or Union } operator, that given two graphs ($G_1$, $G_2$), returning a graph with all the edges, both common and uncommon, of the two operand graphs. The edges are weighted by the average of the weights of the original edges.
-	\item the \textbf{Intersection} operator between two graphs $G_1$ and $G_2$: which returns a graph with only the common edges of $G_1$ and $G_2$ averaging the weights of the original edges assigned as the new edge weights.
-	\item the \textbf{Normalized Value Similarity}[NVS] function that for every n-gram rank, indicating how many of the edges contained in graph $G_i$ are also contained in graph $G_j$, considering also the weights of the matching edges and normalize the result respect the graph size
+	\item the \textbf{Merging or Union } operator that, given two graphs $G_1$ and $G_2$, returns a graph with all the edges, both common and uncommon, of the two operand graphs. The edges weights are the average of the original ones;
+	\item the \textbf{Intersection} operator between two graphs $G_1$ and $G_2$, which returns a graph with only the common edges of $G_1$ and $G_2$ with averaged weights;
+	\item the \textbf{Normalized Value Similarity}[NVS] function that, for every n-gram rank, indicates how many of the edges contained in graph $G_i$ are also contained in graph $G_j$, considering also the weights of the matching edges and normalizing the result with respect to the graph size.
 \end{itemize}
 
 In particular $NVS(G_i,G_j) = \frac{VS(G_i,G_j)}{SS(G_i,G_j)}$ where:
@@ -28,22 +28,22 @@ In particular $NVS(G_i,G_j) = \frac{VS(G_i,G_j)}{SS(G_i,G_j)}$ where:
 
 A fourth operation is used to filter out baseline events from the set of the news inside the contradiction window:
 \begin{itemize}
- 	\item the \textbf{Degrade} function that reduces the weight of particular edges of graph $G_1$ in respect to the common edges of graph $G_2$. Common edges are the ones that identify a base knowledge independent of the contradiction window.
+ 	\item the \textbf{Degrade} function, that reduces the weight of particular edges of graph $G_1$ with respect to the common edges of graph $G_2$. Common edges are the ones that identify a base knowledge that is independent from the contradiction window.
 \end{itemize}
 
-In this research work, NGG tool is used to compute both the tweet-news correlation and even to create a summary of the most significant event that caused the contradiction. 
-The work-flow of this computation is split in different section.
+In this research work, NGG tool is used to compute both the tweet-news correlation and to create a summary of the most significant event that caused the contradiction. 
+The work-flow of this computation is split in different phases.
 
 \subsubsection*{Tweet-News Correlation}
-To compute the correlation between contradiction tweets and news, this methodology use the base idea of exploiting the NVS similarity function as a correlation function: higher the similarity between tweets graph representation and news graph, higher will be the correlation.
+To compute the correlation between contradiction tweets and news, this methodology exploits the base idea of using the NVS similarity as a correlation function: the higher is the similarity between tweets graph representation and news graph, the higher will be the correlation.
 
-More in detail this procedure perform the following step:
+More in detail, this procedure performs the following step:
 \begin{itemize}
-	\item compute the graph representation of the contradiction tweet (cTweetGraph[i])
-	\item compute the  graph representation of all the news inside the contradiction windows (insideNews[i])
+	\item computes the graph representation of the contradiction tweets (cTweetGraph[i]);
+	\item computes the  graph representation of all the news inside the contradiction windows (insideNews[i]).
 \end{itemize}
 
-Once we have those base components we use an algorithm to create a background knowledge about each processed topic.
+Once we have these base components, we use an algorithm to create a background knowledge about each processed topic.
 
 \begin{algorithmic}
 \FOR{New nw : allNews}

@@ -1,7 +1,7 @@
 Our project addresses two main sub goals:
 \begin{itemize}
-	\item compute the correlation between tweet and news
-	\item create a summary of the main event that caused the sentiment shift
+	\item compute the correlation between tweets and news;
+	\item create a summary of the main event that caused the sentiment shift.
 \end{itemize}
 
 
@@ -9,17 +9,17 @@ Our project addresses two main sub goals:
 There are several works, in literature, which refer to similar objectives. In particular, due to Twitter’s increasing popularity, in the last years there have been several works regarding the correlation and analysis of tweets data. 
  
  
-In 2011 Bifet et al. \cite{Bifet}proposed a method to detect sentiment change in tweets, analyzing the changes in term's frequency. 
-Weiwei Guo et al.\cite{LTN} proposed a framework to link tweets and news and to extract from the resulting correlation missing aspects of the tweet-event.
-In their research, rather than using a LSI technique, they propose a methodologies based on the Weighted Textual Matrix Factorization\cite{WTMF}
+In 2011 Bifet et al.\cite{Bifet} proposed a method to detect sentiment changes in tweets, analyzing the variations in term's frequency. 
+Weiwei Guo et al.\cite{LTN} proposed a framework to link tweets and news, in order to extract from the resulting correlation missing aspects of the tweet-event.
+In their research, rather than using a LSI technique, they propose a methodology based on the Weighted Textual Matrix Factorization\cite{WTMF}
 [WTMF] model(the 2012 de facto standard).
 This approach revealed to return good correlation results, making WTMF a strong tool for baseline creation.
 
-Some works, which are complementary to our, might be found in the field of recommendation systems; in particular systems which address the problem of recommending news given some user’s features and profiles.
+Some works, which are complementary to ours, might be found in the field of recommendation systems; in particular, systems which address the problem of recommending news given some user’s features and profiles.
 However, there is an important difference between these approaches and the one we are focusing on, since tweets are much more heterogeneous than features or personal profiles that characterize users. 
 
-Recently \emph{Google} presented a system for \emph{multi-sentence compression} (MSC) \cite{MSC}, which aims
-to compress several senteces trying to mantain high readability and to not lose
+Recently, \emph{Google} presented a system for \emph{multi-sentence compression} (MSC) \cite{MSC}, which aims
+to compress several sentences, trying to mantain high readability without losing
 the semantic content of the text. Their approach exploits word gram graphs,
 combining them with some semantic data. The combination of the two approaches
 allows redundancy removal while mantaining a readable sentence as output.
