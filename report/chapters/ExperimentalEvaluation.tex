@@ -226,6 +226,7 @@ no results. We have no idea about why this happened and is probably due to some
 software bug in the program.
 
 \subsubsection*{User evaluation}
+\include*{chapters/UserEvaluation}
 
 \subsection*{Performance}
 For the first three approaches time performance is not really relevant since it's all experiments were performed in few seconds or less, making them really suitable for real time processing. N-Gram Graph, on the other hand, is more resources consuming, hence we made more detailed investigations regarding its  response time.
@@ -297,5 +298,3 @@ Knowing that neighbourhood distance strongly affect the computational time and s
 %Figure \ref{fig:et-fixed-r3-winds} report the variation of computation time for fixed rank value(3). The shape of the computation time in this case is always the same: exponential respect the ND. 
 %Notice that the max computation time always increase with the increasing of the windows size, since the algorithm have to compute the similarity between more news. In this way we can derive that the number of news, inside the time windows, affect the computation time in a almost linear way.
 
-\subsection*{User Evaluation}
-\include*{chapters/UserEvaluation}
